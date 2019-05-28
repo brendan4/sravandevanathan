@@ -31,6 +31,9 @@ for(file in files){
   }
 }
 
+#drop of troublesome cols
+t_data[-2,-4]
+
 write.table(t_data,gzfile("t_data_merged.ctab.gz")) # writes the table as a .ctab.gz
 read.table(gzfile("Merged_t_data.ctab.gz")) # will read the table 
 
@@ -65,3 +68,8 @@ mergeTables <- function(wd, commonName, firstFile){
 
 mainTable <- mergeTables(wd = "C:/Users/brendan/Documents/sravandevanathan/ballgown",commonName = "gene_abundance.tab", firstFile= "L2_ACAGTG")
 # call to function 
+
+mainTable[-2,-4]
+write.table(t_data,gzfile("gene_abundance_merged.tab.gz"))
+GeneAbundance <- read.table("gene_abundance_merged.tab")
+
