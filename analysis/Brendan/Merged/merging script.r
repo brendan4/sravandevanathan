@@ -70,6 +70,6 @@ mainTable <- mergeTables(wd = "C:/Users/brendan/Documents/sravandevanathan/ballg
 # call to function 
 
 mainTable[-2,-4]
-write.table(t_data,gzfile("gene_abundance_merged.tab.gz"))
+write.table(mainTable, "gene_abundance_merged.tab")
 GeneAbundance <- read.table("gene_abundance_merged.tab")
 
