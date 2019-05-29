@@ -4,6 +4,9 @@ rownames(expressed.trans) <- expressed.trans[,1]
 PCA_expressed.genes <- expressed.genes[-1]
 PCA_expressed.trans <- expressed.trans[-1]
 NA_genes<- PCA_expressed.genes[is.na(PCA_expressed.genes),]
+#omit unmatched 
+expressed.trans_WO22 <- PCA_expressed.trans[-22]
+expressed.genes_WO22 <- PCA_expressed.genes[-22]
 
 library(ggplot2)
 library(devtools)
@@ -12,7 +15,7 @@ library(ggbiplot)
 
 
 #princple component for expressed.genes
-genes.PCA <- prcomp(t(log(na.omit(PCA_expressed.genes) +0.01)),scale = TRUE)
+genes.PCA <- prcomp(t(log(na.omit(expressed.genes_WO22) +0.01)))
 summary(genes.PCA)
 
 #basic plot of PCA1 and PCA 2

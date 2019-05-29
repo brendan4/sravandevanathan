@@ -1,12 +1,13 @@
-
+# color and packages 
 require("RColorBrewer")
+library(zFPKM)
+require("gplots")
 myCol <- colorRampPalette(c("dodgerblue", "black", "yellow"))(100)
 myBreaks <- seq(-3, 3, length.out=101)
 
-library(zFPKM)
-require("gplots")
-
-# We estimate the variance for each row in the logcounts matrix
+# Get log2 counts per million
+logcounts_genes <- cpm(na.omit(expressed.genes_WO22),log=TRUE)
+# estimate the variance for each row in the logcounts matrix
 var_genes <- apply(logcounts_genes, 1, var)
 # Get the gene names for the top 100 most variable genes
 select_var_genes <- names(sort(var_genes, decreasing=TRUE))[1:100]
@@ -16,7 +17,7 @@ heat <- heat[is.finite(rowSums(heat)),] # filters out -inf values
 
 
 par(mar=c(7,4,4,2)+0.1) 
-png(filename='test.png', width=800, height=750)
+png(filename='Euclidean_Distance.png', width=800, height=750)
 
 #Euclidean distance
 heatmap.2(as.matrix(heat),
@@ -36,7 +37,7 @@ graphics.off()
 
 
 par(mar=c(7,4,4,2)+0.1) 
-png(filename='test.png', width=800, height=750)
+png(filename='Pearson correlation.png', width=800, height=750)
 
 #1-cor distance
 heatmap.2(as.matrix(heat),
@@ -53,3 +54,4 @@ heatmap.2(as.matrix(heat),
           distfun=function(x) as.dist(1-cor(t(x))),
           hclustfun=function(x) hclust(x, method="ward.D2"))
 graphics.off()
+
