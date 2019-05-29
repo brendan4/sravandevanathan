@@ -2,8 +2,6 @@ install.packages("tidyr")
 library (data.table)
 library(tidyr)
 
-mainTable <- mergeTables(wd = "C:/Users/brendan/Documents/sravandevanathan/ballgown",commonName = "gene_abundance.tab", firstFile= "L2_ACAGTG")
-  # call to function 
 
 mergeTables <- function(wd, commonName, firstFile){
   #function definations: wd = working directory, commonName = share name of files, FirstFile = first file to be imported
@@ -30,16 +28,6 @@ mergeTables <- function(wd, commonName, firstFile){
       assign(file, xnoDups)
     }
   }
-  return(mainTable)
+  return(data.frame(mainTable))
 }
-
-
-#ignore all below this 
-uniqueItems <- unique(mainTable[1])
-dups <- which(duplicated(mainTable$`Gene Names`))
-duplicates <- mainTable[c(dups)]
-here <-as.data.frame(duplicates)
-
-which(L2_ACTTGA$`Gene Names`== "AKAP17A_1591593_1602520")
-
 
