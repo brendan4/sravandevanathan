@@ -10,7 +10,7 @@ remove.unexpressed = function(dataset){
         values[y] = dataset[x,y+1]
       }
     }
-    if(log(sd(values)+0.00001) >= -7){
+    if(log(sd(values)+0.0001) >= -7){
       unexpressed[counter] =  x
       counter = counter+1
     }
@@ -18,6 +18,7 @@ remove.unexpressed = function(dataset){
   newdata = dataset[unexpressed,]
   return(newdata)
 }
+#drop_... datasets have unmatched, drop l2_ACAGTG, and l2_ACTTTGA removed
 expressed.genes = remove.unexpressed(drop_GeneAbundance)
 expressed.trans = remove.unexpressed(drop_t_data)
 
