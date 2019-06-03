@@ -6,7 +6,8 @@ cor.matrix.trans <- cor.table(na.omit(expressed.trans))
 library(gplots)
 library(ggcorrplot)
 
-ggcorrplot(cor.matrix.genes, hc.order = TRUE, type = "lower", colors = c("blue","white", "red"))
+ggcorrplot(cor.matrix.genes, hc.order = TRUE, type = "lower", colors = c("blue","white", "red"),show.diag = TRUE)
+ggcorrplot(cor.matrix.trans, hc.order = TRUE, type = "lower", colors = c("blue","white", "red"), show.diag = TRUE)
 
 #image saving options
 par(mar=c(7,4,4,2)+0.1) 
