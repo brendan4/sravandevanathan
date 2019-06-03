@@ -21,7 +21,7 @@ cor.table <- function(data.table){
       }else{
         x = data.table[,i]
         y = data.table[,j]
-        rs <- cor(x,y)^2
+        rs <- cor(x,y, method="pearson")
         cor.matrix[i,j] <- rs 
       }
       
