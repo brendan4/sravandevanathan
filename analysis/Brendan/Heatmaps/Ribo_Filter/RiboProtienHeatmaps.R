@@ -10,10 +10,17 @@ Ribo.names <- Filter(function(x) any(grepl("^RPS", x)), Ribo.names)  # only smal
 
 Ribo.filter <- data.frame() # intialize data frame
 
-#selection of genes realted to ribosomes
+#selection of genes realted to ribosomes: genes data set 
 for (name in Ribo.names){
   print(paste("^",name, sep= "")) # prints out pattern
   match<- expressed.genes[grep(paste("^", name, sep = ""),rownames(expressed.genes), ignore.case = TRUE, value = TRUE),]
+  Ribo.filter <- rbind(Ribo.filter, match) # merges to preivous 
+}
+
+#selection of genes realted to ribosomes: trans data set 
+for (name in Ribo.names){
+  print(paste("^",name, sep= "")) # prints out pattern
+  match<- expressed.trans[grep(paste("^", name, sep = ""),rownames(expressed.trans), ignore.case = TRUE, value = TRUE),]
   Ribo.filter <- rbind(Ribo.filter, match) # merges to preivous 
 }
 
