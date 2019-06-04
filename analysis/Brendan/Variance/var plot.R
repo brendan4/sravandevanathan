@@ -24,6 +24,6 @@ plot.var = function(dataset){
 }
 
 #call to var func
-plot.var(drop_GeneAbundance)
-plot.var(drop_t_data)
+plot.var(GeneAbundance)
+plot.var(Transcripts)
 abline(a = 0, b = 0, v = -7, col = "red")
