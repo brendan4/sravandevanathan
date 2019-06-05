@@ -9,6 +9,9 @@ bg = ballgown(samples = samples.list, meas='FPKM') # generation of a ballgown ob
 sampleNames(bg) # sanity check sample names 
 
 
+<<<<<<< HEAD
 over200 <- exprfilter(gown = bg, cutoff= 200, meas = "FPKM") #filtering example
 
 
+=======
+>>>>>>> e895a9d08a79133e5ef994c82d3c2e18affd1fb6
