@@ -6,14 +6,15 @@ myCol <- colorRampPalette(c("dodgerblue", "black", "yellow"))(100)
 myBreaks <- seq(-3, 3, length.out=101)
 
 # Get log2 counts per million
-logcounts_genes <- log(na.omit(expressed.genes))
+logcounts_genes <- log(na.omit(expressed.genes)) ####swtich here for trans vs genes
 # estimate the variance for each row in the logcounts matrix
 var_genes <- apply(logcounts_genes, 1, var)
 # Get the gene names for the top 100 most variable genes
-select_var_genes <- names(sort(var_genes, decreasing=TRUE))[1:50]
-heat <- zFPKM(na.omit(expressed.genes))  
+select_var_genes <- names(sort(var_genes, decreasing=TRUE))[1:100]
+heat <- zFPKM(na.omit(expressed.trans))  ####swtiched here for trans vs genes
+heat <- na.omit(expressed.genes)
 heat <- heat[which(rownames(heat) %in% select_var_genes), ] # using highly expressed genes to filter heat
-heat <- heat[is.finite(rowSums(heat)),] # filters out -inf values 
+#heat <- heat[is.finite(rowSums(heat)),] # filters out -inf values 
 
 
 par(mar=c(7,4,4,2)+0.1) 
@@ -55,3 +56,5 @@ heatmap.2(as.matrix(heat),
           hclustfun=function(x) hclust(x, method="ward.D2"))
 graphics.off()
 
+rm(heat,logcounts_genes,myBreaks,myCol, var_genes)
+rm(select_var_genes)
