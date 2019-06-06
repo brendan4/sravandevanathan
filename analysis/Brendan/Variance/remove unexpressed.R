@@ -18,14 +18,28 @@ remove.unexpressed = function(dataset){
   newdata = dataset[unexpressed,]
   return(newdata)
 }
-#drop_... datasets have unmatched, drop l2_ACAGTG removed
+#l2_ACAGTG removed
 expressed.genesN = remove.unexpressed(GeneAbundance)
 expressed.transN = remove.unexpressed(Transcripts)
 
 
 # Anaylsis after first filter: drop L6_unmatched + L3_ATCACG
-boxplot(log2(na.omit(expressed.transN)+ 0.1), 
-        names=colnames(expressed.transN), las=2, ylab="log2(FPKM)", 
+boxplot(log2(na.omit(expressed.genes)+ 0.1), 
+        names=colnames(expressed.genes), las=2, ylab="log2(FPKM)", 
         main="Distribution of FPKMs for all libraries")
-summary(expressed.transN)
+summary(expressed.genesN)
+
+#both unmatched removed L3_ATCACG removed 
+expressed.genesN = remove.unexpressed(GeneAbundance) # cutoff at -7
+expressed.transN = remove.unexpressed(Transcripts) # cutoff at -8 
+expressed.genes <- expressed.genesN
+expressed.trans <- expressed.transN
+rm(expressed.genesN)
+rm(expressed.transN)
+rm(GeneAbundance)
+rm(Transcripts)
+
+setwd("C:/Users/brendan/Documents/sravandevanathan/")
+write.table(expressed.genes, "expressed.genes.tab")
+write.table(expressed.trans, "expressed.trans.tab")
 

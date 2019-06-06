@@ -27,3 +27,13 @@ plot.var = function(dataset){
 plot.var(GeneAbundance)
 plot.var(Transcripts)
 abline(a = 0, b = 0, v = -7, col = "red")
+
+#filter out both unmatched and L3_ATCACG
+GeneAbundance <- GeneAbundance[,-which(colnames(GeneAbundance) %in% c("FPKM.L3_unmatched", "FPKM.L3_ATCACG", "FPKM.L6_unmatched"))]
+Transcripts <- Transcripts[,-which(colnames(Transcripts) %in% c("FPKM.L3_unmatched", "FPKM.L3_ATCACG","FPKM.L6_unmatched"))]
+
+#call to var func
+plot.var(GeneAbundance)
+plot.var(Transcripts)
+abline(a = 0, b = 0, v = -8, col = "red")
+ 
