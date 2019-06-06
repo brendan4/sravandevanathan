@@ -9,6 +9,7 @@ cor.table <- function(data.table){
     }
   }
   
+  
   rownames(cor.matrix) <- sort(colnames(data.table))
   colnames(cor.matrix) <- sort(colnames(data.table))
   
