@@ -1,26 +1,13 @@
-#princple component for filtered data: expressed.genes and expressed.trans
-rownames(expressed.genes) <- expressed.genes[,1]
-rownames(expressed.trans) <- expressed.trans[,1]
-PCA_expressed.genes <- expressed.genes[-1]
-PCA_expressed.trans <- expressed.trans[-1]
-NA_genes<- PCA_expressed.genes[is.na(PCA_expressed.genes),]
-#omit unmatched 
-expressed.trans_WO22 <- PCA_expressed.trans[-22]
-expressed.genes_WO22 <- PCA_expressed.genes[-22]
 
 library(ggplot2)
-library(devtools)
-install_github("vqv/ggbiplot")
-library(ggbiplot)
-
 
 #princple component for expressed.genes
-genes.PCA <- prcomp(t(na.omit(expressed.genes_WO22)))
+genes.PCA <- prcomp(t(na.omit(expressed.genes)),scale. = TRUE)
 summary(genes.PCA)
 
 #basic plot of PCA1 and PCA 2
 plot(genes.PCA$x[,1], genes.PCA$x[,2],
-     main = "PCA: Genes - log scale",
+     main = "PCA: Genes",
      xlab = paste("PC1 - ", genes.PCA.var.per[1], "%", sep = ""), 
      ylab = paste("PC2 - ", genes.PCA.var.per[2], "%", sep = ""))
 
@@ -39,9 +26,8 @@ genes.PCA.data <- data.frame(Sample = rownames(genes.PCA$x),
                              y = genes.PCA$x[,2])
 
 #ggplot of PCA data
-
 ggplot(data = genes.PCA.data, aes(x = x, y = y, label = Sample))+
-  geom_text(size = 2)+
+  geom_text(size = 3)+
   xlab(paste("PC1 - ", genes.PCA.var.per[1], "%", sep = ""))+
   ylab(paste("PC2 - ", genes.PCA.var.per[2], "%", sep = ""))+
   ggtitle("PCA: Expressed Genes")
@@ -56,11 +42,11 @@ genes.PCA$rotation[gene_top_hun, 1] # push to left on x axis (-) or right on x a
 
 
 #princple component for t_data
-trans.PCA <- prcomp(t(na.omit(PCA_expressed.trans)),scale = TRUE)
+trans.PCA <- prcomp(t(na.omit(expressed.trans)),scale. = TRUE)
 summary(trans.PCA)
 
 plot(trans.PCA$x[,1], trans.PCA$x[,2],
-     main = "PCA: t_data",
+     main = "PCA: Transcripts",
      xlab = paste("PC1 - ", trans.PCA.var.per[1], "%", sep = ""), 
      ylab = paste("PC2 - ", trans.PCA.var.per[2], "%", sep = ""))
 
@@ -76,10 +62,10 @@ trans.PCA.data <- data.frame(Sample = rownames(trans.PCA$x),
                              y = trans.PCA$x[,2])
 
 ggplot(data = trans.PCA.data, aes(x = x, y = y, label = Sample))+
-  geom_text(size = 1.5)+
+  geom_text(size = 3)+
   xlab(paste("PC1 - ", trans.PCA.var.per[1], "%", sep = ""))+
   ylab(paste("PC2 - ", trans.PCA.var.per[2], "%", sep = ""))+
-  ggtitle("PCA: t_data")
+  ggtitle("PCA: Transcripts")
 
 trans_score_ranked <- sort(abs(trans.PCA$rotation[,1]))
 trans_top_hun <- names(trans_score_ranked[1:100])
