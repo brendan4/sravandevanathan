@@ -27,12 +27,12 @@ ggplot(data = mds.data_genes, aes(x=X, y=Y, label = Sample))+
   theme_bw()+
   xlab(paste("MDS1 - ", mds.var.per_genes[1], "%", sep = ""))+
   ylab(paste("MD2 - ", mds.var.per_genes[2], "%", sep = ""))+
-  ggtitle("MDS Euclidean distance scaled - Genes")
+  ggtitle("MDS Euclidean distance - Genes")
 
 
 #seconds mds plot avg abs value of the log fold change
 
-log2.data.matrix.genes <- log2(na.omit(expressed.trans)+0.1) # 0.1 for zeros, NAs will mutate values
+log2.data.matrix.genes <- log2(na.omit(expressed.genes)+0.1) # 0.1 for zeros, NAs will mutate values
 #creation of a distance matrix: with zeros 
 log2.distance.matrix.genes <- matrix(0,
                                      nrow=ncol(log2.data.matrix.genes),
@@ -95,7 +95,7 @@ ggplot(data = mds.data_genes, aes(x=X, y=Y, label = Sample))+
   theme_bw()+
   xlab(paste("MDS1 - ", mds.var.per_genes[1], "%", sep = ""))+
   ylab(paste("MD2 - ", mds.var.per_genes[2], "%", sep = ""))+
-  ggtitle("MDS Euclidean distance Scaled - Transcripts")
+  ggtitle("MDS Euclidean distance - Transcripts")
 
 
 #seconds mds plot avg abs value of the log fold change
