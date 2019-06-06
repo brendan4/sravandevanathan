@@ -1,3 +1,5 @@
+expressed.genes <- read.table("expressed.genes.tab") # will read the table 
+expressed.trans<- read.table("expressed.trans.ctab") # will read the table 
 
 #********Gene abundance file **********
 #Set the minimum non-zero FPKM values for use later.
@@ -15,13 +17,14 @@ boxplot(log2(expressed.genes+min_nonzero),
 graphics.off()
 
 #plotting a suspected replicate pairs from PCA and MDS 
-x = expressed.genes[,"L2_CAGATC"]
-y = expressed.genes[,"L6_GCCAAT"]
+expressed.genesNA <- na.omit(expressed.genes)
+x = expressed.genesNA[,"L6_ACAGTG"]
+y = expressed.genesNA[,"L2_GCCAAT"]
 
 plot(x=log2(x+min_nonzero), y=log2(y+min_nonzero), 
      pch=16, col="blue", cex=0.25, 
-     xlab="FPKM (L2_CAGATC, Replicate 1)", 
-     ylab="FPKM (L6_GCCAAT, Replicate 2)", 
+     xlab="FPKM (L_ACAGTG, Replicate 1)", 
+     ylab="FPKM (L2_GCCAAT, Replicate 2)", 
      main="Comparison of expression values for a pair of replicates")
 
 abline(a=0,b=1)
@@ -42,7 +45,7 @@ expressed.genes[,"sum"]=apply(expressed.genes, 1, sum) # generates max sum acros
 max(na.omit(expressed.genes$sum)) # max sum (across samples) for FPKM values 
 i = which(expressed.genes[,"sum"] > 5) # filter out anything lower than 5 FPKM expression across the board
 r=cor(expressed.genes[i,], use="pairwise.complete.obs", method="pearson") # corelation between all pairs of data
-expressed.genes <- expressed.genes[,-c(22)] # drops sum col
+expressed.genes <- expressed.genes[,-which(colnames(expressed.genes) %in% c("sum"))] # drops sum col
 
 # generations of an MDS plot 
 d=1-r
@@ -69,6 +72,7 @@ boxplot(log2(expressed.genes+min_nonzero),
 graphics.off()
 
 #plotting a suspected replicate pairs from PCA and MDS 
+expressed.transNA <- na.omit(expressed.trans)
 x = expressed.trans[,"L2_CAGATC"]
 y = expressed.trans[,"L6_GCCAAT"]
 
@@ -96,7 +100,7 @@ expressed.trans[,"sum"]=apply(expressed.trans, 1, sum) # generates max sum acros
 max(na.omit(expressed.trans$sum)) # max sum (across samples) for FPKM values 
 i = which(expressed.trans[,"sum"] > 5) # filter out anything lower than 5 FPKM expression across the board
 r=cor(expressed.trans[i,], use="pairwise.complete.obs", method="pearson") # corelation between all pairs of data
-expressed.trans <- expressed.trans[,-c(22)] # drops sum col
+expressed.trans <- expressed.trans[,-which(colnames(expressed.trans) %in% c("sum"))] # drops sum col
 
 # generations of an MDS plot 
 d=1-r
@@ -106,3 +110,4 @@ plot(mds$points, type="n", xlab="", ylab="", main="MDS distance plot (all non-ze
 points(mds$points[,1], mds$points[,2], col="grey", cex=2, pch=16)
 text(mds$points[,1], mds$points[,2], colnames(expressed.trans))
 
+rm(d,r,mds,i,rs,x,y,colors)
