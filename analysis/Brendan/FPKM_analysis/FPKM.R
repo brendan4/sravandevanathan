@@ -23,13 +23,13 @@ y = expressed.genesNA[,"L2_GCCAAT"]
 
 plot(x=log2(x+min_nonzero), y=log2(y+min_nonzero), 
      pch=16, col="blue", cex=0.25, 
-     xlab="FPKM (L_ACAGTG, Replicate 1)", 
+     xlab="FPKM (L6_ACAGTG, Replicate 1)", 
      ylab="FPKM (L2_GCCAAT, Replicate 2)", 
      main="Comparison of expression values for a pair of replicates")
 
 abline(a=0,b=1)
-rs=cor(x,y)^2
-legend("topleft", paste("R squared = ", round(rs, digits=3), sep=""), lwd=1, col="black")
+rs=cor(x,y, method = "spearman")
+legend("topleft", paste("Spearman = ", round(rs, digits=3), sep=""), lwd=1, col="black")
 
 #heat map of suspected replicates 
 colors = colorRampPalette(c("white", "blue", "#007FFF", "cyan","#7FFF7F", "yellow", "#FF7F00", "red", "#7F0000"))
@@ -37,7 +37,7 @@ smoothScatter(x=log2(x+min_nonzero), y=log2(y+min_nonzero),
               xlab="FPKM (L2_CAGATC, Replicate 1)", 
               ylab="FPKM (L6_GCCAAT, Replicate 2)", 
               main="Comparison of expression values for a pair of replicates", 
-              colramp=colors, nbin=200)
+              colramp=colors, nbin=500,nrpoints = 500)
 
 
 #corelation distance
