@@ -1,17 +1,21 @@
 library(ballgown)
+library(matrixStats)
+
 gene.info <- t_data[c(9,10)]# where gene.info is subseted from 
 
 setwd("C:\\Users\\brendan\\Documents\\sravandevanathan\\ballgown") #folder with all the files
 samples.list <- list.files(path =".") # generate sample list: *** all samples included  
 samples.list <- colnames(expressed.genes) # filtered out troublesome cols 
 
+
 bg = ballgown(samples = samples.list, meas='FPKM') # generation of a ballgown object 
-sampleNames(bg) # sanity check sample names 
+sampleNames(bg) # sanity check sample names
 
-
-<<<<<<< HEAD
 over200 <- exprfilter(gown = bg, cutoff= 200, meas = "FPKM") #filtering example
 
+bg_filt = subset(bg,"rowVars(texpr(bg)) >
+1",genomesubset=TRUE)
 
-=======
->>>>>>> e895a9d08a79133e5ef994c82d3c2e18affd1fb6
+fpkm = texpr(bg_filt,meas="FPKM")
+fpkm = log2(fpkm+1)
+boxplot(fpkm, las = 2, ylab='log2(FPKM+1)')
