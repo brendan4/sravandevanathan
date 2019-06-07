@@ -2,7 +2,7 @@
 library(ggplot2)
 
 #princple component for expressed.genes
-genes.PCA <- prcomp(t(na.omit(expressed.genes)),scale. = TRUE)
+genes.PCA <- prcomp(t(na.omit(expressed.genes)))
 summary(genes.PCA)
 
 #basic plot of PCA1 and PCA 2
@@ -27,7 +27,7 @@ genes.PCA.data <- data.frame(Sample = rownames(genes.PCA$x),
 
 #ggplot of PCA data
 ggplot(data = genes.PCA.data, aes(x = x, y = y, label = Sample))+
-  geom_text(size = 3)+
+  geom_text(size = 2)+
   xlab(paste("PC1 - ", genes.PCA.var.per[1], "%", sep = ""))+
   ylab(paste("PC2 - ", genes.PCA.var.per[2], "%", sep = ""))+
   ggtitle("PCA: Expressed Genes")
