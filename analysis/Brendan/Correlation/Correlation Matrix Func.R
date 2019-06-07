@@ -22,7 +22,7 @@ cor.table <- function(data.table){
       }else{
         x = data.table[,i]
         y = data.table[,j]
-        rs <- cor(x,y, method="pearson")
+        rs <- cor(x,y, method="spearman")
         cor.matrix[i,j] <- rs 
       }
       
