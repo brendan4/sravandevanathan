@@ -9,6 +9,12 @@ library(vegan)
 library(rgl)
 library(ape)
 
+#simple clustering based on FPKMs
+d <- cor(na.omit(expressed.genes), method="spearman")
+hc <- hclust(dist(1-d))
+plot.phylo(as.phylo(hc), type="p", edge.col=4, edge.width=3, show.node.label=TRUE, no.margin=TRUE)
+dev.off()
+
 # assembling table of conditions to lable PCoA plot:
 # (in the chunk below, replace factor1 and factor2 with your actual factor names from myConditions table)
 factor1=as.character(colData(dds)$factor1)

@@ -8,7 +8,7 @@ filter.genes <- function(data.table, gene.list){
                    ignore.case = TRUE, 
                    value = TRUE)
     # if pattern == 0 not found: reutrn message 
-    if (pattern == 0 ){
+    if (length(pattern) == 0 ){
       print(paste(pattern,": failed to find match", sep = ""))
       next
     } else {
