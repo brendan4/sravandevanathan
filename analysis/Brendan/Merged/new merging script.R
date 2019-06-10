@@ -53,7 +53,7 @@ mergeTables <- function(wd, commonName, colsToMerge){
 #gene abundance merge
 
 main.table <- mergeTables(wd = "C:/Users/brendan/Documents/sravandevanathan/ballgown",
-                         commonName = "gene_abundance.tab.gz", 
+                         commonName = "gene_abundance.tab", 
                           colsToMerge = c(2,5,6,8))
 
 main.table <- as.data.frame(main.table) # forms data.table to data.frame
@@ -61,34 +61,37 @@ rownames(main.table) <- main.table[,1] #gene namess to row names
 main.table <- main.table[,-c(1)] # removes gene names col
 
 
-boxplot(log2(main.table+.1), 
+boxplot(log2(na.omit(main.table)+.1), 
         names=colnames(main.table), las=2, ylab="log2(FPKM)", 
         main="Distribution of FPKMs for all libraries")
 
 #removal of L2_ACAGTG
+print("L2_ACAGT removed")
 main.table <- main.table[,-which(colnames(main.table) %in% c("FPKM L2_ACAGTG"))]
 
 write.table(main.table, "gene_abundance_merged.tab")
 GeneAbundance <- read.table("gene_abundance_merged.tab")
 
 # transcript data
+print("Starting transcript merge")
 
 main.table <- mergeTables(wd = "C:/Users/brendan/Documents/sravandevanathan/ballgown",
-                          commonName = "t_data.ctab.gz", 
+                          commonName = "t_data.ctab", 
                           colsToMerge = c(4,5,6,10,12))
 
 main.table <- as.data.frame(main.table) # forms data.table to data.frame
 rownames(main.table) <- main.table[,1] #gene namess to row names
 main.table <- main.table[,-c(1)] # removes gene names col
 
-
-boxplot(log2(main.table+.001), 
-        names=colnames(main.table), las=2, ylab="log2(FPKM)", 
-        main="Distribution of FPKMs for all libraries")
+#this is slow run at own risk
+#boxplot(log2(main.table+.001), 
+        #names=colnames(main.table), las=2, ylab="log2(FPKM)", 
+        #main="Distribution of FPKMs for all libraries")
 
 #removal of L2_ACAGTG
 main.table <- main.table[,-which(colnames(main.table) %in% c("FPKM L2_ACAGTG"))]
 
 write.table(main.table,gzfile("transrcipts_merged.ctab.gz")) # writes the table as a .ctab.gz
 Transcripts <- read.table(gzfile("transrcipts_merged.ctab.gz")) # will read the table 
-
+rm(main.table)
+print("Done merging")
