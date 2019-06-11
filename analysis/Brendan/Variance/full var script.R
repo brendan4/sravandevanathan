@@ -55,8 +55,8 @@ remove.unexpressed = function(dataset, cutoff){
 }
 
 print("filtering datasets")
-expressed.genesN = remove.unexpressed(GeneAbundance, cutoff = -7) # cutoff at -7
-expressed.transN = remove.unexpressed(Transcripts, cutoff = -8) # cutoff at -8 
+expressed.genes = remove.unexpressed(GeneAbundance, cutoff = -7) # cutoff at -7
+expressed.trans = remove.unexpressed(Transcripts, cutoff = -8) # cutoff at -8 
 print("remove unfiltered data")
 rm(GeneAbundance)
 rm(Transcripts)
