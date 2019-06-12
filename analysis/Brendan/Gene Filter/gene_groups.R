@@ -10,7 +10,7 @@ RPL11 <- expressed.genes[grep("^RPL11",rownames(expressed.genes)),]
 MDM2 <- expressed.genes[grep("^MDM2",rownames(expressed.genes), ignore.case = TRUE, value = TRUE), ]
 
 min_nonzero = 1
-gene.list <- c("MDM2","RPL11", "APAf1", "TP53", "GATA1", "PML")
+gene.list <- c("MDM2","RPL11", "APAf1", "TP53", "GATA1", "PML", "MYC")
 # two options: expressed genes and expressed trans datasets
 filtered.data <- filter.genes(expressed.genes,gene.list) # expressed genes dataset 
 filtered.data <- filter.genes(expressed.trans,gene.list) # expressed trans dataset 
@@ -36,4 +36,12 @@ sub <- rownames(na.omit(filtered.data[which(filtered.data > 100),])) # RPL11 hig
 RPL11 <- expressed.trans[grep("^RPL11",rownames(expressed.trans)),] # all RPL11 in trans 
 
 #text(Ribo.filter, Ribo.filter,RPL11, cex=0.6, pos=4, col="red")
-       
+
+
+filt <- expressed.genes[grep("^MYC", rownames(expressed.genes)),]
+filt$var <- apply(log2(filt +0.01),1, var)
+filt <- pretty.gene.name(filt)
+rownames(filt) <- filt$pretty
+filt.p <- filt[,-which(colnames(filt) %in% c("pretty"))]
+ggplot(filt.p, aes(x = rownames(filt.p) , y = var)) + geom_bar(stat="identity", fill="tomato3") 
+
