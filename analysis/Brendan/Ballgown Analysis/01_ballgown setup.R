@@ -11,12 +11,18 @@ samples.list <- colnames(expressed.genes) # filtered out troublesome cols
 bg = ballgown(samples = samples.list, meas='FPKM') # generation of a ballgown object 
 sampleNames(bg) # sanity check sample names
 
+#filter out by expression 
 over200 <- exprfilter(gown = bg, cutoff= 200, meas = "FPKM") #filtering example
 
+#filter out low expressed
 bg_filt = subset(bg,"rowVars(texpr(bg)) >
 1",genomesubset=TRUE)
 
+#filter boxplot
 fpkm = texpr(bg_filt,meas="FPKM")
 fpkm = log2(fpkm+1)
 boxplot(fpkm, las = 2, ylab='log2(FPKM+1)')
 
+#transcripts lengths 
+full_table <- texpr(bg , 'all')
+hist(full_table$length, breaks=1000, xlab="Transcript length (bp)", main="Distribution of transcript lengths", col="steelblue",  xlim = range(0,30000))
