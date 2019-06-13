@@ -107,3 +107,28 @@ rownames(filt) <- filt$pretty
 filt.p <- filt[,-which(colnames(filt) %in% c("pretty"))]
 ggplot(filt.p, aes(x = rownames(filt.p) , y = var)) + geom_bar(stat="identity", fill="tomato3") 
 
+# AHSP, FAM132B, HEMGN, and TRIM10: from the GATA1 diff DBA paper : blood cel formation 
+filtered.data <- filter.genes(expressed.genes, c("AHSP", "FAM132B", "HEMGN", "TRIM10"))
+filtered.data$var <- apply(log2(filtered.data +0.1),1, var)
+filt <- pretty.gene.name(filtered.data)
+rownames(filt) <- filt$pretty
+filt.p <- filt[,-which(colnames(filt) %in% c("pretty"))]
+ggplot(filt.p, aes(x = rownames(filt.p) , y = var)) + geom_bar(stat="identity", fill="tomato3") 
+
+# heme proteins ALAS2, FECH, CPOX, PPOX, and UROS.: GATA1 paper
+
+filtered.data <- filter.genes(expressed.genes, c("ALAS2", "FECH", "CPOX", "PPOX", "UROS"))
+filtered.data$var <- apply(log2(filtered.data +0.1),1, var)
+filt <- pretty.gene.name(filtered.data)
+rownames(filt) <- filt$pretty
+filt.p <- filt[,-which(colnames(filt) %in% c("pretty"))]
+ggplot(filt.p, aes(x = rownames(filt.p) , y = var)) + geom_bar(stat="identity", fill="tomato3") 
+
+#IL8, IL1R1, CXCR4, ICAM3, MPO, TNFSF10, and TLR4 genes with IL6, TNF,
+
+filtered.data <- filter.genes(expressed.genes, c("IL8", "IL1R1", "CXCR4", "ICAM3", "MPO", "TLR4", "IL6", "TNF"))
+filtered.data$var <- apply(log2(filtered.data +0.1),1, var)
+filt <- pretty.gene.name(filtered.data)
+rownames(filt) <- filt$pretty
+filt.p <- filt[,-which(colnames(filt) %in% c("pretty"))]
+ggplot(filt.p, aes(x = rownames(filt.p) , y = var)) + geom_bar(stat="identity", fill="tomato3") 
