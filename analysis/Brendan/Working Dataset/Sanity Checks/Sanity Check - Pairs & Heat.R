@@ -25,7 +25,7 @@ old.col <- merged.cor.table[,grep("^old", colnames(merged.cor.table))]
 new.row <- old.col[-grep("^old", rownames(old.col)),]
 
 heatmap(as.matrix(new.row))
-# hierarchical clustering of samples and heatmap of sample similarities
+#heatmap of sample similarities
 library(pheatmap)
 pheatmap(new.row, cluster_rows = F, cluster_cols = F) 
 
@@ -38,6 +38,11 @@ corrplot(as.matrix(new.row), cl.lim=c(.85,1),
          order = "hclust", 
          addrect = 2)
 
+#simple pairs plot ggplot 
+library(ggplot2)
+library(GGally)
+ggpairs(merged.table[,c(3,4,24,25)])
+pairs(merged.table[,c(2,3,4,23,24,25)], upper.panel = NULL)
 
 # remove from workspace
 rm(old_data,old.col,new.row,merged.cor.table,merged.table,new.data)
