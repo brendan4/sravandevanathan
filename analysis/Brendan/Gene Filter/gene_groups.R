@@ -1,16 +1,6 @@
 
-#gene groups 
-gata1 <- expressed.genes[pmatch("GATA1",expressed.genes$Gene.Names),]
-p53 <- expressed.genes[grep("^TP53", expressed.genes$Gene.Names),]
-TMA7 <- expressed.genes[pmatch("TMA7",expressed.genes$Gene.Names),]
-apaf1 <- expressed.genes[pmatch("APAF1",expressed.genes$Gene.Names),]
-#RPS19 <- expressed.genes[grep("^RPS19",expressed.genes$Gene.Names),]
-#ADA <- expressed.genes[grep("^ADA",expressed.genes$Gene.Names),]
-RPL11 <- expressed.genes[grep("^RPL11",rownames(expressed.genes)),]
-MDM2 <- expressed.genes[grep("^MDM2",rownames(expressed.genes), ignore.case = TRUE, value = TRUE), ]
-
 min_nonzero = 1
-gene.list <- c("MDM2","RPL11", "APAf1", "TP53", "GATA1", "PML", "MYC")
+gene.list <- c("MDM2","RPL11", "TP53", "GATA1", "PML", "MYC", "CDKN2A")
 # two options: expressed genes and expressed trans datasets
 filtered.data <- filter.genes(expressed.genes,gene.list) # expressed genes dataset 
 filtered.data <- filter.genes(expressed.trans,gene.list) # expressed trans dataset 
@@ -37,7 +27,7 @@ RPL11 <- expressed.trans[grep("^RPL11",rownames(expressed.trans)),] # all RPL11 
 
 #text(Ribo.filter, Ribo.filter,RPL11, cex=0.6, pos=4, col="red")
 
-
+#a look at myc 
 filt <- expressed.genes[grep("^MYC", rownames(expressed.genes)),]
 filt$var <- apply(log2(filt +0.01),1, var)
 filt <- pretty.gene.name(filt)
@@ -45,3 +35,74 @@ rownames(filt) <- filt$pretty
 filt.p <- filt[,-which(colnames(filt) %in% c("pretty"))]
 ggplot(filt.p, aes(x = rownames(filt.p) , y = var)) + geom_bar(stat="identity", fill="tomato3") 
 
+# a look at RPL11
+filt <- expressed.genes[grep("^RPL11", rownames(expressed.genes)),]
+filt$var <- apply(log2(filt +0.01),1, var)
+filt <- pretty.gene.name(filt)
+rownames(filt) <- filt$pretty
+filt.p <- filt[,-which(colnames(filt) %in% c("pretty"))]
+
+#PML 
+filt <- expressed.genes[grep("^PML", rownames(expressed.genes)),]
+filt$var <- apply(log2(filt +0.01),1, var)
+filt <- pretty.gene.name(filt)
+rownames(filt) <- filt$pretty
+filt.p <- filt[,-which(colnames(filt) %in% c("pretty"))]
+
+
+#a look at all genes in gene.list 
+
+filtered.data$var <- apply(log10(filtered.data),1, var)
+filt <- pretty.gene.name(filtered.data)
+rownames(filt) <- filt$pretty
+filt.p <- filt[,-which(colnames(filt) %in% c("pretty"))]
+filt.p <- na.omit(filt.p)
+ggplot(filt.p, aes(x = rownames(filt.p) , y = var)) + geom_bar(stat="identity", fill="tomato3") 
+colSum <- as.data.frame(colSums(filt.p))
+colSum <- t(colSum)
+filt.p <- rbind(filt.p, colSum)
+
+
+# a look a hemo protiens 
+
+gene.list <- c('HBA', "HBB", "HBG1", "HBG2", "HBE", "HBD", "SLC4A1", "SNCA", "BPGM")
+filtered.data <- filter.genes(expressed.genes, gene.list)
+filtered.data$var <- apply(log2(filtered.data +0.1),1, var)
+filt <- pretty.gene.name(filtered.data)
+rownames(filt) <- filt$pretty
+filt.p <- filt[,-which(colnames(filt) %in% c("pretty"))]
+ggplot(filt.p, aes(x = rownames(filt.p) , y = var)) + geom_bar(stat="identity", fill="tomato3") 
+
+# HB
+filtered.data <- filter.genes(expressed.genes, "HB")
+filtered.data$var <- apply(log2(filtered.data +0.1),1, var)
+filt <- pretty.gene.name(filtered.data)
+rownames(filt) <- filt$pretty
+filt.p <- filt[,-which(colnames(filt) %in% c("pretty"))]
+ggplot(filt.p, aes(x = rownames(filt.p) , y = var)) + geom_bar(stat="identity", fill="tomato3") 
+
+# H2BFXP
+filtered.data <- filter.genes(expressed.genes, "H2BFXP")
+filtered.data$var <- apply(log2(filtered.data +0.1),1, var)
+filt <- pretty.gene.name(filtered.data)
+rownames(filt) <- filt$pretty
+filt.p <- filt[,-which(colnames(filt) %in% c("pretty"))]
+
+
+#FNDC4
+filtered.data <- filter.genes(expressed.genes, "FNDC4")
+filtered.data$var <- apply(log2(filtered.data +0.1),1, var)
+filt <- pretty.gene.name(filtered.data)
+rownames(filt) <- filt$pretty
+filt.p <- filt[,-which(colnames(filt) %in% c("pretty"))]
+
+
+
+werid <- c("NPHP1", "MORN4","POTEI", "GPRC5B")
+#immune proteins 
+filtered.data <- filter.genes(expressed.genes, c("JCHAIN","MX1","IGLL5","RSAD2","CMPK2", "IFI44L", "MZB1", "IFIT1", "OAS3"))
+filtered.data$var <- apply(log2(filtered.data +0.1),1, var)
+filt <- pretty.gene.name(filtered.data)
+rownames(filt) <- filt$pretty
+filt.p <- filt[,-which(colnames(filt) %in% c("pretty"))]
+ggplot(filt.p, aes(x = rownames(filt.p) , y = var)) + geom_bar(stat="identity", fill="tomato3") 

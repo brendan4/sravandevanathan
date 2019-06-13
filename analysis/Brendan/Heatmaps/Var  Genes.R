@@ -2,11 +2,11 @@ library(gplots)
 library(ComplexHeatmap)
 
 
-# We estimate the variance for each row in the logcounts matrix
-var_genes <- apply(log2(na.omit(expressed.genes)), 1, var)
+#estimate the variance for each row in the logcounts matrix
+var_genes <- apply(log2(na.omit(expressed.genes)+0.1), 1, var)
 head(var_genes)
 
-# Get the gene names for the top 500 most variable genes
+# Get the gene names for the top 100 most variable genes
 select_var <- names(sort(var_genes, decreasing=TRUE))[1:100]
 head(select_var)
 
@@ -14,6 +14,10 @@ head(select_var)
 highly_variable <- expressed.genes[select_var,]
 dim(highly_variable)
 
+highly_variable$var<- apply(log2(highly_variable+0.1), 1, var)
+head(var_genes)
+
+###################SKIP: if don't want sex related genes filtered out######################
 #sex insight
 sex <- t(sex)
 sex <- highly_variable[grep("^XIST", rownames(highly_variable)),]
@@ -22,7 +26,7 @@ sex[,which(sex < 10)] = "M"
 rownames(sex) <- "Gender"
 sex <- t(sex)
 
-#bg_filt diff expression with sex as covariate 
+#bg_filt diff expression with sex as covariate: uses fitler ot func in gene filter/ tools
 
 sex.filt <- filter.out.genes(expressed.genes, filt.names$geneNames)
 sex.filt <- na.omit(sex.filt)
@@ -32,7 +36,7 @@ sex.filt <- na.omit(sex.filt)
 var_genes <- apply(log2(sex.filt), 1, var)
 head(var_genes)
 
-# Get the gene names for the top 500 most variable genes
+# Get the gene names for the top 100 most variable genes
 select_var <- names(sort(var_genes, decreasing=TRUE))[1:100]
 head(select_var)
 
@@ -40,6 +44,7 @@ head(select_var)
 highly_variable <- expressed.genes[select_var,]
 dim(highly_variable)
 
+#OPTIONAL: make gene names pretty: load pretty func in brendan/tools 
 highly_variable <- pretty.gene.name(highly_variable) # make the pretty col 
 highly_variable <- highly_variable[-which(duplicated(highly_variable$pretty)),] # drop the duplicated 
 rownames(highly_variable) <- highly_variable$pretty # make gene names pretty
@@ -47,15 +52,23 @@ highly_variable <- highly_variable[,-which(colnames(highly_variable) %in% c("pre
 
 fontsize <- 0.6
 
-Heatmap(as.matrix(log2(highly_variable)),
+par(mar=c(7,4,4,2)+0.1) 
+png(filename='Sex_filtered.png', width=800, height=750)
+
+# use t() for k means clustering of sample no genes 
+Heatmap(t(as.matrix(log2(highly_variable))),
         column_names_side = "bottom",
         row_names_side = "left",
         row_hclust_side = "left",
         row_names_gp=gpar(cex=fontsize),
         row_hclust_width = unit(3, "cm"),
-        clustering_distance_rows ="maximum",
+        clustering_distance_rows ="manhattan",
         clustering_method_rows = "centroid",
-        km=2) # number of clusters you want
+        km=3) # number of clusters you want
+graphics.off()
+
+
+#simple PCA plots
 
 library(ggplot2)
 
