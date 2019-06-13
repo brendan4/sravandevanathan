@@ -29,6 +29,7 @@ sex <- t(sex)
 #bg_filt diff expression with sex as covariate: uses fitler ot func in gene filter/ tools
 setwd("C:/Users/brendan/Documents/sravandevanathan/analysis/Brendan/Working Dataset/02_Filtered Data")
 filt.names <- read.delim("sex_related.tab", sep= "")
+sex <- read.delim("sample_gender.tab", sep= "")
 
 sex.filt <- filter.out.genes(na.omit(expressed.genes), filt.names$geneNames)
 #OPTIONAL: filters out LOC and unnamed genes
