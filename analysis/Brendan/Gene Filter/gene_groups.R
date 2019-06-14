@@ -132,3 +132,15 @@ filt <- pretty.gene.name(filtered.data)
 rownames(filt) <- filt$pretty
 filt.p <- filt[,-which(colnames(filt) %in% c("pretty"))]
 ggplot(filt.p, aes(x = rownames(filt.p) , y = var)) + geom_bar(stat="identity", fill="tomato3") 
+
+
+
+#RNR1 
+filtered.data <- filter.genes(expressed.genes, c("RNA"))
+filtered.data$var <- apply(log2(filtered.data +0.1),1, var)
+filt <- pretty.gene.name(filtered.data)
+rownames(filt) <- filt$pretty
+filt.p <- filt[,-which(colnames(filt) %in% c("pretty"))]
+ggplot(filt.p, aes(x = rownames(filt.p) , y = var)) + geom_bar(stat="identity", fill="tomato3") 
+
+
