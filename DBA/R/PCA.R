@@ -1,7 +1,11 @@
-PCA <- function(dataset, PCA.Genes = FALSE){
-  library(ggplot2)
+PCA <- function(dataset, scaled = FALSE, PCA.Genes = FALSE){
+  
   #generated PCA data
-  genes.PCA <- prcomp(t(na.omit(expressed.genes)))
+  if (scaled == TRUE){
+    genes.PCA <- prcomp(t(na.omit(dataset)), scale. = TRUE)
+  }else {
+    genes.PCA <- prcomp(t(na.omit(dataset)))
+  }
   
   #PCA variation 
   genes.PCA.var <- genes.PCA$sdev^2

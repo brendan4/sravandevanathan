@@ -56,3 +56,8 @@ clean.environment()
 cor.plots(expressed.genes, heatmap = TRUE, phylo = TRUE)
 cor.plots(expressed.trans, heatmap = TRUE, phylo = TRUE)
 
+#PCA and MDS
+PCA(expressed.genes, scaled = FALSE, PCA.Genes = FALSE)
+PCA(expressed.trans)
+MDS(expressed.genes, scaled = FALSE)
+MDS(expressed.trans)

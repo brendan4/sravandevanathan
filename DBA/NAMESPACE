@@ -2,4 +2,5 @@
 
 import(ape)
 import(data.table)
+import(ggplot2)
 import(pheatmap)
