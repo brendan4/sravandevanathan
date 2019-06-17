@@ -23,6 +23,16 @@ III.four <- c("L3_TGACCA", "L6_CAGATC", "L2_CGATGT", "L2_ACTTGA")
 III.thirteen <- c("L6_GGCTAC", "L2_GATCAG")
 IV.five <- c("L2_CTTGTA", "L6_CGATGT")
 
+# wildtype 
+II.six <- c("L3_GATCAG")
+II.seven <- c("L3_TAGCTT")
+III.one <- c("L3_ATCACG", "L3_CTTGTA", "L2_TGACCA", "L2_ACAGTG")
+III.five <- c("L3_ACAGTG","L2_TTAGGC")
+III.six <- c("L3_GCCAAT","L6_GATCAG")
+III.eleven <- c("L3_CAGATC", "L6_TAGCTT")
+III.twelve <- C("L6_CTTGTA", "L2_TAGCTT")
+III.fourteen <- c("L6_ATCACG", "L2_GGCTAC")
+
 
 
 
