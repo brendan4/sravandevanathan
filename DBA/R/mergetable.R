@@ -12,16 +12,15 @@
 #' main.table <- mergeTables(wd = "C:/Users/brendan/Documents/sravandevanathan/ballgown",
 #' commonName = "gene_abundance.tab", 
 #' colsToMerge = c(2,5,6,8))
-#' filter.genes(expressed.genes, c("RP"))
 #' 
 #' main.table <- mergeTables(wd = "C:/Users/brendan/Documents/sravandevanathan/ballgown",
 #' commonName = "t_data.ctab", 
 #' colsToMerge = c(4,5,6,10,12))
+#' @import data.table
+#' 
 
 
 mergeTables <- function(wd, commonName, colsToMerge){
-  library(data.table)
-  library(tidyr)
   #function definations: wd = working directory, commonName = share name of file,
   
   setwd(wd)
@@ -55,7 +54,13 @@ mergeTables <- function(wd, commonName, colsToMerge){
     }else {
       x <- unite(x, `Gene Name`, c(`Gene Name`, Start, End), remove = TRUE)
       names(x)[names(x) == 'FPKM'] <- paste('FPKM', file)
+      dups <- c(which(duplicated(x$`Gene Name`)))
       
+      if(length(dups) == 0) {
+        xnoDups <- x
+      }else {
+        xnoDups <- x[-dups] # removes duplicates
+        }
       xnoDups <- x[-c(which(duplicated(x$`Gene Name`)))] # removes duplicates 
     }
     

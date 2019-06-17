@@ -23,7 +23,6 @@ Merges tables in a directory with a common name
 main.table <- mergeTables(wd = "C:/Users/brendan/Documents/sravandevanathan/ballgown",
 commonName = "gene_abundance.tab", 
 colsToMerge = c(2,5,6,8))
-filter.genes(expressed.genes, c("RP"))
 
 main.table <- mergeTables(wd = "C:/Users/brendan/Documents/sravandevanathan/ballgown",
 commonName = "t_data.ctab", 

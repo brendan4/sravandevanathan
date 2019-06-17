@@ -7,7 +7,7 @@ create("DBA")
 install("DBA")
 
 # making docments 
-setwd("./DBA")
+setwd("C:/Users/brendan/Documents/sravandevanathan/DBA")
 document()
 
 

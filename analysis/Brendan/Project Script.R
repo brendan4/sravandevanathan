@@ -1,4 +1,5 @@
-
+library(data.table)
+library(tidyr)
 library(DBA)
 
 ### Gene abundance merge 
@@ -6,11 +7,10 @@ main.table <- mergeTables(wd = "C:/Users/brendan/Documents/sravandevanathan/ball
                           commonName = "gene_abundance.tab", 
                           colsToMerge = c(2,5,6,8))
 
-main.table <- merge.cleanup(main.table, cor.table = TRUE)
+main.table <- merge.cleanup(main.table, boxplot = TRUE, cor.table = TRUE, remove.NA = TRUE)
 
 #removal of L2_ACAGTG
 main.table <- main.table[,-which(colnames(main.table) %in% c("FPKM L2_ACAGTG"))]
-
 write.table(main.table, "gene_abundance_merged.tab")
 GeneAbundance <- read.table("gene_abundance_merged.tab")
 
