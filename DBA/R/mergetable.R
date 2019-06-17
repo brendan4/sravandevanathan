@@ -20,6 +20,8 @@
 
 
 mergeTables <- function(wd, commonName, colsToMerge){
+  library(data.table)
+  library(tidyr)
   #function definations: wd = working directory, commonName = share name of file,
   
   setwd(wd)
