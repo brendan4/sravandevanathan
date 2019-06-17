@@ -1,5 +1,10 @@
 
-merge.cleanup <- function(data.set, boxplot = FALSE, cor.table = FALSE, remove.NA = FALSE){
+merge.cleanup <- function(data.set, 
+                          boxplot = FALSE, 
+                          cor.table = FALSE, 
+                          remove.NA = FALSE, 
+                          tidy.colnames = FALSE){
+  
   data.set <- as.data.frame(data.set) # forms data.table to data.frame
   rownames(data.set) <- data.set[,1] #gene namess to row names
   data.set <- data.set[,-c(1)] # removes gene names col
@@ -18,6 +23,11 @@ merge.cleanup <- function(data.set, boxplot = FALSE, cor.table = FALSE, remove.N
   
   if (remove.NA == TRUE){
     data.set <- na.omit(data.set)
+  }
+  
+  if(tidy.colnames == TRUE){
+    colnames(data.set) <- substring(colnames(data.set), 
+                                    first = 6) # removes FPKM. from row names 
   }
   return(data.set)
 }

@@ -50,7 +50,7 @@ mergeTables <- function(wd, commonName, colsToMerge){
   return(mainTable)
 }
 
-#gene abundance merge
+### gene abundance merge
 
 main.table <- mergeTables(wd = "C:/Users/brendan/Documents/sravandevanathan/ballgown",
                          commonName = "gene_abundance.tab", 
@@ -68,11 +68,10 @@ boxplot(log2(na.omit(main.table)+.1),
 #removal of L2_ACAGTG
 print("L2_ACAGT removed")
 main.table <- main.table[,-which(colnames(main.table) %in% c("FPKM L2_ACAGTG"))]
-
 write.table(main.table, "gene_abundance_merged.tab")
 GeneAbundance <- read.table("gene_abundance_merged.tab")
 
-# transcript data
+### transcript data
 print("Starting transcript merge")
 
 main.table <- mergeTables(wd = "C:/Users/brendan/Documents/sravandevanathan/ballgown",
@@ -90,7 +89,6 @@ main.table <- main.table[,-c(1)] # removes gene names col
 
 #removal of L2_ACAGTG
 main.table <- main.table[,-which(colnames(main.table) %in% c("FPKM L2_ACAGTG"))]
-
 write.table(main.table,gzfile("transrcipts_merged.ctab.gz")) # writes the table as a .ctab.gz
 Transcripts <- read.table(gzfile("transrcipts_merged.ctab.gz")) # will read the table 
 rm(main.table)
