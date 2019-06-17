@@ -1,3 +1,5 @@
+library(dplyr)
+
 pData(bg_filt)=data.frame(id=sampleNames(bg_filt), group=sex)
 gene.results=stattest(bg_filt, feature="gene", covariate="Gender", getFC=TRUE, meas="FPKM")
 gene.results = data.frame(geneNames=ballgown::geneNames(bg_filt), gene.results)
