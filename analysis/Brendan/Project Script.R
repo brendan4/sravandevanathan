@@ -1,6 +1,8 @@
 library(data.table)
 library(tidyr)
 library(DBA)
+library(pheatmap)
+library(ape)
 
 ### Gene abundance merge 
 main.table <- mergeTables(wd = "C:/Users/brendan/Documents/sravandevanathan/ballgown",
@@ -49,4 +51,8 @@ write.table(expressed.genes, "expressed.genes.tab")
 write.table(expressed.trans, "expressed.trans.tab")
 
 clean.environment()
+
+# hierarchical clustering of samples and heatmap of sample similarities: zoom for heatmap
+cor.plots(expressed.genes, heatmap = TRUE, phylo = TRUE)
+cor.plots(expressed.trans, heatmap = TRUE, phylo = TRUE)
 
