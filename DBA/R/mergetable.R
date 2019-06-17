@@ -1,3 +1,24 @@
+#' Merge Tables 
+#' 
+#' Merges tables in a directory with a common name 
+
+#' @param wd Working directory in which all folders may be viewed 
+#' @param commonName A single string representing the exact name all files share
+#' @param colsToMerge integers representing the cols to keep 
+#' 
+#' @return Returns a new data.table which has combined all the tables into one large table 
+#' 
+#' @examples 
+#' main.table <- mergeTables(wd = "C:/Users/brendan/Documents/sravandevanathan/ballgown",
+#' commonName = "gene_abundance.tab", 
+#' colsToMerge = c(2,5,6,8))
+#' filter.genes(expressed.genes, c("RP"))
+#' 
+#' main.table <- mergeTables(wd = "C:/Users/brendan/Documents/sravandevanathan/ballgown",
+#' commonName = "t_data.ctab", 
+#' colsToMerge = c(4,5,6,10,12))
+
+
 mergeTables <- function(wd, commonName, colsToMerge){
   #function definations: wd = working directory, commonName = share name of file,
   

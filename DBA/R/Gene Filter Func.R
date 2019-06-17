@@ -1,3 +1,18 @@
+#' Filter genes 
+#' 
+#' Filters genes non-specficically from a data table with rows as gene names and returns that subset
+
+#' @param data.table Data.frame with rownames as genes.
+#' @param gene.list A vector with gene names or name to be filtred 
+#' 
+#' @return Returns a new data frame with only genes matching to genes.list. 
+#' If a gene.list name fails to match it will be stated.
+#' 
+#' @examples 
+#' filter.genes(expressed.genes, c("RPL11", "RPS"))
+#' filter.genes(expressed.genes, c("RP"))
+
+
 #filers data set with genelist using rownames 
 filter.genes <- function(data.table, gene.list){
   filtered.data <- data.frame()
@@ -9,7 +24,7 @@ filter.genes <- function(data.table, gene.list){
                    value = TRUE)
     # if pattern == 0 not found: reutrn message 
     if (length(pattern) == 0 ){
-      print(paste(pattern,": failed to find match", sep = ""))
+      print(paste(name,": failed to find match", sep = ""))
       next
     } else {
     print(paste("^",name, sep= ""))# prints pattern used
