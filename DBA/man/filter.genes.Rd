@@ -8,7 +8,7 @@
   col = NULL)
 }
 \arguments{
-\item{data.table}{Data.frame with rownames as genes.}
+\item{data.table}{Data.frame with gene names}
 
 \item{gene.list}{A vector with gene names or name to be filtred}
 
@@ -21,9 +21,10 @@ Returns a new data frame with only genes matching to genes.list.
 If a gene.list name fails to match it will be stated.
 }
 \description{
-Filters genes non-specficically from a data table with rows as gene names and returns that subset
+Filters genes non-specficically from a data table and returns that subset
 }
 \examples{
 filter.genes(expressed.genes, c("RPL11", "RPS", by.rownames = TRUE))
 filter.genes(expressed.genes, c("RP"), byrownames = FALSE, col = 2)
+diff.genes <- filter.genes(na.omit(expressed.genes), filt.names$geneNames)
 }

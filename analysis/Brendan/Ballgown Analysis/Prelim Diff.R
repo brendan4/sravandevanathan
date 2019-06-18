@@ -12,6 +12,7 @@ gene.results <- data.frame(geneNames = gene_names_for_result, gene.results)
 gene.results = arrange(gene.results, pval)
 filt.names <- subset(gene.results, gene.results$qval<0.05)
 
-#filter
-filt.set <- filter.out.genes(na.omit(filt.names), gene.list = c("RP"))
-diff.genes <- filter.genes(na.omit(expressed.genes), filt.names$geneNames)
+#filter out . from data set as it acts as a regular expression 
+filt.set <- filter.out.genes(filt.names, gene.list = c("\\."), by.rownames = FALSE, col = 1)
+diff.genes <- filter.genes(expressed.genes, filt.set$geneNames)
+
