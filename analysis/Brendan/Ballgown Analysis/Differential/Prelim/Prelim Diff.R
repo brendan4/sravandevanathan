@@ -1,7 +1,8 @@
 library(dplyr)
+data(pheno)
 
 pData(bg_filt) = data.frame(id = sampleNames(bg_filt), group = pheno)
-gene.results = stattest(bg_filt, feature="gene", covariate="group", getFC=TRUE, meas="FPKM")
+gene.results = stattest(bg_filt, feature="gene", covariate="group.pheno", getFC=TRUE, meas="FPKM")
 
 #gene names 
 indices <- match(gene.results$id, texpr(bg_filt, 'all')$gene_id)
