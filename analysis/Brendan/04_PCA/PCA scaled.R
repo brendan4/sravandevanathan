@@ -4,22 +4,22 @@ library(egg) # required to arrange plots side-by-side
 library(grid) # required to draw arrows
 library(ggthemes) # for colorblind color scale
 
-t(na.omit(expressed.genes)) %>%  #t() around this part only diff between transposed and untransposed
-  scale() %>%            # scale to 0 mean and unit variance
+t(na.omit(diff.genes)) %>% #t() around this part only diff between transposed and untransposed
+  scale()%>% 
   prcomp() ->            # do PCA
-  PCA_expressed.genes2   # store result as `pca`
+  PCA    # store result as `pca`
 
-PCA_expressed.genes2_data <- data.frame(PCA_expressed.genes2$x)
+PCA_plot <- data.frame(PCA$x)
 
-ggplot(PCA_expressed.genes2_data, aes(x = PC1, y = PC2, label = rownames(PCA_expressed.genes2_data))) + 
+
+ggplot(PCA_plot, aes(x = PC1, y = PC2, color = pheno$pheno ,label = rownames(PCA_plot))) + 
   geom_text(size = 3.0) +
-  scale_color_colorblind()+
-  ggtitle("PCA- Genes: untransposed")
+  ggtitle("PCA- Genes: Transposed")
 
 # capture the rotation matrix in a data frame
 rotation_data_genes <- data.frame(
-  PCA_expressed.genes2$rotation, 
-  variable = row.names(PCA_expressed.genes2$rotation)
+  PCA$rotation, 
+  variable = rownames(PCA$rotation)
 )
 
 # define a pleasing arrow style
@@ -35,4 +35,6 @@ ggplot(rotation_data_genes) +
   xlim(-.25, 1.) + 
   ylim(-.50, .50) +
   coord_fixed() +
-  ggtitle("PCA rotation- Genes: untransposed")
+  ggtitle("PCA rotation- Genes: Transposed")
+
+)
