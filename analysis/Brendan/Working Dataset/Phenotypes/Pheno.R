@@ -32,4 +32,11 @@ III.eleven <- c("L3_CAGATC", "L6_TAGCTT")
 III.twelve <- C("L6_CTTGTA", "L2_TAGCTT")
 III.fourteen <- c("L6_ATCACG", "L2_GGCTAC")
 
-
+pheno$pheno.colors <- 0
+pheno[which(pheno[,2] == "C"),3] <- "yellow"
+pheno[which(pheno[,2] == "SS"),3] <- "red"
+pheno[which(pheno[,2] == "S"),3] <- "orange"
+pheno[which(pheno[,2] == "W"),3] <- "blue"
+pheno.colors <- t(pheno[,-2])
+colnames(pheno.colors) <- pheno.colors[1,]
+pheno.colors <- pheno.colors[-1,]
