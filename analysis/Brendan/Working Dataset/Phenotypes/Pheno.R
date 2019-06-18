@@ -18,7 +18,7 @@ III.one <- c("L3_ATCACG", "L3_CTTGTA", "L2_TGACCA", "L2_ACAGTG")
 III.five <- c("L3_ACAGTG","L2_TTAGGC")
 III.six <- c("L3_GCCAAT","L6_GATCAG")
 III.eleven <- c("L3_CAGATC", "L6_TAGCTT")
-III.twelve <- C("L6_CTTGTA", "L2_TAGCTT")
+III.twelve <- c("L6_CTTGTA", "L2_TAGCTT")
 III.fourteen <- c("L6_ATCACG", "L2_GGCTAC")
 
 carriers <- c(I.one,II.eight,III.two,III.three, III.four)
