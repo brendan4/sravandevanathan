@@ -4,12 +4,17 @@
 \alias{filter.genes}
 \title{Filter genes}
 \usage{
-filter.genes(data.table, gene.list)
+\method{filter}{genes}(data.table, gene.list, by.rownames = TRUE,
+  col = NULL)
 }
 \arguments{
 \item{data.table}{Data.frame with rownames as genes.}
 
 \item{gene.list}{A vector with gene names or name to be filtred}
+
+\item{by.rownames}{default filters by row names of the data.table. If false must provide col index.}
+
+\item{col}{Index of column postion if rownames are not to be used. Must provide col index if by.row is false}
 }
 \value{
 Returns a new data frame with only genes matching to genes.list. 
@@ -19,6 +24,6 @@ If a gene.list name fails to match it will be stated.
 Filters genes non-specficically from a data table with rows as gene names and returns that subset
 }
 \examples{
-filter.genes(expressed.genes, c("RPL11", "RPS"))
-filter.genes(expressed.genes, c("RP"))
+filter.genes(expressed.genes, c("RPL11", "RPS", by.rownames = TRUE))
+filter.genes(expressed.genes, c("RP"), byrownames = FALSE, col = 2)
 }

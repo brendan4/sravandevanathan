@@ -13,5 +13,5 @@ gene.results = arrange(gene.results, pval)
 filt.names <- subset(gene.results, gene.results$qval<0.05)
 
 #filter
+filt.set <- filter.out.genes(na.omit(filt.names), gene.list = c("RP"))
 diff.genes <- filter.genes(na.omit(expressed.genes), filt.names$geneNames)
-test <- filter.genes(expressed.genes, c("RPL", "MDM"))
