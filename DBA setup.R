@@ -17,6 +17,8 @@ lsf.str("package:DBA")
 # saving data in the package
 devtools::use_data(expressed.trans, DBA)
 devtools::use_data(expressed.genes, DBA)
+devtools::use_data(pheno, DBA)
+devtools::use_data(sex, DBA)
 
 # loading data
 data("expressed.genes", package = "DBA") 
@@ -27,4 +29,5 @@ devtools::document()
 ?filter.out.genes
 ?var.samples
 ?mergeTables
+?clean.environment
 
