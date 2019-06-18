@@ -24,6 +24,7 @@ data("expressed.genes", package = "DBA")
 # undating documentation 
 devtools::document()
 ?filter.genes
+?filter.out.genes
 ?var.samples
 ?mergeTables
 

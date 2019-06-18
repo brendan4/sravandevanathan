@@ -1,4 +1,4 @@
-PCA <- function(dataset, scaled = FALSE, PCA.Genes = FALSE){
+PCA <- function(dataset, scaled = FALSE, PCA.Genes = FALSE, pheno = NULL){
   
   #generated PCA data
   if (scaled == TRUE){
@@ -21,12 +21,23 @@ PCA <- function(dataset, scaled = FALSE, PCA.Genes = FALSE){
                                x = genes.PCA$x[,1],
                                y = genes.PCA$x[,2])
   
+  if (is.null(pheno) == TRUE){
   #ggplot of PCA data
   print(ggplot(data = genes.PCA.data, aes(x = x, y = y, label = Sample))+
           geom_text(size = 2)+
           xlab(paste("PC1 - ", genes.PCA.var.per[1], "%", sep = ""))+
           ylab(paste("PC2 - ", genes.PCA.var.per[2], "%", sep = ""))+
           ggtitle("PCA: Expressed Genes"))
+  }else {
+    #ggplot of PCA data
+    print(ggplot(data = genes.PCA.data, aes(x = x, y = y, color = pheno$pheno, label = Sample))+
+            geom_text(size = 2)+
+            scale_color_manual(breaks = c("8", "6", "4", "2"),
+                               values=c("green", "orange", "red", "blue")) +
+            xlab(paste("PC1 - ", genes.PCA.var.per[1], "%", sep = ""))+
+            ylab(paste("PC2 - ", genes.PCA.var.per[2], "%", sep = ""))+
+            ggtitle("PCA: Expressed Genes"))
+  }
   
   # 100 genes the influence the PCA the greatest (either pos of neg)
   gene_score_ranked <- sort(abs(genes.PCA$rotation[,1]))

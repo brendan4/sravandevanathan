@@ -14,6 +14,7 @@ head(select_var)
 highly_variable <- expressed.genes[select_var,]
 dim(highly_variable)
 
+#OPTIONAL look
 highly_variable$var<- apply(log2(highly_variable+0.1), 1, var)
 head(var_genes)
 
@@ -61,7 +62,7 @@ par(mar=c(7,4,4,2)+0.1)
 png(filename='100 Variable Genes - sex filtered- no name filt.png', width=800, height=750)
 
 # use t() for k means clustering of sample no genes 
-Heatmap(as.matrix(log2(highly_variable)),
+Heatmap(as.matrix(log2(highly_variable+0.001)),
         column_names_side = "bottom",
         row_names_side = "left",
         row_hclust_side = "left",

@@ -16,3 +16,22 @@ filt.names <- subset(gene.results, gene.results$qval<0.05)
 filt.set <- filter.out.genes(filt.names, gene.list = c("\\."), by.rownames = FALSE, col = 1)
 diff.genes <- filter.genes(expressed.genes, filt.set$geneNames)
 
+genesPCA1 <- PCA(diff.genes, PCA.Genes = TRUE, pheno = pheno)
+
+PCA.filt <- filter.genes(diff.genes, gene.list = genesPCA1)
+
+library(gplots)
+library(ComplexHeatmap)
+
+PCA.filt <- pretty.gene.name(PCA.filt, as.row.names = TRUE, remove.dups = TRUE)
+
+Heatmap(t(as.matrix(log2(PCA.filt+0.01))),
+        column_names_side = "bottom",
+        row_names_side = "left",
+        row_hclust_side = "left",
+        row_names_gp=gpar(cex=0.6),
+        row_hclust_width = unit(3, "cm"),
+        clustering_distance_rows ="euclidean",
+        clustering_method_rows = "centroid",
+        km=3) # number of clusters you want
+graphics.off()
