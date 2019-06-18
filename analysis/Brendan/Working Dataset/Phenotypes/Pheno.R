@@ -41,3 +41,26 @@ pheno[which(pheno[,2] == "W"),3] <- "blue"
 pheno.colors <- t(pheno[,-2])
 colnames(pheno.colors) <- pheno.colors[1,]
 pheno.colors <- pheno.colors[-1,]
+
+#mutant list 
+carriers <- list(I.one = c('L3_ACTTGA', "L6_TTAGGC"), 
+                 II.eight = c("L3_GGCTAC"),
+                 III.two = c("L3_CGATGT", "L6_ACAGTC", "L2_ATCACG","L2_GCCAAT", "L6_TGACCA"),
+                 III.three = c("L6_GCCAAT", "L6_ACTTGA","L2_CAGATC"), 
+                 III.four = c("L3_TGACCA", "L6_CAGATC", "L2_CGATGT", "L2_ACTTGA"))
+
+some.symp <- list(III.thirteen = c("L6_GGCTAC", "L2_GATCAG"))
+severe <- list(IV.five = c("L2_CTTGTA", "L6_CGATGT"))
+mutants <- list(carriers, some.symp, severe)
+
+wildtype <- list(II.six = c("L3_GATCAG"),
+                 II.seven = c("L3_TAGCTT"),
+                 III.one = c("L3_ATCACG", "L3_CTTGTA", "L2_TGACCA", "L2_ACAGTG"),
+                 III.five = c("L3_ACAGTG","L2_TTAGGC"),
+                 III.six = c("L3_GCCAAT","L6_GATCAG"),
+                 III.eleven = c("L3_CAGATC", "L6_TAGCTT"), 
+                 III.twelve = c("L6_CTTGTA", "L2_TAGCTT"), 
+                 III.fourteen = c("L6_ATCACG", "L2_GGCTAC"))
+full.pheno <- list(mutants, wildtype)
+
+
