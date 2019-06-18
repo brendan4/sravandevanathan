@@ -37,4 +37,3 @@ ggplot(rotation_data_genes) +
   coord_fixed() +
   ggtitle("PCA rotation- Genes: Transposed")
 
-)
