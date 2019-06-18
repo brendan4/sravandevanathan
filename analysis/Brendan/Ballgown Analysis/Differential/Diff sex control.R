@@ -1,7 +1,8 @@
 library(dplyr)
+data(sex)
 
-pData(bg_filt) = data.frame(id = sampleNames(bg_filt), group = pheno)
-gene.results = stattest(bg_filt, feature="gene", covariate="group", getFC=TRUE, meas="FPKM")
+pData(bg_filt) = data.frame(id = sampleNames(bg_filt), group = pheno, group = sex)
+gene.results = stattest(bg_filt, feature="gene", covariate="group", getFC=TRUE, meas="FPKM", adjustvars = "Gender")
 
 #gene names 
 indices <- match(gene.results$id, texpr(bg_filt, 'all')$gene_id)
@@ -16,14 +17,15 @@ filt.names <- subset(gene.results, gene.results$qval<0.05)
 filt.set <- filter.out.genes(filt.names, gene.list = c("\\."), by.rownames = FALSE, col = 1)
 diff.genes <- filter.genes(expressed.genes, filt.set$geneNames)
 
-#PCA with diff genes
+data(pheno)
+#PCA
 genesPCA1 <- PCA(diff.genes, PCA.Genes = TRUE, pheno = pheno)
-
-# pca one genes 
-PCA.filt <- filter.genes(diff.genes, gene.list = genesPCA1)
 
 library(gplots)
 library(ComplexHeatmap)
+
+# pca one genes filter
+PCA.filt <- filter.genes(diff.genes, gene.list = genesPCA1)
 
 PCA.filt <- pretty.gene.name(PCA.filt, as.row.names = TRUE, remove.dups = TRUE)
 
@@ -45,7 +47,8 @@ Heatmap(as.matrix(log2(PCA.filt+0.01)),
         clustering_distance_rows ="euclidean",
         clustering_method_rows = "centroid",
         top_annotation = HeatmapAnnotation(as.data.frame(pheno.types),
-                                              which = "column",
-                                              show_legend=TRUE))
+                                           which = "column",
+                                           show_legend=TRUE))
 graphics.off()
+
 

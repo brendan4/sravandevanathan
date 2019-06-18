@@ -2,17 +2,6 @@ library("readxl")
 setwd("C:/Users/brendan/Documents/sravandevanathan/")
 pheno <- read_excel("061518_phenotypes.xlsx")
 
-carriers <- c(I.one,II.eight,III.two,III.three, III.four)
-some.symp <- III.thirteen
-severe <- IV.five
-
-pheno <- as.data.frame(colnames(expressed.genes))
-pheno$pheno <- 0
-pheno[which(pheno[,1] %in% carriers), 2] <- "C"
-pheno[which(pheno[,1] %in% some.symp), 2] <- "S"
-pheno[which(pheno[,1] %in% severe), 2] <- "SS"
-pheno[which(pheno[,2] == 0), 2] <- "W"
-
 # all mutant carriers 
 I.one <- c('L3_ACTTGA', "L6_TTAGGC")
 II.eight <- c("L3_GGCTAC")
@@ -32,6 +21,18 @@ III.eleven <- c("L3_CAGATC", "L6_TAGCTT")
 III.twelve <- C("L6_CTTGTA", "L2_TAGCTT")
 III.fourteen <- c("L6_ATCACG", "L2_GGCTAC")
 
+carriers <- c(I.one,II.eight,III.two,III.three, III.four)
+some.symp <- III.thirteen
+severe <- IV.five
+
+pheno <- as.data.frame(colnames(expressed.genes))
+pheno$pheno <- 0
+pheno[which(pheno[,1] %in% carriers), 2] <- "C"
+pheno[which(pheno[,1] %in% some.symp), 2] <- "S"
+pheno[which(pheno[,1] %in% severe), 2] <- "SS"
+pheno[which(pheno[,2] == 0), 2] <- "W"
+
+#OPTIONAL: colors
 pheno$pheno.colors <- 0
 pheno[which(pheno[,2] == "C"),3] <- "yellow"
 pheno[which(pheno[,2] == "SS"),3] <- "red"
