@@ -1,6 +1,6 @@
 
 #intial set up
-library("devtools")
+library(devtools)
 devtools::install_github("klutometis/roxygen")
 library(roxygen2)
 create("DBA")
@@ -38,3 +38,5 @@ devtools::document()
 ?mergeTables
 ?clean.environment
 
+
+library(DBA)

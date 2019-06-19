@@ -1,10 +1,16 @@
-pretty.gene.name <- function(data.set, as.row.names = FALSE, remove.dups = FALSE){
-  
+#' @import stringr
+pretty.gene.name <- function(data.set, as.row.names = FALSE, remove.dups = FALSE, col = NULL){
   data.set$pretty <- 0
-  for(row in 1:nrow(data.set)){
-    new.name <- str_extract(rownames(data.set[row,]), "^[-a-zA-Z0-9]*")
-    data.set$pretty[row] <- new.name 
-    
+  if (is.null(col) == TRUE){
+    for(row in 1:nrow(data.set)){
+      new.name <- str_extract(rownames(data.set[row,]), "^[-a-zA-Z0-9]*")
+      data.set$pretty[row] <- new.name 
+    }
+  }else{
+    for(row in 1:nrow(data.set)){
+      new.name <- str_extract(data.set[row,col], "^[-a-zA-Z0-9]*")
+      data.set$pretty[row] <- new.name 
+  }
   }
   if (remove.dups == TRUE){
     warning("Removing duplicates: information will be lost!")
