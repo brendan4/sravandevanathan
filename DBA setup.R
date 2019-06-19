@@ -37,6 +37,7 @@ devtools::document()
 ?var.samples
 ?mergeTables
 ?clean.environment
+?pretty.gene.name
 
 
 library(DBA)
