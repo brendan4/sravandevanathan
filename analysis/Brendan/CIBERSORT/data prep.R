@@ -24,6 +24,6 @@ expressed.genes.cyber[grepl("^-", expressed.genes.cyber$`1`),1] <-  substring(ex
 
 test <- pretty.gene.name(expressed.genes.cyber, col = 1)
 
-
+#saving test
 write.csv(ExampleMixtures.GEPs,"expressed_genes_cyber.csv",row.names = FALSE, col.names = NA)
 new <-read.csv("expressed_genes_cyber.csv")
