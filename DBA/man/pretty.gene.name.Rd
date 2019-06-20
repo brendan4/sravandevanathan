@@ -13,6 +13,9 @@
 \item{remove.dups}{logical statment indicating duplicated rows in pretty col should be removed. 
 Will always tigger a warning as information across the row is lost. Primarly used to set row names if dups found.}
 
+\item{col}{an argument only used if the rownames are not where gene names are stored. Should be an integer representing
+which col should be used.}
+
 \item{as.rom.names}{logical value indicating if the pretty col should turned into row names. 
 Warning will be triggered if duplicates found and will not execute rownames switch.}
 }

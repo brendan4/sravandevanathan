@@ -8,7 +8,7 @@
 #' Warning will be triggered if duplicates found and will not execute rownames switch. 
 #' @param remove.dups logical statment indicating duplicated rows in pretty col should be removed. 
 #' Will always tigger a warning as information across the row is lost. Primarly used to set row names if dups found.
-#' @col an argument only used if the rownames are not where gene names are stored. Should be an integer representing
+#' @param col an argument only used if the rownames are not where gene names are stored. Should be an integer representing
 #' which col should be used. 
 #' 
 #' @return returns a data.frame with a pretty col containing gene names or a data.frame with pretty rownames. 

@@ -1,4 +1,4 @@
-PCA <- function(dataset, scaled = FALSE, PCA.Genes = FALSE, pheno = NULL){
+PCA <- function(dataset, scaled = FALSE, PCA.Genes = FALSE, pheno = NULL, label.size = 2){
   
   #generated PCA data
   if (scaled == TRUE){
@@ -24,14 +24,14 @@ PCA <- function(dataset, scaled = FALSE, PCA.Genes = FALSE, pheno = NULL){
   if (is.null(pheno) == TRUE){
   #ggplot of PCA data
   print(ggplot(data = genes.PCA.data, aes(x = x, y = y, label = Sample))+
-          geom_text(size = 2)+
+          geom_text(size = label.size)+
           xlab(paste("PC1 - ", genes.PCA.var.per[1], "%", sep = ""))+
           ylab(paste("PC2 - ", genes.PCA.var.per[2], "%", sep = ""))+
           ggtitle("PCA: Expressed Genes"))
   }else {
     #ggplot of PCA data
     print(ggplot(data = genes.PCA.data, aes(x = x, y = y, color = pheno$pheno, label = Sample))+
-            geom_text(size = 2)+
+            geom_text(size = label.size)+
             scale_color_manual(breaks = c("8", "6", "4", "2"),
                                values=c("green", "orange", "red", "blue")) +
             xlab(paste("PC1 - ", genes.PCA.var.per[1], "%", sep = ""))+
