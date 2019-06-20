@@ -63,4 +63,5 @@ wildtype <- list(II.six = c("L3_GATCAG"),
                  III.fourteen = c("L6_ATCACG", "L2_GGCTAC"))
 full.pheno <- list(mutants, wildtype)
 
-
+names(full.pheno)<- c("Mutant", "Wildtype")
+names(full.pheno$Mutatent) <- c("Carrier", "Intermediate", "Severe")

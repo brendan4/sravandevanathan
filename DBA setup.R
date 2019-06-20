@@ -21,7 +21,7 @@ devtools::use_data(pheno.colors, DBA)
 devtools::use_data(sex, DBA)
 usethis::use_data(pheno, DBA, overwrite = TRUE)
 usethis::use_data(pheno.basic, DBA)
-usethis::use_data(full.pheno, DBA)
+usethis::use_data(full.pheno, DBA, overwrite = TRUE)
 
 # loading data
 data("expressed.genes", package = "DBA") 
