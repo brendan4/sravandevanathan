@@ -41,10 +41,10 @@ write.csv(scores, "xCell.csv")
   
 
 #results from web software
+setwd("C:\\Users\\brendan\\Documents\\sravandevanathan\\analysis\\Brendan\\Cellular Heterogentiy\\xCell\\Web Outout")
+xCell <- read.table("xCell_results.txt", sep = "\t")
 xCell <- as.data.frame(xCell)
 rownames(xCell) <- xCell[,1]
 xCell <- xCell[,-1]
 colnames(xCell) <- colnames(expressed.genes)
 xCell <- xCell[-1,]
-
-hemo <- filter.genes(expressed.genes, gene.list = c("HB"))
