@@ -5,7 +5,7 @@ pheno <- read_excel("061518_phenotypes.xlsx")
 # all mutant carriers 
 I.one <- c('L3_ACTTGA', "L6_TTAGGC")
 II.eight <- c("L3_GGCTAC")
-III.two <- c("L3_CGATGT", "L6_ACAGTC", "L2_ATCACG","L2_GCCAAT", "L6_TGACCA")
+III.two <- c("L3_CGATGT", "L6_ACAGTG", "L2_ATCACG","L2_GCCAAT", "L6_TGACCA")
 III.three <- c("L6_GCCAAT", "L6_ACTTGA","L2_CAGATC")
 III.four <- c("L3_TGACCA", "L6_CAGATC", "L2_CGATGT", "L2_ACTTGA")
 III.thirteen <- c("L6_GGCTAC", "L2_GATCAG")
@@ -45,7 +45,7 @@ pheno.colors <- pheno.colors[-1,]
 #mutant list 
 carriers <- list(I.one = c('L3_ACTTGA', "L6_TTAGGC"), 
                  II.eight = c("L3_GGCTAC"),
-                 III.two = c("L3_CGATGT", "L6_ACAGTC", "L2_ATCACG","L2_GCCAAT", "L6_TGACCA"),
+                 III.two = c("L3_CGATGT", "L6_ACAGTG", "L2_ATCACG","L2_GCCAAT", "L6_TGACCA"),
                  III.three = c("L6_GCCAAT", "L6_ACTTGA","L2_CAGATC"), 
                  III.four = c("L3_TGACCA", "L6_CAGATC", "L2_CGATGT", "L2_ACTTGA"))
 
@@ -64,4 +64,4 @@ wildtype <- list(II.six = c("L3_GATCAG"),
 full.pheno <- list(mutants, wildtype)
 
 names(full.pheno)<- c("Mutant", "Wildtype")
-names(full.pheno$Mutatent) <- c("Carrier", "Intermediate", "Severe")
+names(full.pheno$Mutant) <- c("Carrier", "Intermediate", "Severe")
