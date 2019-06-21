@@ -4,9 +4,11 @@ validation.helper <- function(full.pheno, data.set, class, cate, sub = NULL){
   if(is.null(sub) == FALSE) {mutant.flag = TRUE}
  
   if(mutant.flag == FALSE){
-    id.holder <- unlist(full.pheno[[class]][[cate]], use.names = FALSE)
+    id.holder <- unlist(full.pheno[[class]][[cate]], 
+                        use.names = FALSE)
   } else{
-    id.holder <- unlist(full.pheno[[class]][[cate]][sub], use.names = FALSE)
+    id.holder <- unlist(full.pheno[[class]][[cate]][sub], 
+                        use.names = FALSE)
   }
   
   counter <- length(id.holder)
@@ -16,9 +18,11 @@ validation.helper <- function(full.pheno, data.set, class, cate, sub = NULL){
     num <- 0
     lost <- 0
     if(mutant.flag == FALSE){
-      print(paste(names(full.pheno[[class]][cate]), ":", full.pheno[[class]][cate], ": is good"), sep= " ")
+      print(paste(names(full.pheno[[class]][cate]), 
+                  ":", full.pheno[[class]][cate], ": is good"), sep= " ")
     } else{
-      print(paste(names(full.pheno[[class]][[cate]][sub]), ":", full.pheno[[class]][[cate]][sub], ": is good"), sep= " ")
+      print(paste(names(full.pheno[[class]][[cate]][sub]),
+                  ":", full.pheno[[class]][[cate]][sub], ": is good"), sep= " ")
     }
   } else{
     num <- length(lost)
@@ -89,6 +93,17 @@ lost.samples<- validation(full.pheno, expressed.genes)
 lost.samples[which(lost.samples %in% colnames(expressed.genesN))]
 lost.samples <- lost.samples[-which(lost.samples %in% colnames(expressed.genesN))]
 
+#L2_ACAGTG found in file listing: likely removed early on: COMFIRmED BY LOOKING AT MERGED
 setwd("C:/Users/brendan/Documents/sravandevanathan/Ballgown")
 length(list.files()) - 3
+lost.samples[which(lost.samples %in% list.files())]
 
+#nothing found 
+library(data.table)
+setwd("C:/Users/brendan/Documents/sravandevanathan/analysis/Brendan/Working Dataset/01_Raw Data")
+raw_data <- fread("gene_abundance_merged.tab")
+
+lost.samples[which(paste("FPKM",lost.samples) %in% colnames(raw_data))]
+
+
+#L6_ACAGTC remains unaccounted for 
