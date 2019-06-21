@@ -30,5 +30,5 @@ simple <- change.names(expressed.genes, full.pheno, pheno)
 simple.pheno <- simple[[2]]
 simple.names <- simple[[1]]
 
-PCA(simple.names, pheno = pheno, label.size = 4)
+PCA(simple.names, pheno = pheno, label.size = 4, pca.dim = c(3,1))
 "L3_TTAGGC" %in% colnames(expressed.genes)
