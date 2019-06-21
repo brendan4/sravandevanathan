@@ -17,10 +17,10 @@ lsf.str("package:DBA")
 # saving data in the package
 devtools::use_data(expressed.trans, DBA)
 devtools::use_data(expressed.genes, DBA)
-devtools::use_data(pheno.colors, DBA)
+devtools::use_data(pheno.colors, DBA, overwrite = TRUE)
 devtools::use_data(sex, DBA)
 usethis::use_data(pheno, DBA, overwrite = TRUE)
-usethis::use_data(pheno.basic, DBA)
+usethis::use_data(pheno.basic, DBA,overwrite = TRUE)
 usethis::use_data(full.pheno, DBA, overwrite = TRUE)
 
 # loading data
