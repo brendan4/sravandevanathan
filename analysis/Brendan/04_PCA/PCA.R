@@ -1,75 +1,55 @@
-
-library(ggplot2)
-
-#princple component for expressed.genes
-genes.PCA <- prcomp(t(na.omit(expressed.genes)))
-summary(genes.PCA)
-
-#basic plot of PCA1 and PCA 2
-plot(genes.PCA$x[,1], genes.PCA$x[,2],
-     main = "PCA: Genes",
-     xlab = paste("PC1 - ", genes.PCA.var.per[1], "%", sep = ""), 
-     ylab = paste("PC2 - ", genes.PCA.var.per[2], "%", sep = ""))
-
-#precent variance 
-genes.PCA.var <- genes.PCA$sdev^2
-genes.PCA.var.per <- round(genes.PCA.var/sum(genes.PCA.var)*100, 1)
-
-#scree plots of variation 
-barplot(genes.PCA.var.per, main = "Scree Plot: Genes", 
-        xlab = "Principal Component", 
-        ylab = "Percent Variation")
-
-# reformate of PCA data into a data frame for ggplot usage
-genes.PCA.data <- data.frame(Sample = rownames(genes.PCA$x),
-                             x = genes.PCA$x[,1],
-                             y = genes.PCA$x[,2])
-
-#ggplot of PCA data
-ggplot(data = genes.PCA.data, aes(x = x, y = y, label = Sample))+
-  geom_text(size = 2)+
-  xlab(paste("PC1 - ", genes.PCA.var.per[1], "%", sep = ""))+
-  ylab(paste("PC2 - ", genes.PCA.var.per[2], "%", sep = ""))+
-  ggtitle("PCA: Expressed Genes")
-
-#gene_PCA_plot <- ggbiplot(genes.PCA)
-
-# 100 genes the influence the PCA the greatest (either pos of neg)
-gene_score_ranked <- sort(abs(genes.PCA$rotation[,1]))
-gene_top_hun <- names(gene_score_ranked[1:100])
-genes.PCA$rotation[gene_top_hun, 1] # push to left on x axis (-) or right on x axis (+)
-
-
-
-#princple component for t_data
-trans.PCA <- prcomp(t(na.omit(expressed.trans)),scale. = TRUE)
-summary(trans.PCA)
-
-plot(trans.PCA$x[,1], trans.PCA$x[,2],
-     main = "PCA: Transcripts",
-     xlab = paste("PC1 - ", trans.PCA.var.per[1], "%", sep = ""), 
-     ylab = paste("PC2 - ", trans.PCA.var.per[2], "%", sep = ""))
-
-trans.PCA.var <- trans.PCA$sdev^2
-trans.PCA.var.per <- round(trans.PCA.var/sum(trans.PCA.var)*100, 1)
-
-barplot(trans.PCA.var.per, main = "Scree Plot: Trans", 
-        xlab = "Principal Component", 
-        ylab = "Percent Variation")
-
-trans.PCA.data <- data.frame(Sample = rownames(trans.PCA$x),
-                             x = trans.PCA$x[,1],
-                             y = trans.PCA$x[,2])
-
-ggplot(data = trans.PCA.data, aes(x = x, y = y, label = Sample))+
-  geom_text(size = 3)+
-  xlab(paste("PC1 - ", trans.PCA.var.per[1], "%", sep = ""))+
-  ylab(paste("PC2 - ", trans.PCA.var.per[2], "%", sep = ""))+
-  ggtitle("PCA: Transcripts")
-
-trans_score_ranked <- sort(abs(trans.PCA$rotation[,1]))
-trans_top_hun <- names(trans_score_ranked[1:100])
-trans.PCA$rotation[trans_top_hun, 1] # push to left on x axis (-) or right on x axis (+)
-
-#t( log(expressed.genes[-1]  + 0.01)  )
-
+PCA <- function(dataset, scaled = FALSE, 
+                PCA.Genes = FALSE, 
+                pheno = NULL, 
+                label.size = 2, 
+                pca.dim = c(1,2)){
+  
+  #generated PCA data
+  if (scaled == TRUE){
+    genes.PCA <- prcomp(t(na.omit(dataset)), scale. = TRUE)
+  }else {
+    genes.PCA <- prcomp(t(na.omit(dataset)))
+  }
+  
+  #PCA variation 
+  genes.PCA.var <- genes.PCA$sdev^2
+  genes.PCA.var.per <- round(genes.PCA.var/sum(genes.PCA.var)*100, 1)
+  
+  #scree plots of variation 
+  barplot(genes.PCA.var.per, main = "Scree Plot: Genes", 
+          xlab = "Principal Component", 
+          ylab = "Percent Variation")
+  
+  #organize data for ggplots
+  genes.PCA.data <- data.frame(Sample = rownames(genes.PCA$x),
+                               x = genes.PCA$x[,pca.dim[1]],
+                               y = genes.PCA$x[,pca.dim[2]])
+  
+  if (is.null(pheno) == TRUE){
+  #ggplot of PCA data
+  print(ggplot(data = genes.PCA.data, aes(x = x, y = y, label = Sample))+
+          geom_text(size = label.size)+
+          xlab(paste("PC1 - ", genes.PCA.var.per[pca.dim[1]], "%", sep = ""))+
+          ylab(paste("PC2 - ", genes.PCA.var.per[pca.dim[2]], "%", sep = ""))+
+          ggtitle("PCA: Expressed Genes"))
+  }else {
+    #ggplot of PCA data
+    print(ggplot(data = genes.PCA.data, aes(x = x, y = y, color = pheno$pheno, label = Sample))+
+            geom_text(size = label.size)+
+            scale_color_manual(breaks = c("8", "6", "4", "2"),
+                               values=c("green", "orange", "red", "blue")) +
+            xlab(paste("PC1 - ", genes.PCA.var.per[pca.dim[1]], "%", sep = ""))+
+            ylab(paste("PC2 - ", genes.PCA.var.per[pca.dim[2]], "%", sep = ""))+
+            ggtitle("PCA: Expressed Genes"))
+  }
+  
+  # 100 genes the influence the PCA the greatest (either pos of neg)
+  gene_score_ranked <- sort(abs(genes.PCA$rotation[,pca.dim[1]]))
+  gene_top_hun <- names(gene_score_ranked[1:100])
+  genes.PCA$rotation[gene_top_hun, 1] # push to left on x axis (-) or right on x axis (+)
+  
+  if (PCA.Genes == TRUE) {
+    return(gene_top_hun)
+  }
+  
+}
