@@ -65,3 +65,41 @@ full.pheno <- list(mutants, wildtype)
 
 names(full.pheno)<- c("Mutant", "Wildtype")
 names(full.pheno$Mutant) <- c("Carrier", "Intermediate", "Severe")
+
+
+data("pheno")
+data("full.pheno")
+data("pheno.colors")
+
+# create a table with pheno info and mutation class
+full.pheno.table <- pheno 
+
+add.reps <- function(data.set, full.pheno){
+  data.set$Replicates <- 0
+  data.set$colors <- 0 
+  for(person in 1:length(full.pheno$Wildtype)){
+    name <- names(full.pheno$Wildtype)[person]
+    samples <- full.pheno$Wildtype[[person]]
+    data.set[which(pheno[, 1] %in% samples),3] <- name
+  }
+  for (subcat in 1:length(full.pheno$Mutant)){
+    for (person in 1:length(full.pheno$Mutant[[subcat]])){
+      name <- names(full.pheno$Mutant[[subcat]])[person]
+      samples <- full.pheno$Mutant[[subcat]][[person]]
+      data.set[which(pheno[, 1] %in% samples),
+            which(colnames(data.set) %in% "Replicates")] <- name
+    }
+  }
+  return(data.set)
+}
+
+full.pheno.table <- add.reps(full.pheno.table, full.pheno = full.pheno)
+
+#adding full.pheno.table
+full.pheno.table$pheno.colors <- 0
+full.pheno.table[which(pheno[,2] == "C"),4] <- "yellow"
+full.pheno.table[which(pheno[,2] == "SS"),4] <- "red"
+full.pheno.table[which(pheno[,2] == "S"),4] <- "orange"
+full.pheno.table[which(pheno[,2] == "W"),4] <- "blue"
+
+

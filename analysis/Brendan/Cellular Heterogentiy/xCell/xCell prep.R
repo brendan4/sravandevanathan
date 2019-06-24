@@ -3,11 +3,14 @@ devtools::install_github('dviraran/xCell')
 
 #results from R package 
 library(xCell)
+#must remove unique genes names to match signature file
 test <- pretty.gene.name(na.omit(expressed.genes), remove.dups = TRUE, as.row.names = TRUE)
+# run x.celll with all genes in sig file 
 R.results <- xCellAnalysis(test)
 
-  # run the test with 64 sig file 
-  raw.scores = rawEnrichmentAnalysis(as.matrix(test),
+# run the test with fitlered sig file
+x.cell.whole.blood <- function(date.set){
+  raw.scores = rawEnrichmentAnalysis(as.matrix(data.set),
                                      xCell.data$signatures,
                                      xCell.data$genes)
   
@@ -35,10 +38,41 @@ R.results <- xCellAnalysis(test)
   scores = spillOver(transformed.scores,xCell.data$spill$K)
   #s = y
   A = intersect(colnames(test),colnames(scores))
-  scores = scores[,A]
-  
+  return(scores = scores[,A])
+}
+
+scores <- x.cell.whole.blood(test)
 write.csv(scores, "xCell.csv")
-  
+
+hc <- hclust(as.dist(1-cor(t(na.omit(scores)))))
+heatmap(na.omit(scores), Rowv=as.dendrogram(hc))
+heatmap(na.omit(scores))
+
+library(ComplexHeatmap)
+
+par(mar=c(7,4,4,2)+0.1) 
+png(filename='celltype_heatmap.png', width=800, height=750)
+
+# use t() for k means clustering of sample no genes 
+Heatmap(t(scores),
+        column_names_side = "bottom",
+        row_names_side = "left",
+        row_hclust_side = "left",
+        row_names_gp=gpar(cex=0.6),
+        row_hclust_width = unit(3, "cm"),
+        clustering_distance_rows ="euclidean",
+        clustering_method_rows = "centroid",
+        km=3, 
+        top_annotation = HeatmapAnnotation(as.data.frame(pheno.colors),
+                                                 which = "column",
+                                                 show_legend=TRUE)) # number of clusters you want
+graphics.off()
+
+
+data("pheno")
+data("pheno.colors")
+pheno.colors <- t(pheno.colors)
+
 
 #results from web software
 setwd("C:\\Users\\brendan\\Documents\\sravandevanathan\\analysis\\Brendan\\Cellular Heterogentiy\\xCell\\Web Outout")
