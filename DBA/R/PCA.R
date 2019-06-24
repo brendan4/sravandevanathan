@@ -1,4 +1,8 @@
-PCA <- function(dataset, scaled = FALSE, PCA.Genes = FALSE, pheno = NULL, label.size = 2, pca.dim = c(1,2)){
+PCA <- function(dataset, scaled = FALSE, 
+                PCA.Genes = FALSE, 
+                pheno = NULL, 
+                label.size = 2, 
+                pca.dim = c(1,2)){
   
   #generated PCA data
   if (scaled == TRUE){

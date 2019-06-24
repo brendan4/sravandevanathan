@@ -30,5 +30,7 @@ simple <- change.names(expressed.genes, full.pheno, pheno)
 simple.pheno <- simple[[2]]
 simple.names <- simple[[1]]
 
-PCA(simple.names, pheno = pheno, label.size = 4, pca.dim = c(3,1))
+PCA(simple.names, pheno = pheno, label.size = 4, pca.dim = c(1,2), scaled = FALSE, legend = TRUE)
 "L3_TTAGGC" %in% colnames(expressed.genes)
+colnames(expressed.genes) %in% full.pheno
+grep("TTAGGC", colnames(expressed.genes), value = T)
