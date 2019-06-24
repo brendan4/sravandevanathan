@@ -50,11 +50,12 @@ heatmap(na.omit(scores))
 
 library(ComplexHeatmap)
 
+data("full.pheno.table")
 par(mar=c(7,4,4,2)+0.1) 
 png(filename='celltype_heatmap.png', width=800, height=750)
 
 # use t() for k means clustering of sample no genes 
-Heatmap(t(scores),
+Heatmap(scores,
         column_names_side = "bottom",
         row_names_side = "left",
         row_hclust_side = "left",
@@ -62,8 +63,7 @@ Heatmap(t(scores),
         row_hclust_width = unit(3, "cm"),
         clustering_distance_rows ="euclidean",
         clustering_method_rows = "centroid",
-        km=3, 
-        top_annotation = HeatmapAnnotation(as.data.frame(pheno.colors),
+        bottom_annotation = HeatmapAnnotation(as.data.frame(pheno.types),
                                                  which = "column",
                                                  show_legend=TRUE)) # number of clusters you want
 graphics.off()

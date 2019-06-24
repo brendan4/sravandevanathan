@@ -30,6 +30,7 @@ PCA.filt <- pretty.gene.name(PCA.filt, as.row.names = TRUE, remove.dups = TRUE)
 
 #heatmaps with PCA1 genes
 pheno.types <- t(pheno[,-3])
+pheno.types <- t(pheno)
 pheno.types <- pheno.types[-1,]
 names(pheno.types) <- t(pheno[,1])
 
