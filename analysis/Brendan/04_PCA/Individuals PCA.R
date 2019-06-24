@@ -1,6 +1,7 @@
 data("full.pheno")
 data("pheno")
 
+#changes samples names to individauls names 
 change.names <- function(data.set, full.pheno, pheno){
   pheno<- t(pheno)
   for(person in 1:length(full.pheno$Wildtype)){
@@ -30,7 +31,10 @@ simple <- change.names(expressed.genes, full.pheno, pheno)
 simple.pheno <- simple[[2]]
 simple.names <- simple[[1]]
 
+#PCA 
 PCA(simple.names, pheno = pheno, label.size = 4, pca.dim = c(1,2), scaled = FALSE, legend = TRUE)
+#mystery samples
 "L3_TTAGGC" %in% colnames(expressed.genes)
-colnames(expressed.genes) %in% full.pheno
+#found in all three lanes but not in the excel 
 grep("TTAGGC", colnames(expressed.genes), value = T)
+
