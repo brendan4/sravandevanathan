@@ -38,3 +38,5 @@ PCA(simple.names, pheno = pheno, label.size = 4, pca.dim = c(1,2), scaled = FALS
 #found in all three lanes but not in the excel 
 grep("TTAGGC", colnames(expressed.genes), value = T)
 
+
+

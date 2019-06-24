@@ -44,6 +44,7 @@ x.cell.whole.blood <- function(date.set){
 scores <- x.cell.whole.blood(test)
 write.csv(scores, "xCell.csv")
 
+#Generation of heatmaps
 hc <- hclust(as.dist(1-cor(t(na.omit(scores)))))
 heatmap(na.omit(scores), Rowv=as.dendrogram(hc))
 heatmap(na.omit(scores))
@@ -68,11 +69,12 @@ Heatmap(scores,
                                                  show_legend=TRUE)) # number of clusters you want
 graphics.off()
 
+data("full.pheno.table")
+pheno <- full.pheno.table[,c(2,1)]
+rownames(pheno) <- pheno[,2]
+pheno[,2] <- full.pheno.table[,3]
 
-data("pheno")
-data("pheno.colors")
-pheno.colors <- t(pheno.colors)
-
+cor.plots(scores, method = "pearson", annotation = pheno)
 
 #results from web software
 setwd("C:\\Users\\brendan\\Documents\\sravandevanathan\\analysis\\Brendan\\Cellular Heterogentiy\\xCell\\Web Outout")
