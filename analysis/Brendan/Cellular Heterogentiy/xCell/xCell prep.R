@@ -62,11 +62,15 @@ Heatmap(scores,
         row_hclust_side = "left",
         row_names_gp=gpar(cex=0.6),
         row_hclust_width = unit(3, "cm"),
-        clustering_distance_rows ="euclidean",
-        clustering_method_rows = "centroid",
-        bottom_annotation = HeatmapAnnotation(as.data.frame(pheno.types),
+        clustering_distance_rows ="maximum",
+        clustering_method_rows = "complete",
+        bottom_annotation = HeatmapAnnotation(type = full.pheno.table[,c(2)],
+                                              col = list(type = c("SS" =  "red", "S" = "yellow", "C"= "grey", "W"="black")),
                                                  which = "column",
-                                                 show_legend=TRUE)) # number of clusters you want
+                                                 show_legend=TRUE),
+        top_annotation = HeatmapAnnotation(type = full.pheno.table[,c(3)],
+                                              which = "column",
+                                              show_legend=TRUE)) # number of clusters you want
 graphics.off()
 
 data("full.pheno.table")
