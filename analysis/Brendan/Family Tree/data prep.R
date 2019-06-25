@@ -20,6 +20,11 @@ df[which(df$id %in% names), "sex"] <- 1
 names <- rownames(sex[which(sex$Gender %in% "F"),])
 df[which(df$id %in% names), "sex"] <- 2
 
+#possible mistake in phenotype table indivduals correlate however they do not appear to have same sex 
 sub <- expressed.genes[,which(colnames(expressed.genes) %in% c("L6_TTAGGC", "L3_ACTTGA"))]
 sub.xist <- sub[grep("^XIST", rownames(sub)), ]
+sub.USP9Y <- sub[grep("^USP9Y", rownames(sub)),]
+sub.UTY <- sub[grep("^UTY", rownames(sub)),]
+sub.RPS4Y1 <- sub[grep("^RPS4Y1", rownames(sub)),]
 
+cor(na.omit(sub), method = "spearman")
