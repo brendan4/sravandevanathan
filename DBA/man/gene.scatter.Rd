@@ -10,3 +10,6 @@ gene.scatter(data.set, x.sample, y.sample, pheno.table = NULL,
 \description{
 Plot sample vs sample
 }
+\details{
+gene.scatter(expressed.genes, "L6_TTAGGC", "L3_ACTTGA", pheno.table = full.pheno.table, names.col = 1)
+}
