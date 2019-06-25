@@ -70,15 +70,22 @@ Heatmap(scores,
                                                  show_legend=TRUE),
         top_annotation = HeatmapAnnotation(type = full.pheno.table[,c(3)],
                                               which = "column",
-                                              show_legend=TRUE)) # number of clusters you want
+                                              show_legend=TRUE))
 graphics.off()
 
+#annotation setup
 data("full.pheno.table")
-pheno <- full.pheno.table[,c(2,1)]
-rownames(pheno) <- pheno[,2]
-pheno[,2] <- full.pheno.table[,3]
+pheno.table <- full.pheno.table[,c(2,1)]
+rownames(pheno.table) <- pheno.table[,2]
+pheno.table[,2] <- full.pheno.table[,3]
+colnames(pheno.table) <- c("Pheno", "Replicates")
 
-cor.plots(scores, method = "pearson", annotation = pheno)
+# Specify colors for annnotation 
+Pheno = c("red", "yellow", "grey", "black")
+names(Pheno) = c("SS", "S", "C", "W")
+ann_colors = list(Pheno = Pheno)
+
+cor.plots(scores, method = "spearman", annotation = pheno.table, colors = ann_colors)
 
 #results from web software
 setwd("C:\\Users\\brendan\\Documents\\sravandevanathan\\analysis\\Brendan\\Cellular Heterogentiy\\xCell\\Web Outout")
