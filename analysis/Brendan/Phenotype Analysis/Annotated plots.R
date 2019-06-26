@@ -67,3 +67,6 @@ PCA(simple.names, pheno = pheno, label.size = 4, pca.dim = c(1,2), scaled = FALS
 #mystery samples: found in all three lanes but not in the excel 
 "L3_TTAGGC" %in% colnames(expressed.genes)
 grep("TTAGGC", colnames(expressed.genes), value = T)
+
+#### PCA with pheno data only 
+PCA(expressed.genes, pheno = pheno, label.size = 3)
