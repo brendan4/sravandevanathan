@@ -1,3 +1,5 @@
+library(RColorBrewer)
+
 #annotation setup
 data("full.pheno.table")
 pheno.table <- full.pheno.table[,c(2,1)]
@@ -10,7 +12,6 @@ Pheno = c("red", "yellow", "grey", "black")
 names(Pheno) = c("SS", "S", "C", "W")
 
 # Specify colors for annnotation: Replicates
-library(RColorBrewer)
 qual_col_pals = brewer.pal.info[brewer.pal.info$category == 'qual',]
 col_vector = unlist(mapply(brewer.pal, qual_col_pals$maxcolors, rownames(qual_col_pals)))
 Reps = c(col=sample(col_vector, 16))

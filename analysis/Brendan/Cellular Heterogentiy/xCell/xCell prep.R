@@ -1,15 +1,18 @@
 # ONE TIME INSTALL 
-devtools::install_github('dviraran/xCell')
+devtools::install_github('dviraran/xCell',force = TRUE)
 
 #results from R package 
 library(xCell)
+library(RColorBrewer)
+
 #must remove unique genes names to match signature file
 test <- pretty.gene.name(na.omit(expressed.genes), remove.dups = TRUE, as.row.names = TRUE)
+
 # run x.celll with all genes in sig file 
 R.results <- xCellAnalysis(test)
 
 # run the test with fitlered sig file
-x.cell.whole.blood <- function(date.set){
+x.cell.whole.blood <- function(data.set){
   raw.scores = rawEnrichmentAnalysis(as.matrix(data.set),
                                      xCell.data$signatures,
                                      xCell.data$genes)
@@ -81,14 +84,20 @@ rownames(pheno.table) <- pheno.table[,2]
 pheno.table[,2] <- full.pheno.table[,3]
 colnames(pheno.table) <- c("Pheno", "Replicates")
 
-# Specify colors for annnotation 
+# Specify colors for annnotation: Phenotype
 Pheno = c("red", "yellow", "grey", "black")
 names(Pheno) = c("SS", "S", "C", "W")
-ann_colors = list(Pheno = Pheno)
+
+# Specify colors for annnotation: Replicates
+qual_col_pals = brewer.pal.info[brewer.pal.info$category == 'qual',]
+col_vector = unlist(mapply(brewer.pal, qual_col_pals$maxcolors, rownames(qual_col_pals)))
+Reps = c(col=sample(col_vector, 16))
+names(Reps) = full.pheno.table[!(duplicated(full.pheno.table$Replicates)), "Replicates"]
+
+# preping data
+ann_colors = list(Pheno = Pheno, Replicates = Reps)
 
 cor.plots(scores, method = "spearman", annotation = pheno.table, colors = ann_colors)
-
-
 
 
 #results from web software
