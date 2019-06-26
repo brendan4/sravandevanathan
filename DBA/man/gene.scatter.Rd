@@ -6,7 +6,8 @@
 \usage{
 gene.scatter(data.set, x.sample, y.sample, pheno.table = NULL,
   names.col = NULL, text.transparency = 0.5,
-  point.transparency = 0.1, min.cutoff = log(0.101), diff.cutoff = 2)
+  point.transparency = 0.1, min.cutoff = log(0.101), diff.cutoff = 2,
+  drop.dup.text = FALSE)
 }
 \description{
 Plot sample vs sample
