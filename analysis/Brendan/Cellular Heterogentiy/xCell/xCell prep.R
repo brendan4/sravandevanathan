@@ -44,7 +44,8 @@ x.cell.whole.blood <- function(date.set){
 scores <- x.cell.whole.blood(test)
 write.csv(scores, "xCell.csv")
 
-#Generation of heatmaps
+#Heatmaps 
+
 hc <- hclust(as.dist(1-cor(t(na.omit(scores)))))
 heatmap(na.omit(scores), Rowv=as.dendrogram(hc))
 heatmap(na.omit(scores))
@@ -86,6 +87,9 @@ names(Pheno) = c("SS", "S", "C", "W")
 ann_colors = list(Pheno = Pheno)
 
 cor.plots(scores, method = "spearman", annotation = pheno.table, colors = ann_colors)
+
+
+
 
 #results from web software
 setwd("C:\\Users\\brendan\\Documents\\sravandevanathan\\analysis\\Brendan\\Cellular Heterogentiy\\xCell\\Web Outout")
