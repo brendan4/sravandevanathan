@@ -6,7 +6,7 @@
 
 gene.scatter <- function (data.set, x.sample, y.sample, 
                           pheno.table = NULL, names.col = NULL, 
-                          named.transparency = .5, point.transparency = .1,
+                          text.transparency = .5, point.transparency = .1,
                           min.cutoff = -2, diff.cutoff = 2){
   data.set <- log(na.omit(data.set)+0.1)
   X = data.set[,x.sample]
@@ -40,10 +40,10 @@ gene.scatter <- function (data.set, x.sample, y.sample,
     geom_text(data = subdata, 
               aes(x = subdata[,x.sample],
                   y = subdata[,y.sample], 
-                  label = row.names(subdata), 
-                  alpha = named.transparency),
+                  label = row.names(subdata)),
               show.legend = FALSE,
-              position = "jitter")
+              position = "jitter", 
+              alpha = text.transparency)
               
 }
 
