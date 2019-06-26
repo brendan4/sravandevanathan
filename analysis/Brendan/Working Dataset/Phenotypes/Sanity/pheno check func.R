@@ -89,7 +89,7 @@ validation <- function(full.pheno, data.set){
 
 lost.samples<- validation(full.pheno, expressed.genes)  
 
-#L3_ATCACG throw out 
+#L3_ATCACG thrown out 
 lost.samples[which(lost.samples %in% colnames(expressed.genesN))]
 lost.samples <- lost.samples[-which(lost.samples %in% colnames(expressed.genesN))]
 
@@ -107,3 +107,4 @@ lost.samples[which(paste("FPKM",lost.samples) %in% colnames(raw_data))]
 
 
 #L6_ACAGTC remains unaccounted for 
+##UPDATE: L6_ACAGTG is file - it was mispelled
