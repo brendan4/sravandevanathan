@@ -5,11 +5,9 @@
 \title{Plot sample vs sample}
 \usage{
 gene.scatter(data.set, x.sample, y.sample, pheno.table = NULL,
-  names.col = NULL)
+  names.col = NULL, named.transparency = 0.5,
+  point.transparency = 0.1, min.cutoff = -2, diff.cutoff = 2)
 }
 \description{
 Plot sample vs sample
-}
-\details{
-gene.scatter(expressed.genes, "L6_TTAGGC", "L3_ACTTGA", pheno.table = full.pheno.table, names.col = 1)
 }

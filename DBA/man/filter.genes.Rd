@@ -4,7 +4,8 @@
 \alias{filter.genes}
 \title{Filter genes}
 \usage{
-filter.genes(data.table, gene.list, by.rownames = TRUE, col = NULL)
+\method{filter}{genes}(data.table, gene.list, by.rownames = TRUE,
+  col = NULL)
 }
 \arguments{
 \item{data.table}{Data.frame with gene names}
