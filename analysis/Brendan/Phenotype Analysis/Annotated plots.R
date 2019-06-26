@@ -21,4 +21,8 @@ names(Reps) = full.pheno.table[!(duplicated(full.pheno.table$Replicates)), "Repl
 ann_colors = list(Pheno = Pheno, Replicates = Reps)
 
 #heatmap corr between samples
-cor.plots(expressed.genes, method = "spearman", annotation = pheno.table, colors = ann_colors)
+
+cor.plots(expressed.genes, 
+          method = "spearman", 
+          annotation = pheno.table, 
+          colors = ann_colors)
