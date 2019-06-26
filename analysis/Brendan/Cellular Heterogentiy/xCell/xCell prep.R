@@ -97,7 +97,10 @@ names(Reps) = full.pheno.table[!(duplicated(full.pheno.table$Replicates)), "Repl
 # preping data
 ann_colors = list(Pheno = Pheno, Replicates = Reps)
 
-cor.plots(scores, method = "spearman", annotation = pheno.table, colors = ann_colors)
+cor.plots(scores, 
+          method = "spearman", 
+          annotation = pheno.table, 
+          colors = ann_colors)
 
 
 #results from web software

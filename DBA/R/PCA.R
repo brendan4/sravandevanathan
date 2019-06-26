@@ -34,10 +34,12 @@ PCA <- function(dataset, scaled = FALSE,
           ggtitle("PCA: Expressed Genes"))
   }else {
     #ggplot of PCA data
-    print(ggplot(data = genes.PCA.data, aes(x = x, y = y, color = pheno$pheno, label = Sample))+
-            geom_text(size = label.size)+
+    colors <- c("green", "orange", "red", "blue")
+    names(colors) <- c(pheno$pheno[!duplicated(pheno$pheno)])
+    print(ggplot(data = genes.PCA.data, aes(x = x, y = y, label = Sample))+
+            geom_text(size = label.size, aes(color = pheno$pheno))+
             scale_color_manual(breaks = c("8", "6", "4", "2"),
-                               values=c("green", "orange", "red", "blue")) +
+                               values=colors) +
             xlab(paste("PC1 - ", genes.PCA.var.per[pca.dim[1]], "%", sep = ""))+
             ylab(paste("PC2 - ", genes.PCA.var.per[pca.dim[2]], "%", sep = ""))+
             ggtitle("PCA: Expressed Genes"))
