@@ -13,13 +13,19 @@ bg = ballgown(samples = samples.list, meas='FPKM') # generation of a ballgown ob
 bg_filt = subset(bg,"rowVars(texpr(bg)) >
                  1",genomesubset=TRUE)
 
+#filter means
+over1 = exprfilter(bg, cutoff=20) 
+
 full.pheno.table <- full.pheno.table[which(full.pheno.table$`colnames(expressed.genes)` %in% sampleNames(bg_filt)),]
 pheno.basic <- pheno.basic[(pheno.basic$`colnames(expressed.genes)` %in% sampleNames(bg_filt)),]
 
-pData(bg_filt) = data.frame(id = sampleNames(bg_filt), 
-                            pheno = pheno.basic$pheno, 
+full.pheno.table[which(full.pheno.table$pheno == "S"),"pheno"] <- "SS"
+
+pData(over1) = data.frame(id = sampleNames(over1), 
+                            pheno = full.pheno.table$pheno, 
                             replicates = full.pheno.table$Replicates)
 pData(bg_filt)
 
-gene.results = stattest(bg_filt, feature="gene", covariate="pheno", meas="FPKM", adjustvars = c("replicates"))
+
+gene.results = stattest(over1, feature="gene", covariate="pheno", meas="FPKM", adjustvars = c("replicates"))
 gene.results.filt <- diff.genes.cleanup(gene.results, bg_filt, subset = TRUE )

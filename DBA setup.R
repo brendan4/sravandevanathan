@@ -10,7 +10,6 @@ install("DBA")
 setwd("C:/Users/brendan/Documents/sravandevanathan/DBA")
 document()
 
-
 # listing properties pf package 
 lsf.str("package:DBA")
 
