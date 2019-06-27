@@ -37,9 +37,11 @@ for(i in 1:length(individuals)){
   }
 }
 
-# least cor between samples
-cor.data[[5]]
-names(cor.data)[5]
+
+all.cor <- cor(na.omit(expressed.genes), method = "spearman")
+all.cor[which(all.cor == 1)] <- NA
+mean.data[length(mean.data)+1,] <- mean(all.cor, na.rm = TRUE)
+mean.data[which(mean.data$mean == mean(all.cor,na.rm = TRUE)), "names"] <- "All Samples"
 
 ggplot(data = mean.data, aes(x=as.factor(names), y = mean, label = names)) + 
   geom_text()
