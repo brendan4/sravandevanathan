@@ -106,4 +106,7 @@ df[which(df$id %in% "III.fourteen"), "momid"] <- "II.eight"
 df[which(df$id %in% "IV.five"), "dadid"] <- NA
 df[which(df$id %in% "IV.five"), "momid"] <- "III.two"
 
+
+# adding
+
 pedigree(id = df$id, dadid = df$dadid, momid = df$momid, sex = as.numeric(df$sex))
