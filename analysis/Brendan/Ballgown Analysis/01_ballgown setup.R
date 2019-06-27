@@ -5,6 +5,7 @@ gene.info <- t_data[c(9,10)]# where gene.info is subseted from
 
 setwd("C:\\Users\\brendan\\Documents\\sravandevanathan\\ballgown") #folder with all the files
 samples.list <- list.files(path =".") # generate sample list: *** all samples included  
+
 samples.list <- colnames(expressed.genes) # filtered out troublesome cols 
 
 
