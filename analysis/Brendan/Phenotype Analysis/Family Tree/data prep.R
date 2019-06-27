@@ -35,3 +35,75 @@ cor(na.omit(sub), method = "spearman")
 #dropping L6_TTAGGC and L3_TTAGGC
 df <- df[-which(df$id %in% c("L6_TTAGGC")),]
 df <- df[-which(df$person  == 0), ]
+
+
+#collapse individuals
+
+df <- df[!duplicated(df$person),]
+df$id <- df$person
+df <- df[, - which(colnames(df) %in% c("person"))]
+
+#manually entering data
+
+df[which(df$id %in% "I.one"), "dadid"] <- NA
+df[which(df$id %in% "I.one"), "momid"] <- NA
+
+# I.one kids
+df[which(df$id %in% "II.six"), "dadid"] <- "I.one"
+df[which(df$id %in% "II.six"), "momid"] <- NA
+
+df[which(df$id %in% "II.seven"), "dadid"] <- "I.one"
+df[which(df$id %in% "II.seven"), "momid"] <- NA
+
+df[which(df$id %in% "II.eight"), "dadid"] <- "I.one"
+df[which(df$id %in% "II.eight"), "momid"] <- NA
+
+# entering  II.one to the table ( not in phenotype data)
+df[length(df)+1,] <- "II.one"
+df$famid <- 1
+df[which(df$id %in% "II.one"), "sex"] <- 2
+
+df[which(df$id %in% "II.one"), "dadid"] <- "I.one"
+df[which(df$id %in% "II.one"), "momid"] <- NA
+
+#entering third level
+
+#II.one children
+df[which(df$id %in% "III.one"), "dadid"] <- NA
+df[which(df$id %in% "III.one"), "momid"] <- "II.one"
+
+df[which(df$id %in% "III.two"), "dadid"] <- NA
+df[which(df$id %in% "III.two"), "momid"] <- "II.one"
+
+df[which(df$id %in% "III.three"), "dadid"] <- NA
+df[which(df$id %in% "III.three"), "momid"] <- "II.one"
+
+df[which(df$id %in% "III.four"), "dadid"] <- NA
+df[which(df$id %in% "III.four"), "momid"] <- "II.one"
+
+df[which(df$id %in% "III.five"), "dadid"] <- NA
+df[which(df$id %in% "III.five"), "momid"] <- "II.one"
+
+df[which(df$id %in% "III.six"), "dadid"] <- NA
+df[which(df$id %in% "III.six"), "momid"] <- "II.one"
+
+#II.8 children
+
+df[which(df$id %in% "III.eleven"), "dadid"] <- NA
+df[which(df$id %in% "III.eleven"), "momid"] <- "II.eight"
+
+df[which(df$id %in% "III.twelve"), "dadid"] <- NA
+df[which(df$id %in% "III.twelve"), "momid"] <- "II.eight"
+
+df[which(df$id %in% "III.thirteen"), "dadid"] <- NA
+df[which(df$id %in% "III.thirteen"), "momid"] <- "II.eight"
+
+df[which(df$id %in% "III.fourteen"), "dadid"] <- NA
+df[which(df$id %in% "III.fourteen"), "momid"] <- "II.eight"
+
+# IV.five
+
+df[which(df$id %in% "IV.five"), "dadid"] <- NA
+df[which(df$id %in% "IV.five"), "momid"] <- "III.two"
+
+pedigree(id = df$id, dadid = df$dadid, momid = df$momid, sex = as.numeric(df$sex))
