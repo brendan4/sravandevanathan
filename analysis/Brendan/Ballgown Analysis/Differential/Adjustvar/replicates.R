@@ -8,6 +8,7 @@ samples.list <- test
 
 setwd("C:\\Users\\brendan\\Documents\\sravandevanathan\\ballgown") #folder with all the files
 bg = ballgown(samples = samples.list, meas='FPKM') # generation of a ballgown object 
+
 #filter out low expressed
 bg_filt = subset(bg,"rowVars(texpr(bg)) >
                  1",genomesubset=TRUE)
