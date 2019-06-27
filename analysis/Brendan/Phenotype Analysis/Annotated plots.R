@@ -64,7 +64,7 @@ simple.names <- simple[[1]]
 #PCA 
 PCA(simple.names, pheno = pheno, label.size = 4, pca.dim = c(1,2), scaled = FALSE)
 
-#mystery samples: found in all three lanes but not in the excel 
+#mystery samples: found in all three lanes but not in pheno excel 
 "L3_TTAGGC" %in% colnames(expressed.genes)
 grep("TTAGGC", colnames(expressed.genes), value = T)
 

@@ -4,8 +4,7 @@
 \alias{filter.out.genes}
 \title{Filter out genes}
 \usage{
-\method{filter}{out.genes}(data.table, gene.list, by.rownames = TRUE,
-  col = NULL)
+filter.out.genes(data.table, gene.list, by.rownames = TRUE, col = NULL)
 }
 \arguments{
 \item{data.table}{Data.frame with rownames as genes.}

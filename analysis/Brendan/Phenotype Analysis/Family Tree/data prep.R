@@ -21,9 +21,17 @@ df[which(df$id %in% names), "sex"] <- 1
 names <- rownames(sex[which(sex$Gender %in% "F"),])
 df[which(df$id %in% names), "sex"] <- 2
 
-#possible mistake in phenotype table indivduals correlate however they do not appear to have same sex 
+#SKIP: possible mistake in phenotype table indivduals correlate however they do not appear to have same sex 
 sub <- expressed.genes[,which(colnames(expressed.genes) %in% c("L6_TTAGGC", "L3_ACTTGA"))]
 sex.genes <- c("XIST", "USP9Y", "UTY", "RPS4Y1", "TSIX", "PRKY", 'DDX3Y', 'RPS4Y1')
 sub.filt <- filter.genes(sub, sex.genes)
+sub.hem <- filter.genes(sub,"hb")
+setwd("C:/Users/brendan/Documents/sravandevanathan/analysis/Brendan/Working Dataset/02_Filtered Data")
+filt.names <- read.delim("sex_related.tab", sep= "")
+sub.filt <- filter.genes(sub, filt.names$geneNames)
 
 cor(na.omit(sub), method = "spearman")
+
+#dropping L6_TTAGGC and L3_TTAGGC
+df <- df[-which(df$id %in% c("L6_TTAGGC")),]
+df <- df[-which(df$person  == 0), ]
