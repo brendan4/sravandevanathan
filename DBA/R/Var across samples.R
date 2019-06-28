@@ -20,7 +20,7 @@
 #' filtered.data <- Var.samples(expressed.genes, gene.list = c("RPL11"))
 #' filtered.data <- Var.samples(expressed.genes, gene.list = c("RPL11"), pretty.names = TRUE, graph = TRUE)
 
-Var.samples <- function(data.set, gene.list ,graph = FALSE, pretty.names = FALSE, func = log2, zero = 0.01){
+var.samples <- function(data.set, gene.list ,graph = FALSE, pretty.names = FALSE, func = log2, zero = 0.01){
   
   filt.data <- filter.genes(data.set, gene.list = gene.list)
   filt.data$var <- apply(func(filt.data + zero),1, var)
