@@ -19,6 +19,7 @@ cor.data <- list()
 mean.data <- data.frame(mean = 0, names = 0)
 sub.counter <- 0 
 
+# corr between all repticates 
 for(i in 1:length(individuals)){
   print(individuals[i])
   sub <- full.pheno.table[which(full.pheno.table$Replicates == individuals[i]),]
