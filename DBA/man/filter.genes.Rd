@@ -4,7 +4,8 @@
 \alias{filter.genes}
 \title{Filter genes}
 \usage{
-filter.genes(data.table, gene.list, by.rownames = TRUE, col = NULL)
+filter.genes(data.table, gene.list, by.rownames = TRUE, col = NULL,
+  lazy = TRUE)
 }
 \arguments{
 \item{data.table}{Data.frame with gene names}
@@ -14,6 +15,8 @@ filter.genes(data.table, gene.list, by.rownames = TRUE, col = NULL)
 \item{by.rownames}{default filters by row names of the data.table. If false must provide col index.}
 
 \item{col}{Index of column postion if rownames are not to be used. Must provide col index if by.row is false}
+
+\item{lazy}{Should function filter by pretty gene names. Works only with rownames}
 }
 \value{
 Returns a new data frame with only genes matching to genes.list. 
