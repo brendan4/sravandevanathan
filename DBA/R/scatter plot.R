@@ -8,7 +8,7 @@ gene.scatter <- function (data.set, x.sample, y.sample,
                           pheno.table = NULL, names.col = NULL, 
                           text.transparency = .5, point.transparency = .1,
                           min.cutoff = log(.101), diff.cutoff = 2,
-                          drop.dup.text = FALSE){
+                          drop.dup.text = FALSE, return.gene = FALSE){
   #data prep
   data.set <- log(na.omit(data.set)+0.1)
   X = data.set[,x.sample]
@@ -42,7 +42,7 @@ gene.scatter <- function (data.set, x.sample, y.sample,
   }
   
   #ggplots data
-  ggplot(data.set, aes(x = X, y = Y)) + 
+  print(ggplot(data.set, aes(x = X, y = Y)) + 
     geom_point(shape = 1, alpha = point.transparency) +
     theme_minimal() +
     xlab(x.sample) +
@@ -63,8 +63,10 @@ gene.scatter <- function (data.set, x.sample, y.sample,
                   label = row.names(subdata)),
               show.legend = FALSE,
               position = "jitter", 
-              alpha = text.transparency)
-              
+              alpha = text.transparency))
+  if(return.gene == TRUE){
+    return(subdata)
+  }
 }
 
 
