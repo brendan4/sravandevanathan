@@ -1,5 +1,5 @@
 library(openxlsx)
-setwd("C:/Users/brendan/Documents/sravandevanathan/analysis/Brendan/Cellular Heterogenity/xCell")
+setwd("C:/Users/brendan/Documents/sravandevanathan/analysis/Brendan/Cellular Heterogenity/xCell/Sanity/Datasets")
 xCell.genesig <- read.xlsx("xCell gene signatures.xlsx")
 
 
@@ -109,7 +109,7 @@ sig.all.genes <- sig.all.genes[-which(duplicated(sig.all.genes$gene)),]
 # are any genes in sig.all not found in GTEX data?
 sum(!which(sig.all.genes$gene %in% GTEX$Description))
 
-# plotting og GTEX data subseted my sig.all.genes
+# plotting GTEX data subseted my sig.all.genes
 GTEX.sub <- GTEX[which(GTEX$Description %in% sig.all.genes$gene),]
 GTEX.sub$`Whole Blood` <- log(GTEX.sub$`Whole Blood`+0.001)
 point.labels <- GTEX.sub[which(GTEX.sub$`Whole Blood` > log(0.1)), ]
@@ -121,39 +121,14 @@ ggplot(data = GTEX.sub, aes(x = GTEX.sub$Description, y = GTEX.sub$`Whole Blood`
   xlab("Gene")+
   ylab("ln(TPM)")+
   geom_point(alpha = .4)+
-  geom_point(data = point.labels, shape=23, fill="red",
+  geom_point(data = point.labels, shape=23,
              aes(x = point.labels$Description, 
-                                     y = point.labels$`Whole Blood`))+ 
+                                     y = point.labels$`Whole Blood`, colour = ))+ 
   annotate("text", x = 500, y = 8, label= paste(nrow(point.labels),": above 0.1 TPM")) + 
   annotate("text", x = 500, y= -5.5, label = paste((nrow(GTEX.sub) - nrow(point.labels)),": below 0.1 TPM"))
 
 
-plot <- ggplot(data = GTEX.sub, aes(x = GTEX.sub$Description, y = GTEX.sub$`Whole Blood`)) +
-  theme(axis.text.x = element_blank(),
-        axis.ticks.x = element_blank())+
-  xlab("Gene")+
-  ylab("ln(TPM)")+
-  geom_point(alpha = .4)
 
-colors <- c("red", "blue", "Yellow", "greenyellow", "green", "darkred", "dodgerblue")
-counter <- 0 
-cell.list <- list()
-for(cell.type in whole.blood){
-  counter <- counter + 1
-  cell.specific <- sig.all.genes[grep(cell.type, sig.all.genes$celltype),]
-  print(cell.type)
-  cell.specific <- GTEX.sub[which(GTEX.sub$Description %in% cell.specific$gene), ]
-  point.labels <- cell.specific[which(cell.specific$`Whole Blood` > log(0.1)), ]
-  assign(cell.type, point.labels)
-  print(B-cells)
-  print(paste(cell.type,".data", sep = ""))
-  cell.list[[counter]] <- cell.type
-  plot <- plot + geom_point(data = cell.type, shape=23, fill = colors[counter],
-                            aes(x = cell.type$Description, 
-                                y = cell.type$`Whole Blood`))
-}
-
-plot
 
 # ploting all genes all cell types 
 filt.genesig <- xCell.genesig
@@ -194,4 +169,37 @@ ggplot(data = GTEX.sub, aes(x = GTEX.sub$Description, y = GTEX.sub$`Whole Blood`
                  y = point.labels$`Whole Blood`))+ 
   annotate("text", x = 2500, y = 8, label= paste(nrow(point.labels),": above 0.1 TPM")) + 
   annotate("text", x = 2500, y= -5.5, label = paste((nrow(GTEX.sub) - nrow(point.labels)),": below 0.1 TPM"))
+
+
+
+
+####### WORKS: but a big wate of time
+plot <- ggplot(data = GTEX.sub, aes(x = GTEX.sub$Description, y = GTEX.sub$`Whole Blood`)) +
+  theme(axis.text.x = element_blank(),
+        axis.ticks.x = element_blank())+
+  xlab("Gene")+
+  ylab("ln(TPM)")+
+  geom_point(alpha = .4)
+
+colors <- c("red", "blue", "Yellow", "greenyellow", "green", "darkred", "dodgerblue")
+counter <- 0 
+cell.list <- list()
+
+for(cell.type in whole.blood){
+  
+  counter <- counter + 1
+  cell.specific <- sig.all.genes[grep(cell.type, sig.all.genes$celltype),]
+  print(cell.type)
+  cell.specific <- GTEX.sub[which(GTEX.sub$Description %in% cell.specific$gene), ]
+  point.labels <- cell.specific[which(cell.specific$`Whole Blood` > log(0.1)), ]
+  cell.list[[counter]] <- point.labels
+  names(cell.list)[[counter]] <- cell.type
+  plot <- plot + geom_point(data = cell.list[[counter]], shape=23, fill = colors[counter],
+                            aes(x = Description, 
+                                y = `Whole Blood`))
+  
+}
+
+plot
+###
 
