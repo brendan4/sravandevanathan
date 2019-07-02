@@ -121,12 +121,11 @@ ggplot(data = GTEX.sub, aes(x = GTEX.sub$Description, y = GTEX.sub$`Whole Blood`
   xlab("Gene")+
   ylab("ln(TPM)")+
   geom_point(alpha = .4)+
-  geom_point(data = point.labels, shape=23,
+  geom_point(data = point.labels, shape=23, fill="red",
              aes(x = point.labels$Description, 
-                                     y = point.labels$`Whole Blood`, colour = ))+ 
+                                     y = point.labels$`Whole Blood`))+ 
   annotate("text", x = 500, y = 8, label= paste(nrow(point.labels),": above 0.1 TPM")) + 
   annotate("text", x = 500, y= -5.5, label = paste((nrow(GTEX.sub) - nrow(point.labels)),": below 0.1 TPM"))
-
 
 
 
@@ -169,7 +168,6 @@ ggplot(data = GTEX.sub, aes(x = GTEX.sub$Description, y = GTEX.sub$`Whole Blood`
                  y = point.labels$`Whole Blood`))+ 
   annotate("text", x = 2500, y = 8, label= paste(nrow(point.labels),": above 0.1 TPM")) + 
   annotate("text", x = 2500, y= -5.5, label = paste((nrow(GTEX.sub) - nrow(point.labels)),": below 0.1 TPM"))
-
 
 
 
