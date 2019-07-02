@@ -102,10 +102,17 @@ for(row in 1:nrow(filt.genesig)){
   }
 }
 
+#duplicated handling
+sum(duplicated(sig.all.genes$gene))
+sig.all.genes <- sig.all.genes[-which(duplicated(sig.all.genes$gene)),]
+
+# are any genes in sig.all not found in GTEX data?
+sum(!which(sig.all.genes$gene %in% GTEX$Description))
+
+# plotting og GTEX data subseted my sig.all.genes
 GTEX.sub <- GTEX[which(GTEX$Description %in% sig.all.genes$gene),]
 GTEX.sub$`Whole Blood` <- log(GTEX.sub$`Whole Blood`+0.001)
-point.labels <- GTEX.sub[which(GTEX.sub$`Whole Blood` > log(.1)), ]
-
+point.labels <- GTEX.sub[which(GTEX.sub$`Whole Blood` > log(0.1)), ]
 
 #plotting gene names 
 ggplot(data = GTEX.sub, aes(x = GTEX.sub$Description, y = GTEX.sub$`Whole Blood`)) +
