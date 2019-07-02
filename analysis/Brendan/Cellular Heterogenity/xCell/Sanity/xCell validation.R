@@ -128,6 +128,33 @@ ggplot(data = GTEX.sub, aes(x = GTEX.sub$Description, y = GTEX.sub$`Whole Blood`
   annotate("text", x = 500, y= -5.5, label = paste((nrow(GTEX.sub) - nrow(point.labels)),": below 0.1 TPM"))
 
 
+plot <- ggplot(data = GTEX.sub, aes(x = GTEX.sub$Description, y = GTEX.sub$`Whole Blood`)) +
+  theme(axis.text.x = element_blank(),
+        axis.ticks.x = element_blank())+
+  xlab("Gene")+
+  ylab("ln(TPM)")+
+  geom_point(alpha = .4)
+
+colors <- c("red", "blue", "Yellow", "greenyellow", "green", "darkred", "dodgerblue")
+counter <- 0 
+cell.list <- list()
+for(cell.type in whole.blood){
+  counter <- counter + 1
+  cell.specific <- sig.all.genes[grep(cell.type, sig.all.genes$celltype),]
+  print(cell.type)
+  cell.specific <- GTEX.sub[which(GTEX.sub$Description %in% cell.specific$gene), ]
+  point.labels <- cell.specific[which(cell.specific$`Whole Blood` > log(0.1)), ]
+  assign(cell.type, point.labels)
+  print(B-cells)
+  print(paste(cell.type,".data", sep = ""))
+  cell.list[[counter]] <- cell.type
+  plot <- plot + geom_point(data = cell.type, shape=23, fill = colors[counter],
+                            aes(x = cell.type$Description, 
+                                y = cell.type$`Whole Blood`))
+}
+
+plot
+
 # ploting all genes all cell types 
 filt.genesig <- xCell.genesig
 
