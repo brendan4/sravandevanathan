@@ -105,16 +105,20 @@ for(row in 1:nrow(filt.genesig)){
 #duplicated handling
 sum(duplicated(sig.all.genes$gene))
 sig.all.genes <- sig.all.genes[-which(duplicated(sig.all.genes$gene)),]
+GTEX.sub <- GTEX[which(GTEX$Description %in% sig.all.genes$gene),]
 
 # are any genes in sig.all not found in GTEX data?
-sum(!which(sig.all.genes$gene %in% GTEX$Description))
+sum(!(sig.all.genes$gene %in% GTEX.sub$Description))
+sig.all.genes[which(!(sig.all.genes$gene %in% GTEX.sub$Description)),]
+sig.all.genes <- sig.all.genes[which(sig.all.genes$gene %in% GTEX.sub$Description),]
 
 # plotting GTEX data subseted my sig.all.genes
-GTEX.sub <- GTEX[which(GTEX$Description %in% sig.all.genes$gene),]
+GTEX.sub$Celltype <- sig.all.genes$celltype[match(GTEX.sub$Description, sig.all.genes$gene)]
 GTEX.sub$`Whole Blood` <- log(GTEX.sub$`Whole Blood`+0.001)
 point.labels <- GTEX.sub[which(GTEX.sub$`Whole Blood` > log(0.1)), ]
 
-#plotting gene names 
+
+#plotting of data: red dot and treshhold
 ggplot(data = GTEX.sub, aes(x = GTEX.sub$Description, y = GTEX.sub$`Whole Blood`)) +
   theme(axis.text.x = element_blank(),
         axis.ticks.x = element_blank())+
@@ -127,7 +131,18 @@ ggplot(data = GTEX.sub, aes(x = GTEX.sub$Description, y = GTEX.sub$`Whole Blood`
   annotate("text", x = 500, y = 8, label= paste(nrow(point.labels),": above 0.1 TPM")) + 
   annotate("text", x = 500, y= -5.5, label = paste((nrow(GTEX.sub) - nrow(point.labels)),": below 0.1 TPM"))
 
-
+#OPTIONAL second plot with cell type data
+ggplot(data = GTEX.sub, aes(x = GTEX.sub$Description, y = GTEX.sub$`Whole Blood`)) +
+  theme(axis.text.x = element_blank(),
+        axis.ticks.x = element_blank())+
+  xlab("Gene")+
+  ylab("ln(TPM)")+
+  geom_point(alpha = .4)+
+  geom_point(data = point.labels, shape=23,
+             aes(x = point.labels$Description, 
+                 y = point.labels$`Whole Blood`, colour = point.labels$Celltype))+ 
+  annotate("text", x = 500, y = 8, label= paste(nrow(point.labels),": above 0.1 TPM")) + 
+  annotate("text", x = 500, y= -5.5, label = paste((nrow(GTEX.sub) - nrow(point.labels)),": below 0.1 TPM"))
 
 # ploting all genes all cell types 
 filt.genesig <- xCell.genesig
