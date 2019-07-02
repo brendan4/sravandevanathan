@@ -31,7 +31,7 @@ gene.sig.filt <- function(gene.sig, cell.types){
   return(filt.genesig)
 }
 
-filt.genesig <- gene.sig.filt(gene.sig = xCell.genesig, cell.types = whole.blood)
+filt.xCellgenesig <- gene.sig.filt(gene.sig = xCell.genesig, cell.types = whole.blood)
 
 ### for all cell types in the gene signature
 filt.xCell.genesig <- xCell.genesig
@@ -126,3 +126,45 @@ ggplot(data = GTEX.sub, aes(x = GTEX.sub$Description, y = GTEX.sub$`Whole Blood`
                                      y = point.labels$`Whole Blood`))+ 
   annotate("text", x = 500, y = 8, label= paste(nrow(point.labels),": above 0.1 TPM")) + 
   annotate("text", x = 500, y= -5.5, label = paste((nrow(GTEX.sub) - nrow(point.labels)),": below 0.1 TPM"))
+
+
+# ploting all genes all cell types 
+filt.genesig <- xCell.genesig
+
+for(row in 1:nrow(filt.genesig)){
+  num.genes <- filt.genesig[row,2]
+  genes <- filt.genesig[row, 3:(num.genes+2)]
+  
+  for(gene in 1:length(genes)){
+    gene.counter <- gene.counter + 1 
+    sig.all.genes[gene.counter,"gene"] <- filt.genesig[row, gene +2]
+    sig.all.genes[gene.counter, "celltype"] <- filt.genesig[row, 1]
+  }
+}
+
+#duplicated handling
+sum(duplicated(sig.all.genes$gene))
+sig.all.genes <- sig.all.genes[-which(duplicated(sig.all.genes$gene)),]
+
+# are any genes in sig.all not found in GTEX data?
+sum(!which(sig.all.genes$gene %in% GTEX$Description))
+
+# plotting og GTEX data subseted my sig.all.genes
+GTEX.sub <- GTEX[which(GTEX$Description %in% sig.all.genes$gene),]
+GTEX.sub$`Whole Blood` <- log(GTEX.sub$`Whole Blood`+0.001)
+point.labels <- GTEX.sub[which(GTEX.sub$`Whole Blood` > log(0.1)), ]
+
+#plotting gene names
+
+ggplot(data = GTEX.sub, aes(x = GTEX.sub$Description, y = GTEX.sub$`Whole Blood`)) +
+  theme(axis.text.x = element_blank(),
+        axis.ticks.x = element_blank())+
+  xlab("Gene")+
+  ylab("ln(TPM)")+
+  geom_point(alpha = .4)+
+  geom_point(data = point.labels, shape=23, fill="red",
+             aes(x = point.labels$Description, 
+                 y = point.labels$`Whole Blood`))+ 
+  annotate("text", x = 2500, y = 8, label= paste(nrow(point.labels),": above 0.1 TPM")) + 
+  annotate("text", x = 2500, y= -5.5, label = paste((nrow(GTEX.sub) - nrow(point.labels)),": below 0.1 TPM"))
+
