@@ -29,7 +29,7 @@ filter.genes <- function(data.table, gene.list, by.rownames = TRUE, col = NULL, 
   for (name in gene.list){
     # finds pattern 
     if(lazy == FALSE){
-      pattern = grep(paste("^", name, sep = ""), 
+      pattern = grep(paste("^", name, "$", sep = ""), 
                      data.table$pretty, 
                      ignore.case = TRUE, 
                      value = TRUE)

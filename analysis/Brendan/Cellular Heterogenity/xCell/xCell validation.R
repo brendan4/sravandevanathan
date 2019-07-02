@@ -4,20 +4,23 @@ setwd("C:/Users/brendan/Documents/sravandevanathan/analysis/Brendan/Cellular Het
 xCell.genesig <- read.xlsx("xCell gene signatures.xlsx")
 
 
-
+#create pretty names 
 test.gene <- rownames(pretty.gene.name(na.omit(expressed.genes), 
                                        as.row.names = TRUE, 
                                        remove.dups = TRUE))
 
-whole.blood <- c("B-cells", "Basophils", "CLP", "CMP","DC", "Eosinophils", 
-                 "Erythrocytes", "Macrophages", 'Neutrophils',"Plasma cells",
+#whole blood cell types
+whole.blood <- c("B-cells", "Basophils", "Eosinophils", 
+                 "Erythrocytes", 'Neutrophils',"Plasma cells",
                  'Platelets')
 
-#fitler of gene sig file based on whole blood compostion
+#subset of gene sig file based on whole blood compostion
 filt.xCell.genesig <- data.frame()
 corr.counter = 0 
+
 for(i in 1:length(whole.blood)){
   pattern = grep(paste("^",whole.blood[i], sep= ""), xCell.genesig$Celltype_Source_ID)
+  
   if (length(pattern) == 0 ){
     print(paste(whole.blood[i]), ": not found")
   } else {
@@ -26,9 +29,10 @@ for(i in 1:length(whole.blood)){
   filt.xCell.genesig <- rbind(filt.xCell.genesig, xCell.genesig[pattern, ]) 
 }
 
-# checking for lost genes: found in sig not in our data
+# checking for lost genes: found in sig not in our pretty data
 lost <- data.frame(gene = 0 , celltype = 0)
 lost.counter <- 0
+
 for(row in 1:nrow(filt.xCell.genesig)){
   print(paste("Checking celltype:", filt.xCell.genesig[row, 1]))
   
@@ -45,8 +49,11 @@ for(row in 1:nrow(filt.xCell.genesig)){
   }
 }
 
+# looking for gene in less filtered expressed.genes
+found <- filter.genes(expressed.genes,gene.list = lost$gene, lazy= FALSE)
+lost[grep("GPR85", lost$gene),]
 
-view <- filter.genes(expressed.genes,gene.list = lost$lost, lazy= FALSE)
-expressed.genes[grep("^P",expressed.genes)]
+# removing duplicates from the xCell lost table
 
-filter.genes(expressed.genes, "KPYR")
+
+
