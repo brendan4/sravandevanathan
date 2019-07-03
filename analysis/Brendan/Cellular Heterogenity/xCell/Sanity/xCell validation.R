@@ -233,11 +233,19 @@ plot
 ###
 
 # a look into erythrocytes
-Erythrocytes <- sig.all.genes[grep("Erythrocytes", sig.all.genes$celltype),]
 filt.genesig <- gene.sig.filt(gene.sig = xCell.genesig, cell.types = "Erythrocytes")
 sig.all.genes <- process.sig.file(filt.genesig)
 
+#duplicated handling
+sig.all.genes <- sig.all.genes[-which(duplicated(sig.all.genes$gene)),]
+sig.all.genes$celltype <- "Erythrocytes"
 
+#finding all genes in expressed.genes
+Erythrocytes <- filter.genes(na.omit(expressed.genes), gene.list = sig.all.genes$gene, lazy = FALSE)
+
+#sanity check 
+Erythrocytes$pretty %in% sig.all.genes$gene
+sig.all.genes$gene %in% Erythrocytes$pretty
 
 
 

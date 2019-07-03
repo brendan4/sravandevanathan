@@ -32,7 +32,7 @@ filter.genes <- function(data.table, gene.list, by.rownames = TRUE, col = NULL, 
       pattern = grep(paste("^", name, "$", sep = ""), 
                      data.table$pretty, 
                      ignore.case = TRUE, 
-                     value = TRUE)
+                     value = FALSE)
 
     }else if (by.rownames == TRUE){
       pattern = grep(paste("^", name, sep = ""), 
@@ -48,14 +48,15 @@ filter.genes <- function(data.table, gene.list, by.rownames = TRUE, col = NULL, 
                      ignore.case = TRUE,
                      Value = TRUE)
     }
-    # if pattern == 0 not found: reutrn message 
+    # if pattern == 0 not found: return message 
     if (length(pattern) == 0 ){
       print(paste(name,": failed to find match", sep = ""))
-      next
+      
     }else {
-    print(paste("^",name, sep= ""))# prints pattern used
-    match <- data.table[pattern,] #matches pattern to dataframe and index
-    filtered.data <- rbind(filtered.data, match) # merges to preivous 
+      print(paste("^",name, sep= ""))# prints pattern used
+      match <- data.table[pattern,] #matches pattern to dataframe and index
+      filtered.data <- rbind(filtered.data, match) # merges to preivous 
+   
     }
   }
   return(filtered.data)
