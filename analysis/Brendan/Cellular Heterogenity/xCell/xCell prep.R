@@ -130,8 +130,8 @@ raw.scores = raw.scores[,-1]
 raw.scores = t(raw.scores)
 
 #modify which cells types should be included for accuracy 
-whole.blood <- c("B-cells", "Basophils", "Eosinophils", 
-                 "Erythrocytes", 'Neutrophils',"Plasma cells",
+whole.blood <- c("B-cells", 
+                 "Erythrocytes", 'Neutrophils',
                  'Platelets')
 
 cell.types = rownames(raw.scores)
@@ -144,5 +144,5 @@ scores = spillOver(transformed.scores,xCell.data$spill$K)
 #s = y
 A = intersect(colnames(test),colnames(scores))
 scores = scores[,A]
-xCell.data$spill$K
+
 

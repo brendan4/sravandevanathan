@@ -75,7 +75,7 @@ GTEX <- GTEX[,which(colnames(GTEX) %in% c("Description","Whole Blood"))]
 GTEX.sub <- GTEX[which(GTEX$Description %in% lost.names$gene),]
 point.labels <- GTEX.sub[which(GTEX.sub$`Whole Blood` > .1), ]
 
-#plotting gene names 
+#plotting lost genes with names
 ggplot(data = GTEX.sub, aes(x = GTEX.sub$Description, y = GTEX.sub$`Whole Blood`)) +
   theme(axis.text.x = element_blank(),
         axis.ticks.x = element_blank())+
@@ -112,8 +112,14 @@ sum(!(sig.all.genes$gene %in% GTEX.sub$Description))
 sig.all.genes[which(!(sig.all.genes$gene %in% GTEX.sub$Description)),]
 sig.all.genes <- sig.all.genes[which(sig.all.genes$gene %in% GTEX.sub$Description),]
 
-# plotting GTEX data subseted my sig.all.genes
+# procesing cell type data 
 GTEX.sub$Celltype <- sig.all.genes$celltype[match(GTEX.sub$Description, sig.all.genes$gene)]
+for (celltype in whole.blood){
+  GTEX.sub[grep(celltype, GTEX.sub$Celltype),"Celltype"] <- celltype
+}
+GTEX.sub$Celltype <- factor(GTEX.sub$Celltype, levels = unique(as.character(GTEX.sub$Celltype)))
+
+# plotting GTEX data subseted my sig.all.genes
 GTEX.sub$`Whole Blood` <- log(GTEX.sub$`Whole Blood`+0.001)
 point.labels <- GTEX.sub[which(GTEX.sub$`Whole Blood` > log(0.1)), ]
 
@@ -138,7 +144,7 @@ ggplot(data = GTEX.sub, aes(x = GTEX.sub$Description, y = GTEX.sub$`Whole Blood`
   xlab("Gene")+
   ylab("ln(TPM)")+
   geom_point(alpha = .4)+
-  geom_point(data = point.labels, shape=23,
+  geom_point(data = point.labels,
              aes(x = point.labels$Description, 
                  y = point.labels$`Whole Blood`, colour = point.labels$Celltype))+ 
   annotate("text", x = 500, y = 8, label= paste(nrow(point.labels),": above 0.1 TPM")) + 
