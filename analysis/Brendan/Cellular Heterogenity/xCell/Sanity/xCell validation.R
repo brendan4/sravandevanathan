@@ -12,6 +12,9 @@ test.gene <- rownames(pretty.gene.name(na.omit(expressed.genes),
 whole.blood <- c("B-cells", "Basophils", "Eosinophils", 
                  "Erythrocytes", 'Neutrophils',"Plasma cells",
                  'Platelets')
+whole.blood2 <- c("B-cells", 
+                 "Erythrocytes",
+                 'Platelets')
 
 #OPTIONAL: subset of gene sig file based on whole blood compostion
 gene.sig.filt <- function(gene.sig, cell.types){
@@ -72,10 +75,12 @@ GTEX <- fread("GTEx_gene_median_tpm.gct.gz")
 GTEX <- as.data.frame(GTEX)
 GTEX <- GTEX[,which(colnames(GTEX) %in% c("Description","Whole Blood"))]
 
+
+#plotting lost genes with names
 GTEX.sub <- GTEX[which(GTEX$Description %in% lost.names$gene),]
 point.labels <- GTEX.sub[which(GTEX.sub$`Whole Blood` > .1), ]
 
-#plotting lost genes with names
+
 ggplot(data = GTEX.sub, aes(x = GTEX.sub$Description, y = GTEX.sub$`Whole Blood`)) +
   theme(axis.text.x = element_blank(),
         axis.ticks.x = element_blank())+
@@ -147,8 +152,8 @@ ggplot(data = GTEX.sub, aes(x = GTEX.sub$Description, y = GTEX.sub$`Whole Blood`
   geom_point(data = point.labels,
              aes(x = point.labels$Description, 
                  y = point.labels$`Whole Blood`, colour = point.labels$Celltype))+ 
-  annotate("text", x = 500, y = 8, label= paste(nrow(point.labels),": above 0.1 TPM")) + 
-  annotate("text", x = 500, y= -5.5, label = paste((nrow(GTEX.sub) - nrow(point.labels)),": below 0.1 TPM"))
+  annotate("text", x = 250, y = 8, label= paste(nrow(point.labels),": above 0.1 TPM")) + 
+  annotate("text", x = 250, y= -5.5, label = paste((nrow(GTEX.sub) - nrow(point.labels)),": below 0.1 TPM"))
 
 # ploting all genes all cell types 
 filt.genesig <- xCell.genesig
@@ -221,4 +226,6 @@ for(cell.type in whole.blood){
 
 plot
 ###
+
+
 
