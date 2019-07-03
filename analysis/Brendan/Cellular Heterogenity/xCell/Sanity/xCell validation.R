@@ -16,6 +16,8 @@ whole.blood2 <- c("B-cells",
                  "Erythrocytes",
                  'Platelets')
 
+
+
 #OPTIONAL: subset of gene sig file based on whole blood compostion
 gene.sig.filt <- function(gene.sig, cell.types){
   corr.counter <- 0 
@@ -35,6 +37,8 @@ gene.sig.filt <- function(gene.sig, cell.types){
 }
 
 filt.xCellgenesig <- gene.sig.filt(gene.sig = xCell.genesig, cell.types = whole.blood)
+
+
 
 ### for all cell types in the gene signature
 filt.xCell.genesig <- xCell.genesig
@@ -66,6 +70,8 @@ found <- filter.genes(expressed.genes, gene.list = lost.names$gene, lazy= FALSE)
 # only one found
 lost[grep("GPR85", lost$gene),]
 
+
+
 #opening GTEX median expression for cell types
 library(data.table)
 library(ggplot2)
@@ -91,21 +97,28 @@ ggplot(data = GTEX.sub, aes(x = GTEX.sub$Description, y = GTEX.sub$`Whole Blood`
                                      y = point.labels$`Whole Blood`, 
                                      label = point.labels$Description))
 
+
+
 # filtering all genes from wholeblood subset 
-sig.all.genes <- data.frame(gene = 0 , celltype = 0)
-gene.counter <- 0 
 filt.genesig <- gene.sig.filt(gene.sig = xCell.genesig, cell.types = whole.blood)
 
-for(row in 1:nrow(filt.genesig)){
-  num.genes <- filt.genesig[row,2]
-  genes <- filt.genesig[row, 3:(num.genes+2)]
-
-  for(gene in 1:length(genes)){
-    gene.counter <- gene.counter + 1 
-    sig.all.genes[gene.counter,"gene"] <- filt.genesig[row, gene +2]
-    sig.all.genes[gene.counter, "celltype"] <- filt.genesig[row, 1]
+process.sig.file <- function(genesig){
+  sig.all.genes <- data.frame(gene = 0 , celltype = 0)
+  gene.counter <- 0 
+  
+  for(row in 1:nrow(genesig)){
+    num.genes <- genesig[row,2]
+    genes <- genesig[row, 3:(num.genes+2)]
+    
+    for(gene in 1:length(genes)){
+      gene.counter <- gene.counter + 1 
+      sig.all.genes[gene.counter,"gene"] <- genesig[row, gene +2]
+      sig.all.genes[gene.counter, "celltype"] <- genesig[row, 1]
+    }
   }
+  return(sig.all.genes)
 }
+sig.all.genes <- process.sig.file(filt.genesig)
 
 #duplicated handling
 sum(duplicated(sig.all.genes$gene))
@@ -155,19 +168,11 @@ ggplot(data = GTEX.sub, aes(x = GTEX.sub$Description, y = GTEX.sub$`Whole Blood`
   annotate("text", x = 250, y = 8, label= paste(nrow(point.labels),": above 0.1 TPM")) + 
   annotate("text", x = 250, y= -5.5, label = paste((nrow(GTEX.sub) - nrow(point.labels)),": below 0.1 TPM"))
 
+
+
 # ploting all genes all cell types 
 filt.genesig <- xCell.genesig
-
-for(row in 1:nrow(filt.genesig)){
-  num.genes <- filt.genesig[row,2]
-  genes <- filt.genesig[row, 3:(num.genes+2)]
-  
-  for(gene in 1:length(genes)){
-    gene.counter <- gene.counter + 1 
-    sig.all.genes[gene.counter,"gene"] <- filt.genesig[row, gene +2]
-    sig.all.genes[gene.counter, "celltype"] <- filt.genesig[row, 1]
-  }
-}
+sig.all.genes <- process.sig.file(filt.genesig)
 
 #duplicated handling
 sum(duplicated(sig.all.genes$gene))
@@ -226,6 +231,13 @@ for(cell.type in whole.blood){
 
 plot
 ###
+
+# a look into erythrocytes
+Erythrocytes <- sig.all.genes[grep("Erythrocytes", sig.all.genes$celltype),]
+filt.genesig <- gene.sig.filt(gene.sig = xCell.genesig, cell.types = "Erythrocytes")
+sig.all.genes <- process.sig.file(filt.genesig)
+
+
 
 
 
