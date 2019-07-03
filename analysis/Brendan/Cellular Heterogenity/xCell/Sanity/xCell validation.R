@@ -12,9 +12,10 @@ test.gene <- rownames(pretty.gene.name(na.omit(expressed.genes),
 whole.blood <- c("B-cells", "Basophils", "Eosinophils", 
                  "Erythrocytes", 'Neutrophils',"Plasma cells",
                  'Platelets')
-whole.blood2 <- c("B-cells", 
+whole.blood <- c("B-cells", 
                  "Erythrocytes",
                  'Platelets')
+whole.blood <- c("Erythrocytes")
 
 
 
@@ -152,8 +153,8 @@ ggplot(data = GTEX.sub, aes(x = GTEX.sub$Description, y = GTEX.sub$`Whole Blood`
   geom_point(data = point.labels, shape=23, fill="red",
              aes(x = point.labels$Description, 
                                      y = point.labels$`Whole Blood`))+ 
-  annotate("text", x = 500, y = 8, label= paste(nrow(point.labels),": above 0.1 TPM")) + 
-  annotate("text", x = 500, y= -5.5, label = paste((nrow(GTEX.sub) - nrow(point.labels)),": below 0.1 TPM"))
+  annotate("text", x = (nrow(GTEX.sub)/ 2), y = 8, label= paste(nrow(point.labels),": above 0.1 TPM")) + 
+  annotate("text", x = (nrow(GTEX.sub)/ 2), y= -5.5, label = paste((nrow(GTEX.sub) - nrow(point.labels)),": below 0.1 TPM"))
 
 #OPTIONAL second plot with cell type data
 ggplot(data = GTEX.sub, aes(x = GTEX.sub$Description, y = GTEX.sub$`Whole Blood`)) +
@@ -165,8 +166,8 @@ ggplot(data = GTEX.sub, aes(x = GTEX.sub$Description, y = GTEX.sub$`Whole Blood`
   geom_point(data = point.labels,
              aes(x = point.labels$Description, 
                  y = point.labels$`Whole Blood`, colour = point.labels$Celltype))+ 
-  annotate("text", x = 250, y = 8, label= paste(nrow(point.labels),": above 0.1 TPM")) + 
-  annotate("text", x = 250, y= -5.5, label = paste((nrow(GTEX.sub) - nrow(point.labels)),": below 0.1 TPM"))
+  annotate("text", x = (nrow(GTEX.sub)/2), y = 8, label= paste(nrow(point.labels),": above 0.1 TPM")) + 
+  annotate("text", x = (nrow(GTEX.sub)/2), y= -5.5, label = paste((nrow(GTEX.sub) - nrow(point.labels)),": below 0.1 TPM"))
 
 
 
@@ -246,6 +247,20 @@ Erythrocytes <- filter.genes(na.omit(expressed.genes), gene.list = sig.all.genes
 #sanity check 
 Erythrocytes$pretty %in% sig.all.genes$gene
 sig.all.genes$gene %in% Erythrocytes$pretty
+Erythrocytes
+
+ggplot(data = Erythrocytes, aes(x = colnames(Erythrocytes)[which(Erythrocytes %in% colnames(expressed.genes))], 
+                                y = Erythrocytes[1:length(Erythrocytes)-1])) +
+  theme(axis.text.x = element_blank(),
+        axis.ticks.x = element_blank())+
+  xlab("Gene")+
+  ylab("ln(TPM)")+
+  geom_point(alpha = .4)+
+  geom_point(data = point.labels,
+             aes(x = point.labels$Description, 
+                 y = point.labels$`Whole Blood`, colour = point.labels$Celltype))+ 
+  annotate("text", x = (nrow(GTEX.sub)/2), y = 8, label= paste(nrow(point.labels),": above 0.1 TPM")) + 
+  annotate("text", x = (nrow(GTEX.sub)/2), y= -5.5, label = paste((nrow(GTEX.sub) - nrow(point.labels)),": below 0.1 TPM"))
 
 
 
