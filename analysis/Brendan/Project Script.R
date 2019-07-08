@@ -10,11 +10,14 @@ main.table <- mergeTables(wd = "~/sravandevanathan/ballgown",
                           commonName = "gene_abundance.tab", 
                           colsToMerge = c(2,5,6,8))
 
-main.table <- merge.cleanup(main.table, 
-                            boxplot = TRUE, 
-                            cor.table = TRUE, 
-                            remove.NA = FALSE, 
-                            tidy.colnames = TRUE)
+data <- merge.cleanup(main.table,
+                      boxplot = TRUE,
+                      cor.table = TRUE,
+                      tidy.colnames = TRUE,
+                      remove.NA = FALSE)
+
+cor.table <- data[[1]]
+main.table <- data[[2]]
 
 #removal of L2_ACAGTG
 main.table <- main.table[,-which(colnames(main.table) %in% 
@@ -27,9 +30,12 @@ main.table <- mergeTables(wd = "~/sravandevanathan/ballgown",
                           commonName = "t_data.ctab", 
                           colsToMerge = c(4,5,6,10,12))
 
-main.table <- merge.cleanup(main.table, 
-                            cor.table = TRUE,
-                            tidy.colnames = TRUE)
+data <- merge.cleanup(main.table,
+                      cor.table = TRUE,
+                      tidy.colnames = TRUE)
+
+cor.table <- data[[1]]
+main.table <- data[[2]]
 
 #removal of L2_ACAGTG
 main.table <- main.table[,-which(colnames(main.table) %in% 
