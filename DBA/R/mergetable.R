@@ -17,7 +17,7 @@
 #' commonName = "t_data.ctab", 
 #' colsToMerge = c(4,5,6,10,12))
 #' @import data.table
-#' 
+#' @import tidyr
 
 
 mergeTables <- function(wd, commonName, colsToMerge){
