@@ -1,11 +1,12 @@
 library(data.table)
 library(tidyr)
+library(devtools)
 library(DBA)
 library(pheatmap)
 library(ape)
 
 ### Gene abundance merge 
-main.table <- mergeTables(wd = "C:/Users/brendan/Documents/sravandevanathan/ballgown",
+main.table <- mergeTables(wd = "~/sravandevanathan/ballgown",
                           commonName = "gene_abundance.tab", 
                           colsToMerge = c(2,5,6,8))
 
@@ -22,7 +23,7 @@ write.table(main.table, "gene_abundance_merged.tab")
 GeneAbundance <- read.table("gene_abundance_merged.tab")
 
 ### Transripts merge
-main.table <- mergeTables(wd = "C:/Users/brendan/Documents/sravandevanathan/ballgown",
+main.table <- mergeTables(wd = "~/sravandevanathan/ballgown",
                           commonName = "t_data.ctab", 
                           colsToMerge = c(4,5,6,10,12))
 
