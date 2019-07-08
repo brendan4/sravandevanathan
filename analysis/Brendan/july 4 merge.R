@@ -7,4 +7,16 @@ july <- mergeTables(wd = "~/sravandevanathan/ballgown_july_4",
 summary(july)
 items <- merge.cleanup(july, boxplot = TRUE, cor.table = TRUE, tidy.colnames = TRUE)
 cor.table <- items[[1]]
-test <- items[[2]]
+july <- items[[2]]
+
+# 121317_LIB4 most disimilar = II.8 in phenotable
+data("full.pheno.table")
+II.8 <- full.pheno.table[grep("II.eight", full.pheno.table$Replicates),1]
+II.8 <- expressed.genes[grep(II.8,colnames(expressed.genes))]
+II.8.data <- merge(II.8, july[ ,"121317_LIB4-98412318",drop = FALSE], by = "row.names", all.x=TRUE)
+cor(na.omit(II.8.data[,-c(1)]))
+
+mean(na.omit(july$`121317_LIB4-98412318`))
+sd(na.omit(july$`121317_LIB4-98412318`))
+max(na.omit(july$`121317_LIB4-98412318`))
+

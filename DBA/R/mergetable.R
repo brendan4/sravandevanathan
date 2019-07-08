@@ -68,7 +68,7 @@ mergeTables <- function(wd, commonName, colsToMerge){
       assign("mainTable",xnoDups)
       
     }else {
-      mainTable<-merge(mainTable, xnoDups,by = "Gene Name", all.x = TRUE, all.y = TRUE)
+      mainTable <- merge(mainTable, xnoDups,by = "Gene Name", all.x = TRUE, all.y = TRUE)
       assign(file, xnoDups)
     }
   }
