@@ -5,4 +5,6 @@ july <- mergeTables(wd = "~/sravandevanathan/ballgown_july_4",
             colsToMerge = c(2,5,6,8))
 
 summary(july)
-merge.cleanup(july, boxplot = TRUE, cor.table = TRUE)
+items <- merge.cleanup(july, boxplot = TRUE, cor.table = TRUE, tidy.colnames = TRUE)
+cor.table <- items[[1]]
+test <- items[[2]]
