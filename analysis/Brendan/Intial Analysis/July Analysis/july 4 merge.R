@@ -18,5 +18,7 @@ cor(na.omit(II.8.data[,-c(1)]))
 
 mean(na.omit(july$`121317_LIB4-98412318`))
 sd(na.omit(july$`121317_LIB4-98412318`))
-max(na.omit(july$`121317_LIB4-98412318`))
+
+#removal of "121317_LIB4-98412318"
+july <- july[,-which(colnames(july) %in% "121317_LIB4-98412318")]
 

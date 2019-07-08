@@ -143,7 +143,7 @@ filt.p <- filt[,-which(colnames(filt) %in% c("pretty"))]
 ggplot(filt.p, aes(x = rownames(filt.p) , y = var)) + geom_bar(stat="identity", fill="tomato3") 
 
 
-filtered.data <- Var.samples(expressed.genes, gene.list = c('HBA', "HBB", "HBG1", "HBG2", "HBE", "HBD"), pretty.names = TRUE, graph = TRUE)
+filtered.data <- var.samples(expressed.genes, gene.list = c('HBA', "HBB", "HBG1", "HBG2", "HBE", "HBD"), pretty.names = TRUE, graph = TRUE)
 filtered.data <- filtered.data[-which(rownames(filtered.data) %in% c("HBBP1","HBEGF", "var")),]
 filtered.data <- as.data.frame(t(filtered.data))
 ggplot(filtered.data, aes(x = HBB , y = HBG1)) + 
