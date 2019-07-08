@@ -6,9 +6,13 @@ cor.plots <- function(data.set,
                       method = "spearman", 
                       annotation = NULL, 
                       colors = NULL,
+                      log = FALSE,
                       save = FALSE, wd = NULL){
-  
-  cor.data <- cor(na.omit(data.set), method = method)
+  if (log == TRUE){
+    cor.data <- cor(log(na.omit(data.set)+0.01), method = method)
+  } else {
+    cor.data <- cor(na.omit(data.set), method = method)
+  }
   if (save == TRUE){
     if(is.null(wd) == FALSE){
       setwd(wd)

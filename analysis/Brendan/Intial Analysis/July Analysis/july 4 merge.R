@@ -31,7 +31,8 @@ plot.var(july)
 abline(a = 0, b = 0, v = -6, col = "red")
 
 #correlation plots 
-cor.plots(july, heatmap = TRUE, phylo = TRUE)
+cor.plots(july, heatmap = TRUE, phylo = TRUE, log = TRUE)
 
 #PCA plots
 PCA(july, scaled = FALSE, PCA.Genes = FALSE, label.size = 4)
+MDS(july, scaled = TRUE)
