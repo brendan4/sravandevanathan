@@ -22,3 +22,16 @@ sd(na.omit(july$`121317_LIB4-98412318`))
 #removal of "121317_LIB4-98412318"
 july <- july[,-which(colnames(july) %in% "121317_LIB4-98412318")]
 
+#cleaning 
+colnames(july) <- substring(colnames(july), 
+                                first = 8)
+
+#variation 
+plot.var(july)
+abline(a = 0, b = 0, v = -6, col = "red")
+
+#correlation plots 
+cor.plots(july, heatmap = TRUE, phylo = TRUE)
+
+#PCA plots
+PCA(july, scaled = FALSE, PCA.Genes = FALSE, label.size = 4)
