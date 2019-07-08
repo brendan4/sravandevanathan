@@ -36,3 +36,8 @@ cor.plots(july, heatmap = TRUE, phylo = TRUE, log = TRUE)
 #PCA plots
 PCA(july, scaled = FALSE, PCA.Genes = FALSE, label.size = 4)
 MDS(july, scaled = TRUE)
+
+
+#dropping L6_TTAGGC and L3_TTAGGC
+df <- df[-which(df$id %in% c("L6_TTAGGC")),]
+df <- df[-which(df$person  == 0), ]
