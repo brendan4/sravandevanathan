@@ -1,0 +1,56 @@
+Started analysis of clipped_121317_LIB1-98408313_R1.fastq.gz
+Approx 5% complete for clipped_121317_LIB1-98408313_R1.fastq.gz
+Approx 10% complete for clipped_121317_LIB1-98408313_R1.fastq.gz
+Approx 15% complete for clipped_121317_LIB1-98408313_R1.fastq.gz
+Approx 20% complete for clipped_121317_LIB1-98408313_R1.fastq.gz
+Approx 25% complete for clipped_121317_LIB1-98408313_R1.fastq.gz
+Approx 30% complete for clipped_121317_LIB1-98408313_R1.fastq.gz
+Approx 35% complete for clipped_121317_LIB1-98408313_R1.fastq.gz
+Approx 40% complete for clipped_121317_LIB1-98408313_R1.fastq.gz
+Approx 45% complete for clipped_121317_LIB1-98408313_R1.fastq.gz
+Approx 50% complete for clipped_121317_LIB1-98408313_R1.fastq.gz
+Approx 55% complete for clipped_121317_LIB1-98408313_R1.fastq.gz
+Approx 60% complete for clipped_121317_LIB1-98408313_R1.fastq.gz
+Approx 65% complete for clipped_121317_LIB1-98408313_R1.fastq.gz
+Approx 70% complete for clipped_121317_LIB1-98408313_R1.fastq.gz
+Approx 75% complete for clipped_121317_LIB1-98408313_R1.fastq.gz
+Approx 80% complete for clipped_121317_LIB1-98408313_R1.fastq.gz
+Approx 85% complete for clipped_121317_LIB1-98408313_R1.fastq.gz
+Approx 90% complete for clipped_121317_LIB1-98408313_R1.fastq.gz
+Approx 95% complete for clipped_121317_LIB1-98408313_R1.fastq.gz
+Started analysis of clipped_121317_LIB1-98408313_R2.fastq.gz
+Approx 5% complete for clipped_121317_LIB1-98408313_R2.fastq.gz
+Approx 10% complete for clipped_121317_LIB1-98408313_R2.fastq.gz
+Approx 15% complete for clipped_121317_LIB1-98408313_R2.fastq.gz
+Approx 20% complete for clipped_121317_LIB1-98408313_R2.fastq.gz
+Approx 25% complete for clipped_121317_LIB1-98408313_R2.fastq.gz
+Approx 30% complete for clipped_121317_LIB1-98408313_R2.fastq.gz
+Approx 35% complete for clipped_121317_LIB1-98408313_R2.fastq.gz
+Approx 40% complete for clipped_121317_LIB1-98408313_R2.fastq.gz
+Approx 45% complete for clipped_121317_LIB1-98408313_R2.fastq.gz
+Approx 50% complete for clipped_121317_LIB1-98408313_R2.fastq.gz
+Approx 55% complete for clipped_121317_LIB1-98408313_R2.fastq.gz
+Approx 60% complete for clipped_121317_LIB1-98408313_R2.fastq.gz
+Approx 65% complete for clipped_121317_LIB1-98408313_R2.fastq.gz
+Approx 70% complete for clipped_121317_LIB1-98408313_R2.fastq.gz
+Approx 75% complete for clipped_121317_LIB1-98408313_R2.fastq.gz
+Approx 80% complete for clipped_121317_LIB1-98408313_R2.fastq.gz
+Approx 85% complete for clipped_121317_LIB1-98408313_R2.fastq.gz
+Approx 90% complete for clipped_121317_LIB1-98408313_R2.fastq.gz
+Approx 95% complete for clipped_121317_LIB1-98408313_R2.fastq.gz
+7943867 reads; of these:
+  7943867 (100.00%) were paired; of these:
+    3598590 (45.30%) aligned concordantly 0 times
+    4118188 (51.84%) aligned concordantly exactly 1 time
+    227089 (2.86%) aligned concordantly >1 times
+    ----
+    3598590 pairs aligned concordantly 0 times; of these:
+      1854709 (51.54%) aligned discordantly 1 time
+    ----
+    1743881 pairs aligned 0 times concordantly or discordantly; of these:
+      3487762 mates make up the pairs; of these:
+        2267447 (65.01%) aligned 0 times
+        1005625 (28.83%) aligned exactly 1 time
+        214690 (6.16%) aligned >1 times
+85.73% overall alignment rate
+[bam_sort_core] merging from 0 files and 16 in-memory blocks...

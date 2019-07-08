@@ -1,0 +1,169 @@
+This is cutadapt 2.3 with Python 3.6.7
+Command line parameters: -a GATCGGAAGAGCACACGTCTGAACTCCAGTCACNNNNNNATCTCGTATGCCGTCTTCTGCTTG -A GATCGGAAGAGCACACGTCTGAACTCCAGTCACNNNNNNATCTCGTATGCCGTCTTCTGCTTG -A CAGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGTAGATCTCGGTGGTC -u 6 -U 6 -q 22 -m 22 -o /scratch/06059/ozadamh/dba/run_july_4/pipeline/clippedreads/121317_LIB4-98412318/clipped_121317_LIB4-98412318_R1.fastq.gz -p /scratch/06059/ozadamh/dba/run_july_4/pipeline/clippedreads/121317_LIB4-98412318/clipped_121317_LIB4-98412318_R2.fastq.gz --cores 16 /work/06059/ozadamh/lonestar/projects/DBA/fastq/merged/DBA_121317/121317_LIB4-98412318/121317_LIB4-98412318_R1_001.fastq.gz /work/06059/ozadamh/lonestar/projects/DBA/fastq/merged/DBA_121317/121317_LIB4-98412318/121317_LIB4-98412318_R2_001.fastq.gz
+Processing reads on 16 cores in paired-end mode ...
+Finished in 6.56 s (9 us/read; 6.46 M reads/minute).
+
+=== Summary ===
+
+Total read pairs processed:            706,580
+  Read 1 with adapter:                   9,573 (1.4%)
+  Read 2 with adapter:                  15,729 (2.2%)
+Pairs that were too short:               4,085 (0.6%)
+Pairs written (passing filters):       702,495 (99.4%)
+
+Total basepairs processed:   177,233,321 bp
+  Read 1:    88,622,895 bp
+  Read 2:    88,610,426 bp
+Quality-trimmed:               2,047,453 bp (1.2%)
+  Read 1:       515,284 bp
+  Read 2:     1,532,169 bp
+Total written (filtered):    166,202,368 bp (93.8%)
+  Read 1:    83,458,612 bp
+  Read 2:    82,743,756 bp
+
+=== First read: Adapter 1 ===
+
+Sequence: GATCGGAAGAGCACACGTCTGAACTCCAGTCACNNNNNNATCTCGTATGCCGTCTTCTGCTTG; Type: regular 3'; Length: 63; Trimmed: 9573 times.
+
+No. of allowed errors:
+0-9 bp: 0; 10-19 bp: 1; 20-29 bp: 2; 30-39 bp: 3; 40-49 bp: 4; 50-57 bp: 5
+
+Bases preceding removed adapters:
+  A: 9.5%
+  C: 15.0%
+  G: 22.3%
+  T: 53.1%
+  none/other: 0.1%
+
+Overview of removed sequences
+length	count	expect	max.err	error counts
+3	9421	11040.3	0	9421
+4	52	2760.1	0	52
+5	5	690.0	0	5
+6	5	172.5	0	5
+7	2	43.1	0	2
+10	2	0.7	1	1 1
+11	2	0.2	1	1 1
+12	3	0.0	1	3
+13	4	0.0	1	0 4
+25	1	0.0	2	0 1
+26	2	0.0	2	0 2
+31	1	0.0	3	0 0 0 1
+32	6	0.0	3	0 1 3 2
+33	5	0.0	3	0 0 4 1
+34	2	0.0	3	0 1 1
+35	2	0.0	3	0 0 0 2
+36	3	0.0	3	0 0 2 1
+37	2	0.0	3	0 0 2
+38	12	0.0	3	0 10 1 1
+39	6	0.0	3	0 4 2
+40	1	0.0	4	0 0 0 1
+42	1	0.0	4	0 0 1
+48	1	0.0	4	0 1
+49	1	0.0	4	0 0 0 1
+50	1	0.0	5	0 0 0 1
+57	1	0.0	5	0 0 0 1
+58	1	0.0	5	0 0 0 1
+61	1	0.0	6	0 0 0 1
+62	1	0.0	6	0 1
+67	1	0.0	6	0 1
+68	1	0.0	6	0 1
+69	1	0.0	6	0 0 0 0 1
+70	3	0.0	6	0 0 1 2
+71	2	0.0	6	0 0 1 0 1
+72	8	0.0	6	0 3 5
+73	5	0.0	6	0 0 3 1 1
+74	2	0.0	6	0 0 1 1
+85	1	0.0	6	0 0 0 1
+90	2	0.0	6	0 2
+
+
+=== Second read: Adapter 2 ===
+
+Sequence: GATCGGAAGAGCACACGTCTGAACTCCAGTCACNNNNNNATCTCGTATGCCGTCTTCTGCTTG; Type: regular 3'; Length: 63; Trimmed: 7933 times.
+
+No. of allowed errors:
+0-9 bp: 0; 10-19 bp: 1; 20-29 bp: 2; 30-39 bp: 3; 40-49 bp: 4; 50-57 bp: 5
+
+Bases preceding removed adapters:
+  A: 12.0%
+  C: 16.3%
+  G: 21.4%
+  T: 50.2%
+  none/other: 0.0%
+
+Overview of removed sequences
+length	count	expect	max.err	error counts
+3	7870	11040.3	0	7870
+4	44	2760.1	0	44
+5	7	690.0	0	7
+6	2	172.5	0	2
+7	1	43.1	0	1
+10	1	0.7	1	0 1
+11	1	0.2	1	0 1
+12	1	0.0	1	0 1
+14	2	0.0	1	0 2
+17	1	0.0	1	0 1
+21	1	0.0	2	0 0 1
+23	1	0.0	2	0 0 1
+33	1	0.0	3	0 0 1
+
+
+=== Second read: Adapter 3 ===
+
+Sequence: CAGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGTAGATCTCGGTGGTC; Type: regular 3'; Length: 48; Trimmed: 7796 times.
+
+No. of allowed errors:
+0-9 bp: 0; 10-19 bp: 1; 20-29 bp: 2; 30-39 bp: 3; 40-48 bp: 4
+
+Bases preceding removed adapters:
+  A: 17.4%
+  C: 24.4%
+  G: 29.7%
+  T: 28.5%
+  none/other: 0.0%
+
+Overview of removed sequences
+length	count	expect	max.err	error counts
+3	4724	11040.3	0	4724
+4	2574	2760.1	0	2574
+5	394	690.0	0	394
+8	4	10.8	0	4
+9	1	2.7	0	1
+10	21	0.7	1	1 20
+11	2	0.2	1	1 1
+12	1	0.0	1	1
+13	2	0.0	1	1 1
+14	2	0.0	1	0 2
+15	6	0.0	1	2 4
+17	1	0.0	1	0 1
+19	3	0.0	1	0 3
+21	2	0.0	2	0 0 2
+23	4	0.0	2	1 0 3
+24	2	0.0	2	0 1 1
+25	5	0.0	2	1 3 1
+26	6	0.0	2	0 3 3
+27	5	0.0	2	1 0 4
+28	2	0.0	2	0 0 2
+29	1	0.0	2	0 1
+30	4	0.0	3	0 1 2 1
+31	1	0.0	3	0 0 0 1
+33	1	0.0	3	0 1
+34	1	0.0	3	0 0 0 1
+35	2	0.0	3	0 0 1 1
+36	2	0.0	3	0 0 2
+39	1	0.0	3	0 0 1
+41	1	0.0	4	0 0 0 0 1
+42	2	0.0	4	0 1 1
+44	2	0.0	4	0 0 2
+45	3	0.0	4	0 0 2 0 1
+46	1	0.0	4	0 0 1
+47	1	0.0	4	0 0 1
+48	2	0.0	4	0 0 2
+49	1	0.0	4	0 1
+51	3	0.0	4	0 0 3
+62	1	0.0	4	0 0 1
+68	3	0.0	4	0 2 1
+69	2	0.0	4	0 1 1
+Analysis complete for clipped_121317_LIB4-98412318_R1.fastq.gz
+Analysis complete for clipped_121317_LIB4-98412318_R2.fastq.gz
