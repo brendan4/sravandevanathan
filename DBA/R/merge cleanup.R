@@ -18,7 +18,6 @@ merge.cleanup <- function(data.set,
   if (cor.table == TRUE){
     temp <- na.omit(data.set)
     cor.gene <- cor(temp, method = "spearman")
-    print(cor.gene)
   }
   
   if (remove.NA == TRUE){
@@ -29,6 +28,15 @@ merge.cleanup <- function(data.set,
     colnames(data.set) <- substring(colnames(data.set), 
                                     first = 6) # removes FPKM. from row names 
   }
-  return(data.set)
+  if ((remove.NA == TRUE | tidy.colnames == TRUE) & cor.table == TRUE){
+    data.list <- list(cor.gene, data.set)
+    return(data.list)
+    
+  } else if (remove.NA == TRUE | tidy.colnames == TRUE){
+    return(data.set)
+    
+  } else if (cor.table == TRUE){
+    return(cor.table)
+  }
 }
 
