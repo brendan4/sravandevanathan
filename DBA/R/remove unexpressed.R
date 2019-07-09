@@ -1,20 +1,8 @@
-remove.unexpressed = function(dataset, cutoff){
-  unexpressed = c()
-  counter = 1
-  for (x in 1:nrow(dataset)){
-    values = c()
-    for (y in 1:ncol(dataset)-1){
-      if(is.na(dataset[x,y+1]) == T){
-        values[y] = 0.0
-      }else{
-        values[y] = dataset[x,y+1]
-      }
-    }
-    if(log(sd(values)+0.0001) >= cutoff){
-      unexpressed[counter] =  x
-      counter = counter+1
-    }
-  }
-  newdata = dataset[unexpressed,]
+remove.unexpressed = function(dataset, cutoff, zero.offset = 0.0001){
+  dataset[is.na(dataset)] <- 0
+  var <- apply(dataset,1, sd)
+  var <- log(var + zero.offset)
+  idx <- which(var >= cutoff)
+  newdata = dataset[idx,]
   return(newdata)
 }
