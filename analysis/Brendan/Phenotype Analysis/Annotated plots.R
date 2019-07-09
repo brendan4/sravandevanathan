@@ -14,7 +14,7 @@ names(Pheno) = c("SS", "S", "C", "W")
 # Specify colors for annnotation: Replicates
 qual_col_pals = brewer.pal.info[brewer.pal.info$category == 'qual',]
 col_vector = unlist(mapply(brewer.pal, qual_col_pals$maxcolors, rownames(qual_col_pals)))
-Reps = c(col=sample(col_vector, 16))
+Reps = c(col=sample(col_vector, 15))
 names(Reps) = full.pheno.table[!(duplicated(full.pheno.table$Replicates)), "Replicates"]
 
 # preping data
@@ -62,7 +62,7 @@ simple.pheno <- simple[[2]]
 simple.names <- simple[[1]]
 
 #PCA 
-PCA(simple.names, pheno = pheno, label.size = 4, pca.dim = c(1,2), scaled = FALSE)
+PCA(simple.names, pheno = pheno, label.size = 4, pca.dim = c(1,2), scaled = TRUE)
 
 #mystery samples: found in all three lanes but not in pheno excel 
 "L3_TTAGGC" %in% colnames(expressed.genes)

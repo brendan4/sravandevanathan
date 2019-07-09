@@ -6,7 +6,7 @@ PCA <- function(dataset, scaled = FALSE,
   
   #generated PCA data
   if (scaled == TRUE){
-    genes.PCA <- prcomp(t(na.omit(dataset)), scale. = TRUE)
+    genes.PCA <- prcomp(log(t(na.omit(dataset))+0.01), scale. = TRUE)
   }else {
     genes.PCA <- prcomp(t(na.omit(dataset)))
   }
