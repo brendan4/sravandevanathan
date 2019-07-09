@@ -59,7 +59,6 @@ PCA <- function(dataset, scaled = FALSE,
       
     }
   }
-  
   # 100 genes the influence the PCA the greatest (either pos of neg)
   gene_score_ranked <- sort(abs(genes.PCA$rotation[,pca.dim[1]]), decreasing = TRUE)
   gene_top_hun <- names(gene_score_ranked[1:100])
