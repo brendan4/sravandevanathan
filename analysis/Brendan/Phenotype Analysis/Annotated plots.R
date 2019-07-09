@@ -57,12 +57,23 @@ change.names <- function(data.set, full.pheno, pheno){
   return(results)
 }
 
+#data prep for PCA replicates
 simple <- change.names(expressed.genes, full.pheno, pheno)
 simple.pheno <- simple[[2]]
 simple.names <- simple[[1]]
 
-#PCA 
-PCA(simple.names, pheno = pheno, label.size = 4, pca.dim = c(2,3), scaled = FALSE, color.option = 1)
+#PCA replicates 
+PCA(simple.names, pheno = pheno, label.size = 4, pca.dim = c(1,2), scaled = FALSE, color.option = 1)
 
 #### PCA with pheno data only 
 PCA(expressed.genes, pheno = pheno, label.size = 3)
+
+PCA.genes <- PCA(simple.names, 
+                 pheno = pheno, 
+                 label.size = 4, 
+                 pca.dim = c(2,3), 
+                 scaled = FALSE, 
+                 color.option = 1, 
+                 PCA.Genes = TRUE)
+
+heat.genes <- filter.genes(expressed.genes, PCA.genes)
