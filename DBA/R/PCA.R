@@ -6,7 +6,7 @@ PCA <- function(dataset, scaled = FALSE,
   
   #generated PCA data
   if (scaled == TRUE){
-    genes.PCA <- prcomp(log(t(na.omit(dataset))+0.01), scale. = TRUE)
+    genes.PCA <- prcomp(t(na.omit(dataset)), scale. = TRUE)
   }else {
     genes.PCA <- prcomp(t(na.omit(dataset)))
   }
@@ -34,7 +34,7 @@ PCA <- function(dataset, scaled = FALSE,
           ggtitle("PCA: Expressed Genes"))
   }else {
     #ggplot of PCA data
-    colors <- c("green", "orange", "red", "blue")
+    colors <- c("green", "red", "yellow", "blue")
     names(colors) <- c(pheno$pheno[!duplicated(pheno$pheno)])
     print(ggplot(data = genes.PCA.data, aes(x = x, y = y, label = Sample))+
             geom_text(size = label.size, aes(color = pheno$pheno))+

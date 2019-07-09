@@ -62,7 +62,7 @@ simple.pheno <- simple[[2]]
 simple.names <- simple[[1]]
 
 #PCA 
-PCA(simple.names, pheno = pheno, label.size = 4, pca.dim = c(1,2), scaled = TRUE)
+PCA(simple.names, pheno = pheno, label.size = 4, pca.dim = c(2,3), scaled = FALSE)
 
 #mystery samples: found in all three lanes but not in pheno excel 
 "L3_TTAGGC" %in% colnames(expressed.genes)
