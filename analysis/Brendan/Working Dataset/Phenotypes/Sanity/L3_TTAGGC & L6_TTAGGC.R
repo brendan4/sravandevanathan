@@ -27,6 +27,14 @@ cor(na.omit(sub), method = "spearman")
 expressed.genes <- expressed.genes[, - which(colnames(expressed.genes) %in% c("L3_TTAGGC", "L6_TTAGGC"))]
 expressed.trans <- expressed.trans[, -which(colnames(expressed.trans) %in% c("L3_TTAGGC", "L6_TTAGGC"))]
 
+#redoing all cutoff
+plot.var(expressed.genes)
+abline(a = 0, b = 0, v = -7, col = "red")
+expressed.genes <- remove.unexpressed(expressed.genes, cutoff = -7)
+plot.var(expressed.trans)
+abline(a = 0, b = 0, v = -7, col = "red")
+expressed.trans <- remove.unexpressed(expressed.trans, cutoff)
+
 data("pheno.basic")
 data("pheno.colors")
 data("full.pheno")

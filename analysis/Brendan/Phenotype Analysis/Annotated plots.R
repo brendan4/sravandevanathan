@@ -77,3 +77,5 @@ PCA.genes <- PCA(simple.names,
                  PCA.Genes = TRUE)
 
 heat.genes <- filter.genes(expressed.genes, PCA.genes)
+
+genes <- PCA(test, pheno = pheno, label.size = 3, color.option = 1, PCA.Genes = TRUE, pca.dim = c(2,3))

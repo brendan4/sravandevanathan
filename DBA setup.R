@@ -31,7 +31,7 @@ data("pheno.basic")
 data("full.pheno")
 data("full.pheno.table")
 
-# undating documentation 
+# updating documentation 
 devtools::document()
 ?filter.genes
 ?filter.out.genes
