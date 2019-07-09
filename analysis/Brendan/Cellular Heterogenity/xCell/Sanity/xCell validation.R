@@ -2,7 +2,6 @@ library(openxlsx)
 setwd("C:/Users/brendan/Documents/sravandevanathan/analysis/Brendan/Cellular Heterogenity/xCell/Sanity/Datasets")
 xCell.genesig <- read.xlsx("xCell gene signatures.xlsx")
 
-
 #create pretty names 
 test.gene <- rownames(pretty.gene.name(na.omit(expressed.genes), 
                                        as.row.names = TRUE, 
@@ -41,7 +40,7 @@ filt.xCellgenesig <- gene.sig.filt(gene.sig = xCell.genesig, cell.types = whole.
 
 
 
-### for all cell types in the gene signature
+### for all cell types in the gene signature: optional
 filt.xCell.genesig <- xCell.genesig
 
 # checking for lost genes: found in sig not in our pretty data
@@ -73,7 +72,7 @@ lost[grep("GPR85", lost$gene),]
 
 
 
-#opening GTEX median expression for cell types
+#opening GTEX median expression for cell types: data loadings
 library(data.table)
 library(ggplot2)
 
@@ -83,7 +82,7 @@ GTEX <- as.data.frame(GTEX)
 GTEX <- GTEX[,which(colnames(GTEX) %in% c("Description","Whole Blood"))]
 
 
-#plotting lost genes with names
+#plotting lost genes with names: optional
 GTEX.sub <- GTEX[which(GTEX$Description %in% lost.names$gene),]
 point.labels <- GTEX.sub[which(GTEX.sub$`Whole Blood` > .1), ]
 
@@ -198,8 +197,8 @@ ggplot(data = GTEX.sub, aes(x = GTEX.sub$Description, y = GTEX.sub$`Whole Blood`
   geom_point(data = point.labels, shape=23, fill="red",
              aes(x = point.labels$Description, 
                  y = point.labels$`Whole Blood`))+ 
-  annotate("text", x = 2500, y = 8, label= paste(nrow(point.labels),": above 0.1 TPM")) + 
-  annotate("text", x = 2500, y= -5.5, label = paste((nrow(GTEX.sub) - nrow(point.labels)),": below 0.1 TPM"))
+  annotate("text", x = (nrow(GTEX.sub)/2), y = 8, label= paste(nrow(point.labels),": above 0.1 TPM")) + 
+  annotate("text", x = (nrow(GTEX.sub)/2), label = paste((nrow(GTEX.sub) - nrow(point.labels)),": below 0.1 TPM"))
 
 
 

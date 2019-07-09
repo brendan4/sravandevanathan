@@ -2,7 +2,8 @@ PCA <- function(dataset, scaled = FALSE,
                 PCA.Genes = FALSE, 
                 pheno = NULL, 
                 label.size = 2, 
-                pca.dim = c(1,2)){
+                pca.dim = c(1,2),
+                color.option = 1){
   
   #generated PCA data
   if (scaled == TRUE){
@@ -29,20 +30,34 @@ PCA <- function(dataset, scaled = FALSE,
   #ggplot of PCA data
   print(ggplot(data = genes.PCA.data, aes(x = x, y = y, label = Sample))+
           geom_text(size = label.size)+
-          xlab(paste("PC1 - ", genes.PCA.var.per[pca.dim[1]], "%", sep = ""))+
-          ylab(paste("PC2 - ", genes.PCA.var.per[pca.dim[2]], "%", sep = ""))+
+          xlab(paste("PC", pca.dim[1],"- ", genes.PCA.var.per[pca.dim[1]], "%", sep = ""))+
+          ylab(paste("PC", pca.dim[2],"- ", genes.PCA.var.per[pca.dim[2]], "%", sep = ""))+
           ggtitle("PCA: Expressed Genes"))
+    
   }else {
-    #ggplot of PCA data
-    colors <- c("green", "red", "yellow", "blue")
-    names(colors) <- c(pheno$pheno[!duplicated(pheno$pheno)])
-    print(ggplot(data = genes.PCA.data, aes(x = x, y = y, label = Sample))+
-            geom_text(size = label.size, aes(color = pheno$pheno))+
-            scale_color_manual(breaks = c("8", "6", "4", "2"),
-                               values=colors) +
-            xlab(paste("PC1 - ", genes.PCA.var.per[pca.dim[1]], "%", sep = ""))+
-            ylab(paste("PC2 - ", genes.PCA.var.per[pca.dim[2]], "%", sep = ""))+
-            ggtitle("PCA: Expressed Genes"))
+    
+    if (color.option == 1){
+      pheno$pheno <- as.factor(pheno$pheno)
+      print(ggplot(data = genes.PCA.data, aes(x = x, y = y, label = Sample))+
+              geom_text(size = label.size, aes(colour = pheno$pheno), show.legend = TRUE)+
+              labs(colour = "Phenotype") +
+              xlab(paste("PC", pca.dim[1],"- ", genes.PCA.var.per[pca.dim[1]], "%", sep = ""))+
+              ylab(paste("PC", pca.dim[2],"- ", genes.PCA.var.per[pca.dim[2]], "%", sep = ""))+
+              ggtitle("PCA: Expressed Genes"))
+   
+    } else {
+      #ggplot of PCA data
+      colors <- c("green", "red", "orange", "blue")
+      names(colors) <- c(pheno$pheno[!duplicated(pheno$pheno)])
+      print(ggplot(data = genes.PCA.data, aes(x = x, y = y, label = Sample))+
+              geom_text(size = label.size, aes(colour = pheno$pheno), show.legend = TRUE)+
+              scale_color_manual(breaks = c("8", "6", "4", "2"),
+                                 values=colors) +
+              xlab(paste("PC", pca.dim[1],"- ", genes.PCA.var.per[pca.dim[1]], "%", sep = ""))+
+              ylab(paste("PC", pca.dim[2],"- ", genes.PCA.var.per[pca.dim[2]], "%", sep = ""))+
+              ggtitle("PCA: Expressed Genes"))
+      
+    }
   }
   
   # 100 genes the influence the PCA the greatest (either pos of neg)
