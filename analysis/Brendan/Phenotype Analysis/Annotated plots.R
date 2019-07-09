@@ -65,17 +65,37 @@ simple.names <- simple[[1]]
 #PCA replicates 
 PCA(simple.names, pheno = pheno, label.size = 4, pca.dim = c(1,2), scaled = FALSE, color.option = 1)
 
-#### PCA with pheno data only 
+# PCA with pheno data only 
 PCA(expressed.genes, pheno = pheno, label.size = 3)
 
+# PCA heatmap of influentail genes
 PCA.genes <- PCA(simple.names, 
                  pheno = pheno, 
                  label.size = 4, 
                  pca.dim = c(2,3), 
                  scaled = FALSE, 
                  color.option = 1, 
-                 PCA.Genes = TRUE)
+                 PCA.Genes = TRUE, PCA.num.genes = 50)
 
 heat.genes <- filter.genes(expressed.genes, PCA.genes)
 
-genes <- PCA(test, pheno = pheno, label.size = 3, color.option = 1, PCA.Genes = TRUE, pca.dim = c(2,3))
+library(ComplexHeatmap)
+
+data("full.pheno.table")
+par(mar=c(7,4,4,2)+0.1) 
+png(filename='PCA2_heatmap.png', width=1000, height= 800)
+
+
+Heatmap(heat.genes,
+        column_names_side = "bottom",
+        row_names_side = "left",
+        row_hclust_side = "left",
+        row_names_gp=gpar(cex=0.6),
+        row_hclust_width = unit(3, "cm"),
+        clustering_distance_rows ="maximum",
+        clustering_method_rows = "complete",
+        bottom_annotation = HeatmapAnnotation(type = full.pheno.table[,c(2)],
+                                              col = list(type = c("SS" =  "red", "S" = "yellow", "C"= "grey", "W"="black")),
+                                              which = "column",
+                                              show_legend=TRUE))
+graphics.off()
