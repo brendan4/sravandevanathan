@@ -23,4 +23,4 @@ sub.filt <- filter.genes(sub, sex.genes)
 cor(na.omit(sub), method = "spearman")
 
 data("full.pheno.table")
-expressed.genes <- expressed.genes[, - which(col.names(expressed.genes) %in% c("L3_TTAGGC", "L6_TTAGGC")]
+expressed.genes <- expressed.genes[, - which(col.names(expressed.genes) %in% c("L3_TTAGGC", "L6_TTAGGC"))s]
