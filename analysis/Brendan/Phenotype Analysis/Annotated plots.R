@@ -64,12 +64,5 @@ simple.names <- simple[[1]]
 #PCA 
 PCA(simple.names, pheno = pheno, label.size = 4, pca.dim = c(2,3), scaled = FALSE, color.option = 1)
 
-#mystery samples: found in all three lanes but not in pheno excel 
-"L3_TTAGGC" %in% colnames(expressed.genes)
-grep("TTAGGC", colnames(expressed.genes), value = T)
-
 #### PCA with pheno data only 
 PCA(expressed.genes, pheno = pheno, label.size = 3)
-
-colors <- c("green", "red", "orange", "blue")
-names(colors) <- c(pheno$pheno[!duplicated(pheno$pheno)])
