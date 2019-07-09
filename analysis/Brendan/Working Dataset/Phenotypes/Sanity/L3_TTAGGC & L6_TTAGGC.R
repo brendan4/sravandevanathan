@@ -22,5 +22,27 @@ sub <- expressed.genes[,which(colnames(expressed.genes) %in% c("L3_TTAGGC", "L3_
 sub.filt <- filter.genes(sub, sex.genes)
 cor(na.omit(sub), method = "spearman")
 
+
+#droppping L3_TTAGGC and L6_TTAGGC from all data
+expressed.genes <- expressed.genes[, - which(colnames(expressed.genes) %in% c("L3_TTAGGC", "L6_TTAGGC"))]
+expressed.trans <- expressed.trans[, -which(colnames(expressed.trans) %in% c("L3_TTAGGC", "L6_TTAGGC"))]
+
+data("pheno.basic")
+data("pheno.colors")
+data("full.pheno")
+data("pheno")
 data("full.pheno.table")
-expressed.genes <- expressed.genes[, - which(col.names(expressed.genes) %in% c("L3_TTAGGC", "L6_TTAGGC"))s]
+
+pheno.basic <- pheno.basic[-which(pheno.basic$`colnames(expressed.genes)` %in% c("L3_TTAGGC", "L6_TTAGGC")), ]
+full.pheno.table <- full.pheno.table[-which(full.pheno.table$`colnames(expressed.genes)` %in% c("L3_TTAGGC", "L6_TTAGGC")), ]
+pheno <- pheno[-which(pheno$`colnames(expressed.genes)` %in% c("L3_TTAGGC", "L6_TTAGGC")), ]
+full.pheno$Mutant$Carrier$I.one[which(full.pheno$Mutant$Carrier$I.one %in% c("L3_TTAGGC", "L6_TTAGGC"))] <- 0 
+pheno.colors <- pheno.colors[-which(names(pheno.colors) %in% c("L3_TTAGGC", "L6_TTAGGC"))]
+
+usethis::use_data(expressed.trans, DBA, overwrite = T)
+usethis::use_data(expressed.genes, DBA, overwrite = T)
+usethis::use_data(pheno.colors, DBA, overwrite = TRUE)
+usethis::use_data(pheno, DBA, overwrite = TRUE)
+usethis::use_data(pheno.basic, DBA,overwrite = TRUE)
+usethis::use_data(full.pheno, DBA, overwrite = TRUE)
+usethis::use_data(full.pheno.table, DBA, overwrite = TRUE)
