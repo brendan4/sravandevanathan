@@ -21,12 +21,25 @@ high <- pretty.gene.name(high, as.row.names = TRUE)
 high.GTEX$Description[which(!high.GTEX$Description %in% high$pretty)]
 high$pretty[which(!high$pretty %in% high.GTEX$Description)]
 
-#sorting data first 
+#sorting data
+#GTEX
 GTEX <- filter.out.genes(GTEX, "^MT-",col = 1, by.rownames = FALSE) # removal of mito genes
 GTEX.sorted <- sort(GTEX$`Whole Blood`, decreasing = TRUE)
 top_hun <- GTEX.sorted[1:100]
 top.GTEX <- GTEX[which(GTEX$`Whole Blood` %in% top_hun),]
 
+#expresed.genes means 
 genes.sorted <- sort(means, decreasing = TRUE)
 top_hun_genes <- genes.sorted[1:100]
 top.genes <- filter.genes(expressed.genes, names(top_hun_genes))
+top.genes <- pretty.gene.name(top.genes, as.row.names = TRUE)
+
+#nonintersections between the two 
+top.GTEX$Description[which(!top.GTEX$Description %in% top.genes$pretty)]
+top.genes$pretty[which(!top.genes$pretty %in% top.GTEX$Description)]
+
+#intersections between the two
+top.GTEX$Description[which(top.GTEX$Description %in% top.genes$pretty)]
+
+#interesting non-intersecting protien 
+expressed.genes[grep("^HBD", rownames(expressed.genes)),]
