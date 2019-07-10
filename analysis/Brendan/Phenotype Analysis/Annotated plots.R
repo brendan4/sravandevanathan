@@ -78,6 +78,7 @@ PCA.genes <- PCA(simple.names,
                  PCA.Genes = TRUE, PCA.num.genes = 50)
 
 heat.genes <- filter.genes(expressed.genes, PCA.genes)
+heat.genes <- pretty.gene.name(heat.genes, as.row.names = TRUE, remove.dups = TRUE)
 
 library(ComplexHeatmap)
 
@@ -86,7 +87,7 @@ par(mar=c(7,4,4,2)+0.1)
 png(filename='PCA2_heatmap.png', width=1000, height= 800)
 
 
-Heatmap(log(heat.genes +0.1),
+Heatmap(heat.genes,
         column_names_side = "bottom",
         row_names_side = "left",
         row_hclust_side = "left",
