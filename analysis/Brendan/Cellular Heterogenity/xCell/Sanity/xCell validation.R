@@ -1,3 +1,4 @@
+#LOAD main data
 library(openxlsx)
 setwd("C:/Users/brendan/Documents/sravandevanathan/analysis/Brendan/Cellular Heterogenity/xCell/Sanity/Datasets")
 xCell.genesig <- read.xlsx("xCell gene signatures.xlsx")
@@ -7,7 +8,7 @@ test.gene <- rownames(pretty.gene.name(na.omit(expressed.genes),
                                        as.row.names = TRUE, 
                                        remove.dups = TRUE))
 
-#whole blood cell types
+#whole blood cell types: options
 whole.blood <- c("B-cells", "Basophils", "Eosinophils", 
                  "Erythrocytes", 'Neutrophils',"Plasma cells",
                  'Platelets')
@@ -76,7 +77,7 @@ lost[grep("GPR85", lost$gene),]
 library(data.table)
 library(ggplot2)
 
-setwd("C:/Users/brendan/Documents/sravandevanathan/analysis/Brendan/Cellular Heterogenity/xCell/Sanity/Datasets")
+setwd("~/sravandevanathan/analysis/Brendan/Cellular Heterogenity/xCell/Sanity/Datasets")
 GTEX <- fread("GTEx_gene_median_tpm.gct.gz")
 GTEX <- as.data.frame(GTEX)
 GTEX <- GTEX[,which(colnames(GTEX) %in% c("Description","Whole Blood"))]
@@ -98,10 +99,7 @@ ggplot(data = GTEX.sub, aes(x = GTEX.sub$Description, y = GTEX.sub$`Whole Blood`
                                      label = point.labels$Description))
 
 
-
-# filtering all genes from wholeblood subset 
-filt.genesig <- gene.sig.filt(gene.sig = xCell.genesig, cell.types = whole.blood)
-
+#processing sig data
 process.sig.file <- function(genesig){
   sig.all.genes <- data.frame(gene = 0 , celltype = 0)
   gene.counter <- 0 
@@ -118,6 +116,11 @@ process.sig.file <- function(genesig){
   }
   return(sig.all.genes)
 }
+
+
+# filtering all genes from wholeblood subset 
+filt.genesig <- gene.sig.filt(gene.sig = xCell.genesig, cell.types = whole.blood)
+
 sig.all.genes <- process.sig.file(filt.genesig)
 
 #duplicated handling
