@@ -2,6 +2,7 @@
 library(data.table)
 library(ggplot2)
 
+#data generation
 setwd("~/sravandevanathan/analysis/Brendan/Cellular Heterogenity/xCell/Sanity/Datasets")
 GTEX <- fread("GTEx_gene_median_tpm.gct.gz")
 GTEX <- as.data.frame(GTEX)
@@ -37,6 +38,13 @@ top.genes <- pretty.gene.name(top.genes, as.row.names = TRUE)
 #nonintersections between the two 
 top.GTEX$Description[which(!top.GTEX$Description %in% top.genes$pretty)]
 top.genes$pretty[which(!top.genes$pretty %in% top.GTEX$Description)]
+
+# look into genes in GTEX top not in top.genes 
+test <- filter.genes(expressed.genes, gene.list = top.GTEX$Description[which(!top.GTEX$Description %in% top.genes$pretty)], lazy = FALSE)
+
+# look intod genes in top.genes not in GTEX
+test <- filter.genes(expressed.genes, top.genes$pretty[which(!top.genes$pretty %in% top.GTEX$Description)], lazy = FALSE)
+test <- filter.out.genes(test, "-")
 
 #intersections between the two
 top.GTEX$Description[which(top.GTEX$Description %in% top.genes$pretty)]

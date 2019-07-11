@@ -17,7 +17,6 @@ july.pheno[grep("LIB3", july.pheno$`colnames(expressed.genes)`),2] <- "W"
 july.pheno[grep("LIB3", july.pheno$`colnames(expressed.genes)`),3] <- "II.seven"
 july.pheno[grep("LIB3", july.pheno$`colnames(expressed.genes)`),4] <- "blue"
 
-
 july.pheno[grep("LIB5", july.pheno$`colnames(expressed.genes)`),2] <- "W"
 july.pheno[grep("LIB5", july.pheno$`colnames(expressed.genes)`),3] <- "III.one"
 july.pheno[grep("LIB5", july.pheno$`colnames(expressed.genes)`),4] <- "blue"
@@ -25,3 +24,6 @@ july.pheno[grep("LIB5", july.pheno$`colnames(expressed.genes)`),4] <- "blue"
 july.pheno[grep("LIB6", july.pheno$`colnames(expressed.genes)`),2] <- "C"
 july.pheno[grep("LIB6", july.pheno$`colnames(expressed.genes)`),3] <- "II.two"
 july.pheno[grep("LIB6", july.pheno$`colnames(expressed.genes)`),4] <- "yellow"
+
+
+all.pheno.data <- rbind(full.pheno.table, july.pheno)
