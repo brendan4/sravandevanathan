@@ -51,3 +51,5 @@ top.GTEX$Description[which(top.GTEX$Description %in% top.genes$pretty)]
 
 #interesting non-intersecting protien 
 expressed.genes[grep("^HBD", rownames(expressed.genes)),]
+
+

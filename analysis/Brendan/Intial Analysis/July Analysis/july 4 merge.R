@@ -55,5 +55,15 @@ july <- july[,-which(colnames(july) %in% c("LIB8-98401312", 'LIB2-98397314', 'LI
 
 #cor plot after filtering 
 cor.plots(na.omit(new), heatmap = TRUE)
-PCA(new, pca.dim = c(1,2))
+new.save <- new 
 
+#not finished
+#changing indivdual names 
+for (i in 1:length(new)){
+  individaul <- all.pheno.data[which(all.pheno.data$`colnames(expressed.genes)` %in% colnames(new)[i]),3]
+  colnames(new)[i] <- individaul
+}
+
+PCA(new, pca.dim = c(1,2), color.option = 2, pheno = all.pheno.data, label.size = 4)
+
+all.pheno.data[,c(1,2)]
