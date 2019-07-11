@@ -55,3 +55,5 @@ july <- july[,-which(colnames(july) %in% c("LIB8-98401312", 'LIB2-98397314', 'LI
 
 #cor plot after filtering 
 cor.plots(na.omit(new), heatmap = TRUE)
+PCA(new, pca.dim = c(1,2))
+
