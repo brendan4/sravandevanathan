@@ -44,7 +44,7 @@ MDS(july, scaled = TRUE)
 cor(na.omit(july), method = "spearman")
 
 #merging with expressed.genes data
-new <- merge(july,expressed.genes, by = "row.names", all.x = TRUE, all.y = TRUE)
+new <- merge(expressed.genes, july, by = "row.names", all.x = TRUE, all.y = TRUE)
 row.names(new) <- new[,1]
 new <- new[,-c(1)]
 cor.plots(na.omit(new), heatmap = TRUE)
@@ -64,6 +64,6 @@ for (i in 1:length(new)){
   colnames(new)[i] <- individaul
 }
 
-PCA(new, pca.dim = c(1,2), color.option = 2, pheno = all.pheno.data, label.size = 4)
+PCA(new, pca.dim = c(1,2), color.option = 1, pheno = all.pheno.data, label.size = 4)
 
 all.pheno.data[,c(1,2)]
