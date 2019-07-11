@@ -3,7 +3,9 @@ july <- mergeTables(wd = "~/sravandevanathan/ballgown_july_4",
             commonName = "gene_abundance.tab.gz",
             colsToMerge = c(2,5,6,8))
 
+july <- as.data.frame(july)
 summary(july)
+
 items <- merge.cleanup(july, boxplot = TRUE, cor.table = TRUE, tidy.colnames = TRUE)
 cor.table <- items[[1]]
 july <- items[[2]]
@@ -29,6 +31,9 @@ colnames(july) <- substring(colnames(july),
 plot.var(july)
 abline(a = 0, b = 0, v = -6, col = "red")
 
+#variation filtering 
+july <- remove.unexpressed(july, cutoff = -6)
+
 #correlation plots 
 cor.plots(july, heatmap = TRUE, phylo = TRUE, log = TRUE)
 
@@ -36,3 +41,7 @@ cor.plots(july, heatmap = TRUE, phylo = TRUE, log = TRUE)
 PCA(july, scaled = FALSE, PCA.Genes = FALSE, label.size = 4)
 MDS(july, scaled = TRUE)
 
+cor(na.omit(july), method = "spearman")
+
+cbind(july,expressed.genes)
+?cbind
