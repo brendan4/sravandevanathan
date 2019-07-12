@@ -1,5 +1,5 @@
 
-#intial set up
+#intial set up: DONT run
 library(devtools)
 devtools::install_github("klutometis/roxygen")
 library(roxygen2)
