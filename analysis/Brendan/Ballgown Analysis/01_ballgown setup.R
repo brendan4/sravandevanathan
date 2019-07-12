@@ -1,20 +1,22 @@
 library(ballgown)
 library(matrixStats)
 
-gene.info <- t_data[c(9,10)]# where gene.info is subseted from 
+setwd("~/sravandevanathan/ballgown") #folder with all the files
 
-setwd("C:\\Users\\brendan\\Documents\\sravandevanathan\\ballgown") #folder with all the files
-samples.list <- list.files(path =".") # generate sample list: *** all samples included  
-samples.list <- colnames(expressed.genes) # filtered out troublesome cols 
+#OPTION 1: generate sample list: *** all samples included  
+samples.list <- list.files(path =".")
+
+#OPTION 2: filtered out troublesome cols 
+samples.list <- colnames(expressed.genes)
 
 
 bg = ballgown(samples = samples.list, meas='FPKM') # generation of a ballgown object 
 sampleNames(bg) # sanity check sample names
 
-#filter out by expression 
+#OPTIONS 1: filter out by expression 
 over200 <- exprfilter(gown = bg, cutoff= 200, meas = "FPKM") #filtering example
 
-#filter out low expressed
+#OPTION 2: filter out low expressed <-uses this for most general cases 
 bg_filt = subset(bg,"rowVars(texpr(bg)) >
 1",genomesubset=TRUE)
 
