@@ -1,3 +1,4 @@
+#' @import dplyr
 diff.genes.cleanup <- function(diff.results, gown, subset = FALSE){
   
   #gene names matching

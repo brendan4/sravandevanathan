@@ -2,6 +2,7 @@
 
 import(ape)
 import(data.table)
+import(dplyr)
 import(ggplot2)
 import(pheatmap)
 import(stringr)
