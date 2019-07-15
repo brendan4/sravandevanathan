@@ -6,7 +6,7 @@ expressed.genes2 <- t(expressed.genes2)
 keep <- apply(expressed.genes2, 2, function(x) sum(x >= 10) >= 10)
 
 # data prep
-hemo <- c("HBB", "HBG1", "HBG2", "HBA2", "HBA1") 
+hemo <- c("HBB", "HBG1", "HBG2", "HBA2", "HBA1", "HSPA4", "PPID") 
 hemo <- filter.genes(expressed.genes, c("HBB", "HBG1", "HBG2", "HBA2", "HBA1") )
 hemo <- pretty.gene.name(hemo, as.row.names = TRUE)
 hemo <- t(hemo)
