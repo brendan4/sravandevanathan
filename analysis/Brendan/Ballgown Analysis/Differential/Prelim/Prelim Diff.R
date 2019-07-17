@@ -1,6 +1,9 @@
 library(dplyr)
 data(pheno)
 
+#one diseased pheno
+pheno$pheno[which(pheno$pheno == "SS")] <- 'S'
+
 pData(bg_filt) = data.frame(id = sampleNames(bg_filt), group = pheno)
 gene.results = stattest(bg_filt, feature="gene", covariate="group.pheno", getFC=TRUE, meas="FPKM")
 

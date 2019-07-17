@@ -6,7 +6,7 @@ setwd("~/sravandevanathan/ballgown") #folder with all the files
 #OPTION 1: generate sample list: *** all samples included  
 samples.list <- list.files(path =".")
 
-#OPTION 2: filtered out troublesome cols 
+#OPTION 2: filtered out troublesome cols <- RECOMENDED
 samples.list <- colnames(expressed.genes)
 
 
