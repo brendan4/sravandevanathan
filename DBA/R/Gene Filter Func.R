@@ -19,10 +19,16 @@
 
 #filers data set with genelist using rownames 
 filter.genes <- function(data.table, gene.list, by.rownames = TRUE, col = NULL, lazy = TRUE){
+  #intialize
   filtered.data <- data.frame()
+  not.found <- c()
+  
   if (lazy == FALSE){
     for(row in 1:nrow(data.table)){
-      new.name <- str_extract(rownames(data.table[row,]), "^[-a-zA-Z0-9]*")
+      new.name <- str_extract(rownames(data.table[row,]), "^[-a-zA-Z0-9\\.]*")
+      if (new.name == "-"){
+        new.name <- rownames(data.table[row,])
+      }
       data.table$pretty[row] <- new.name 
     }
   }
@@ -51,6 +57,7 @@ filter.genes <- function(data.table, gene.list, by.rownames = TRUE, col = NULL, 
     # if pattern == 0 not found: return message 
     if (length(pattern) == 0 ){
       print(paste(name,": failed to find match", sep = ""))
+      not.found <- append(not.found, name)
       
     }else {
       print(paste("^",name, sep= ""))# prints pattern used
@@ -59,6 +66,7 @@ filter.genes <- function(data.table, gene.list, by.rownames = TRUE, col = NULL, 
    
     }
   }
+  print(not.found)
   return(filtered.data)
 }
 
