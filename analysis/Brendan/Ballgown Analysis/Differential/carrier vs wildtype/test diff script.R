@@ -11,9 +11,7 @@ filt.samples <- samples.list[which(!samples.list %in% remove)]
 bg = ballgown(samples = filt.samples, meas='FPKM') # generation of a ballgown object 
 
 #filtering of data
-library(matrixStats)
-bg_filt = subset(bg,"rowVars(texpr(bg)) >
-1",genomesubset=TRUE)
+bg_filt <- exprfilter(gown = bg, cutoff= .75, meas = "FPKM") 
 
 #pheno data prep
 full.pheno.table <- full.pheno.table[which(full.pheno.table$`colnames(expressed.genes)` %in% sampleNames(bg_filt)),]
@@ -52,13 +50,13 @@ abline(v=2, col="black", lwd=2, lty=2)
 #optionals
 legend("topleft", "Fold-change > 4", lwd=2, lty=2)
 
-#plot for mean wildtype vs carrier 
+#plot for mean wildtype vs carrier: data prep
 carrier <- full.pheno.table$`colnames(expressed.genes)`[which(full.pheno.table$pheno == "C")]
 wildtype <- full.pheno.table$`colnames(expressed.genes)`[which(full.pheno.table$pheno == "W")]
-
-#base r plot for noobs 
 expressed.genes[,"wildtype"] <- apply(expressed.genes[,which(colnames(expressed.genes) %in% wildtype)], 1, mean)
 expressed.genes[,"carrier"] <- apply(expressed.genes[,which(colnames(expressed.genes) %in% carrier)], 1, mean)
+
+#base r plot for noobs 
 x=log2(expressed.genes[,"wildtype"]+.1)
 y=log2(expressed.genes[,"carrier"]+.1)
 plot(x=x, y=y, pch=16, cex=0.25, xlab="Wildtype FPKM (log2)", ylab="Carrier FPKM (log2)", main="Wildtype vs Carrier FPKMs")
@@ -88,9 +86,9 @@ ggplot(expressed.genes, aes(x = wildtype, y = carrier))+
   xlab("Wildtype FPKM (log2)")+
   ylab("Carrier FPKM (log2)")+
   geom_point(alpha = .2) + 
-  geom_point(data = sig.data, aes(x = wildtype, y = carrier), colour = "orange", alpha = .3)+
+  geom_point(data = sig.data, aes(x = log2(wildtype), y = log2(carrier)), colour = "orange", alpha = .3)+
   geom_label(data = sigq.data, 
-             aes(x = wildtype, y = carrier), 
+             aes(x = log2(wildtype), y = log2(carrier)), 
              label = sigq.data$pretty, 
              colour = "deepskyblue4", alpha =1,
              size = 1.75)
