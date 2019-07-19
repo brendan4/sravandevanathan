@@ -134,6 +134,7 @@ ggplot(exp.filter, aes(x = log2(exp.filter$means), y = log2(diff.filter$fc)))+
             colour = "seagreen", alpha =1,
             size = 2)
 
+# scale not log
 ggplot(exp.filter, aes(x = exp.filter$means, y = diff.filter$fc))+
   xlab("Average FPKM")+
   ylab("FC")+
@@ -148,3 +149,18 @@ ggplot(exp.filter, aes(x = exp.filter$means, y = diff.filter$fc))+
              label = sigq.data$pretty, 
              colour = "seagreen", alpha =1,
              size = 2)
+
+#valcano plots
+#data subsets 
+sigp <- diff.results[which(diff.results$pval < 0.05),]
+sigq <- diff.results[which(diff.results$qval < 0.07),]
+
+ggplot(data = diff.results, aes(x= log2(fc), y= -log2(pval)))+
+  xlab("log2FC")+ 
+  ylab("-log2pval")+
+  geom_point()+
+  geom_point(data = sigp, aes(x= log2(fc), y= -log2(pval)), 
+             color = "skyblue3")+
+  geom_label(data = sigq, aes(x= log2(fc), y = -log2(pval)), 
+             label = sigq$geneNames, 
+             color = "navy", size = 2.5, position= "jitter")
