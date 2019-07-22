@@ -1,3 +1,5 @@
+#please start with processed data from the july 4 merge
+
 data("pheno")
 data("full.pheno.table")
 july.pheno <- data.frame("one" = 0, "two" = 0)
@@ -27,3 +29,4 @@ july.pheno[grep("LIB6", july.pheno$`colnames(expressed.genes)`),4] <- "yellow"
 
 
 all.pheno.data <- rbind(full.pheno.table, july.pheno)
+

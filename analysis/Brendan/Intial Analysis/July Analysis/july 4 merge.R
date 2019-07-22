@@ -52,6 +52,7 @@ cor.plots(na.omit(new), heatmap = TRUE)
 #throwing out the samples LIB8, LIB2, LIB7
 new <- new[,-which(colnames(new) %in% c("LIB8-98401312", 'LIB2-98397314', 'LIB7-98397315'))]
 july <- july[,-which(colnames(july) %in% c("LIB8-98401312", 'LIB2-98397314', 'LIB7-98397315'))]
+new <- new[, -which(colnames(new) %in% c('means', 'pretty'))]
 
 #cor plot after filtering 
 cor.plots(na.omit(new), heatmap = TRUE)
