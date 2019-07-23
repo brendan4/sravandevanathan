@@ -10,28 +10,35 @@ remove<- full.pheno.table[which(full.pheno.table$pheno %in% c("SS", "S")),1]
 samples.list <- colnames(new)
 filt.samples <- samples.list[which(!samples.list %in% remove)]
 
-bg = ballgown(samples = filt.samples, meas='FPKM') # generation of a ballgown object 
+bg = ballgown(samples = filt.samples, meas='all') # generation of a ballgown object 
 
 #filtering of data
-bg_filt <- exprfilter(gown = bg, cutoff= .75, meas = "all") 
+bg_filt <- exprfilter(gown = bg, cutoff= .75, meas = "FPKM") 
 
 #pheno data prep
-full.pheno.table <- full.pheno.table[which(full.pheno.table$`colnames(new)` %in% sampleNames(bg_filt)),]
+full.pheno.table <- full.pheno.table[which(full.pheno.table$`colnames(expressed.genes)` %in% sampleNames(bg_filt)),]
 pData(bg_filt) = data.frame(id = sampleNames(bg_filt), 
                             pheno = full.pheno.table$pheno, 
                             replicates = full.pheno.table$Replicates)
 pData(bg_filt)
 
 #diff expression
-gene.results = stattest(bg_filt, feature="transcripts", covariate="pheno", meas="FPKM", getFC = TRUE)
+gene.results = stattest(bg_filt, feature="gene", covariate="pheno", meas="fpkm", getFC = TRUE)
 
 # optional result filterings
 gene.results.filt <- diff.genes.cleanup(gene.results, bg_filt, subset = TRUE)
 
 #manually subseting data 
 #gene names matching
-indices <- match(gene.results$id, texpr(bg_filt, 'all')$gene_id)
-gene_names_for_result <- texpr(bg_filt, 'all')$gene_name[indices]
+
+gene.results$id 
+idx <- match(gene.results$id, indexes(bg_filt)$e2t$e_id)
+gene.results$id <- indexes(bg_filt)$i2t[idx, "t_id"] #sub transcript ids into table 
+t.idx <- match(gene.results$id, texpr(bg_filt, "all")$t_id)
+gene.results$id <- texpr(bg_filt,"all")[t.idx, "gene_name"]
+
+
+gene_names_for_result <- match(texpr(bg_filt, 'all')$t_id, intron.info)
 diff.results <- data.frame(geneNames = gene_names_for_result, gene.results)
 
 #signficance filtering 
@@ -40,33 +47,12 @@ filt.names <- subset(diff.results, diff.results$qval<0.07)
 filt.set <- filter.out.genes(filt.names, gene.list = c("\\."), by.rownames = FALSE, col = 1)
 diff.genes <- filter.genes(new, filt.set$geneNames, lazy = FALSE)
 
-#ploting hist dist fc 
-sig <- which(diff.results$pval<0.05)
-diff.results[,"de"] = log2(diff.results[,"fc"])
-hist(diff.results[sig,"de"], breaks=50, col="seagreen", 
-     xlab="log2(Fold change) Sen_DS vs Sen_WW", 
-     main="Distribution of differential expression values")
-
-abline(v=-2, col="black", lwd=2, lty=2)
-abline(v=2, col="black", lwd=2, lty=2)
-#optionals
-legend("topleft", "Fold-change > 4", lwd=2, lty=2)
 
 #plot for mean wildtype vs carrier: data prep
 carrier <- full.pheno.table$`colnames(expressed.genes)`[which(full.pheno.table$pheno == "C")]
 wildtype <- full.pheno.table$`colnames(expressed.genes)`[which(full.pheno.table$pheno == "W")]
 new[,"wildtype"] <- apply(new[,which(colnames(new) %in% wildtype)], 1, mean)
 new[,"carrier"] <- apply(new[,which(colnames(new) %in% carrier)], 1, mean)
-
-#base r plot for noobs 
-x=log2(new[,"wildtype"]+.1)
-y=log2(new[,"carrier"]+.1)
-plot(x=x, y=y, pch=16, cex=0.25, xlab="Wildtype FPKM (log2)", ylab="Carrier FPKM (log2)", main="Wildtype vs Carrier FPKMs")
-abline(a=0, b=1)
-xsig=x[sig]
-ysig=y[sig]
-points(x=xsig, y=ysig, col="magenta", pch=16, cex=0.5)
-legend("topleft", "Significant", col="magenta", pch=16)
 
 #data prep for ggplots 
 sig <- diff.results[which(diff.results$pval < 0.05), c(1,2)]

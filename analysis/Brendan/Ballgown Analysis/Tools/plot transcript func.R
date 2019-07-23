@@ -1,7 +1,6 @@
 RPL11 <- gene.info[grep("^RPL11",gene.info[,2]),] # gene_id from plotTransript
 
-plotTranscripts(gene='CHS.771', gown=bg, samples='L2_GCCAAT', 
-                meas='FPKM', colorby='transcript', 
+plotTranscripts(gene='CHS.771', gown=bg, samples='L2_GCCAAT', colorby='exon', 
                 main='transcripts from gene XLOC_000454: L2_GCCAAT, FPKM')
 
 all.plotTranscripts <- function(Gene, samples.list = NULL, gene.info, bg){
