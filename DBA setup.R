@@ -23,7 +23,7 @@ usethis::use_data(pheno.basic, DBA,overwrite = TRUE)
 usethis::use_data(full.pheno, DBA, overwrite = TRUE)
 usethis::use_data(full.pheno.table, DBA, overwrite = TRUE)
 usethis::use_data(pheno.more.samples, pkg = DBA)
-usethis::use_data(expressed.genes.more, pkg = DBA)
+usethis::use_data(expressed.genes.more, pkg = DBA, overwrite = T)
 
 
 # loading data
@@ -34,6 +34,7 @@ data("pheno.basic")
 data("full.pheno")
 data("full.pheno.table")
 data("pheno.more.samples")
+data("expressed.genes.more")
 
 # updating documentation 
 devtools::document()
