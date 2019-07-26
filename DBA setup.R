@@ -7,7 +7,7 @@ create("DBA")
 install("DBA")
 
 # making docments 
-setwd("C:/Users/brendan/Documents/sravandevanathan/DBA")
+setwd("C:/Users/brendan/Documents/sravandevanathan/DBA/")
 document()
 
 # listing properties pf package 
@@ -22,6 +22,9 @@ usethis::use_data(pheno, DBA, overwrite = TRUE)
 usethis::use_data(pheno.basic, DBA,overwrite = TRUE)
 usethis::use_data(full.pheno, DBA, overwrite = TRUE)
 usethis::use_data(full.pheno.table, DBA, overwrite = TRUE)
+usethis::use_data(pheno.more.samples, pkg = DBA)
+usethis::use_data(expressed.genes.more, pkg = DBA)
+
 
 # loading data
 data("expressed.genes", package = "DBA") 
@@ -30,6 +33,7 @@ data("pheno.colors")
 data("pheno.basic")
 data("full.pheno")
 data("full.pheno.table")
+data("pheno.more.samples")
 
 # updating documentation 
 devtools::document()
