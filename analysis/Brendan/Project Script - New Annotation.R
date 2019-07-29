@@ -19,15 +19,18 @@ data <- merge.cleanup(main.table,
 cor.table <- data[[1]]
 main.table <- data[[2]]
 
-#removal of L2_ACAGTG
+#removal of unmatched 
 main.table <- main.table[,-which(colnames(main.table) %in% 
                                    c("L3_unmatched", "L6_unmatched"))]
 
 #correlation plots
 colnames(main.table)[1:8] <- substring(colnames(main.table)[1:8], first = 8)
-cor.gene <- cor(na.omit(main.table), method = "spearman")
 cor.plots(main.table, heatmap = TRUE, phylo = FALSE)
 
+main.table <- main.table[,-which(colnames(main.table) %in% 
+                                   c("L2_ACAGTG", "LIB4-98412318", "LIB7-98397315"))]
+
+cor.plots(main.table, heatmap = TRUE, phylo = FALSE)
 
 write.table(main.table, "gene_abundance_merged.tab")
 GeneAbundance <- read.table("gene_abundance_merged.tab")
