@@ -24,7 +24,8 @@ usethis::use_data(full.pheno, DBA, overwrite = TRUE)
 usethis::use_data(full.pheno.table, DBA, overwrite = TRUE)
 usethis::use_data(pheno.more.samples, pkg = DBA)
 usethis::use_data(expressed.genes.more, pkg = DBA, overwrite = T)
-
+devtools::use_data(expressed.trans.GEN, DBA)
+devtools::use_data(expressed.genes.GEN, DBA)
 
 # loading data
 data("expressed.genes", package = "DBA") 
