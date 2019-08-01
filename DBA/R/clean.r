@@ -16,9 +16,9 @@
 clean.environment <- function(keep = NULL){
   
   if ( length(keep) == 0 ){
-    keep <- c("expressed.genes", "expressed.trans")
+    keep <- c("expressed.genes", "expressed.trans", "expressed.genes.GEN", "expressed.trans.GEN")
   }else {
-    keep <- c(keep, "expressed.genes", "expressed.trans")
+    keep <- c(keep, "expressed.genes", "expressed.trans", "expressed.genes.GEN", "expressed.trans.GEN")
   }
   
   items <- ls(envir=.GlobalEnv)

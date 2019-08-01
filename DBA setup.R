@@ -3,8 +3,6 @@
 library(devtools)
 devtools::install_github("klutometis/roxygen")
 library(roxygen2)
-create("DBA")
-install("DBA")
 
 # making docments 
 setwd("C:/Users/brendan/Documents/sravandevanathan/DBA/")
@@ -24,8 +22,8 @@ usethis::use_data(full.pheno, DBA, overwrite = TRUE)
 usethis::use_data(full.pheno.table, DBA, overwrite = TRUE)
 usethis::use_data(pheno.more.samples, pkg = DBA)
 usethis::use_data(expressed.genes.more, pkg = DBA, overwrite = T)
-devtools::use_data(expressed.trans.GEN, DBA)
-devtools::use_data(expressed.genes.GEN, DBA)
+usethis::use_data(expressed.trans.GEN, pkg = DBA, overwrite = T)
+usethis::use_data(expressed.genes.GEN, DBA, overwrite = T)
 
 # loading data
 data("expressed.genes", package = "DBA") 

@@ -13,7 +13,7 @@ main.table <- mergeTables(wd = "~/sravandevanathan/ballgown_new annotation",
 setwd("~/sravandevanathan/analysis/Brendan") 
 
 data <- merge.cleanup(main.table,
-                      boxplot = TRUE,
+                      boxplot = F,
                       cor.table = TRUE,
                       tidy.colnames = TRUE,
                       remove.NA = FALSE)
@@ -31,8 +31,8 @@ cor.plots(main.table, heatmap = TRUE, phylo = FALSE)
 
 main.table <- main.table[,-which(colnames(main.table) %in% 
                                    c("L2_ACAGTG", "LIB4-98412318", "LIB7-98397315",
-                                     "LIB8-98401312", "LIB2-98397314", "L3_GGCTAC", 
-                                     "L3_ATCACG", "L3_TTAGGC"))]
+                                     "LIB8-98401312", "LIB2-98397314", 
+                                     "L3_ATCACG", "L3_TTAGGC", "L6_TTAGGC"))]
 
 cor.plots(main.table, heatmap = TRUE, phylo = FALSE)
 
@@ -64,8 +64,8 @@ cor.plots(main.table, heatmap = TRUE, phylo = FALSE)
 #removal of L2_ACAGTG
 main.table <- main.table[,-which(colnames(main.table) %in% 
                                    c("L2_ACAGTG", "LIB4-98412318", "LIB7-98397315",
-                                     "LIB8-98401312", "LIB2-98397314", "L3_GGCTAC", 
-                                     "L3_ATCACG", "L3_TTAGGC"))]
+                                     "LIB8-98401312", "LIB2-98397314", 
+                                     "L3_ATCACG", "L3_TTAGGC", "L6_TTAGGC"))]
 
 cor.plots(main.table, heatmap = TRUE, phylo = FALSE)
 
@@ -95,7 +95,9 @@ cor.plots(expressed.genes, heatmap = TRUE, phylo = TRUE)
 cor.plots(expressed.trans, heatmap = TRUE, phylo = TRUE)
 
 #PCA and MDS
-PCA(expressed.genes, scaled = FALSE, PCA.Genes = FALSE)
+PCA(expressed.genes.GEN, scaled = FALSE, PCA.Genes = FALSE)
 PCA(expressed.trans)
 MDS(expressed.genes, scaled = FALSE)
 MDS(expressed.trans)
+
+data("expressed.genes")
