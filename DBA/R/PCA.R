@@ -33,7 +33,7 @@ PCA <- function(dataset, scaled = FALSE,
           geom_text(size = label.size)+
           xlab(paste("PC", pca.dim[1],"- ", genes.PCA.var.per[pca.dim[1]], "%", sep = ""))+
           ylab(paste("PC", pca.dim[2],"- ", genes.PCA.var.per[pca.dim[2]], "%", sep = ""))+
-          ggtitle("PCA: Expressed Genes"))
+          ggtitle("PCA: Transcripts"))
     
   }else {
     
@@ -44,7 +44,7 @@ PCA <- function(dataset, scaled = FALSE,
               labs(colour = "Phenotype") +
               xlab(paste("PC", pca.dim[1],"- ", genes.PCA.var.per[pca.dim[1]], "%", sep = ""))+
               ylab(paste("PC", pca.dim[2],"- ", genes.PCA.var.per[pca.dim[2]], "%", sep = ""))+
-              ggtitle("PCA: Expressed Genes"))
+              ggtitle("PCA: Transcripts"))
    
     } else {
       #ggplot of PCA data
@@ -56,7 +56,7 @@ PCA <- function(dataset, scaled = FALSE,
                                  values=colors) +
               xlab(paste("PC", pca.dim[1],"- ", genes.PCA.var.per[pca.dim[1]], "%", sep = ""))+
               ylab(paste("PC", pca.dim[2],"- ", genes.PCA.var.per[pca.dim[2]], "%", sep = ""))+
-              ggtitle("PCA: Expressed Genes"))
+              ggtitle("PCA: Transcripts"))
       
     }
   }

@@ -103,4 +103,4 @@ Heatmap(heat.genes,
                                               show_legend=TRUE))
 graphics.off()
 
-?Heatmap
+

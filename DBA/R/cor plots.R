@@ -13,21 +13,11 @@ cor.plots <- function(data.set,
   } else {
     cor.data <- cor(na.omit(data.set), method = method)
   }
-  if (save == TRUE){
-    if(is.null(wd) == FALSE){
-      setwd(wd)
-    }
-    par(mar=c(7,4,4,2)+0.1) 
-    png(filename='Corr_heatmap.png', width=800, height=750)
-  }
   if (heatmap == TRUE){
     if (is.null(annotation) == TRUE){
       pheatmap(cor.data)
     } else {
-      pheatmap(cor.data, annotation = annotation, annotation_colors = colors)
-    }
-    if( save == TRUE){
-      graphics.off()
+      print(pheatmap(cor.data, annotation = annotation, annotation_colors = colors))
     }
   }
   if (phylo == TRUE){
