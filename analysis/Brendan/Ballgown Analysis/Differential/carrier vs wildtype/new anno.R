@@ -1,18 +1,22 @@
+library(ballgown)
+library(ggplot2)
 setwd("~/sravandevanathan/ballgown_new annotation") #folder with all the files
-#please generate the pheno data which combines july and old with july pheno generation in pheno folder
+
+#preping pheno data
 full.pheno.table <- pheno.more.samples
-full.pheno.table$`colnames(expressed.genes)` <- levels(droplevels(full.pheno.table$`colnames(expressed.genes)`))
-full.pheno.table$`colnames(expressed.genes)`[33:36] <- paste("121317_", full.pheno.table$`colnames(expressed.genes)`[33:36], sep = "")
+full.pheno.table$`colnames(expressed.genes)` <- levels(droplevels(full.pheno.table$`colnames(expressed.genes)`)) # drop levels
+full.pheno.table$`colnames(expressed.genes)`[33:36] <- paste("121317_", full.pheno.table$`colnames(expressed.genes)`[33:36], sep = "") #to match files for july samples
 
 #removal of diseased indivduals 
 remove<- full.pheno.table[which(full.pheno.table$pheno %in% c("SS", "S")),1]
 
-# filtered out troublesome cols from ballgown processing
+# filtered out cols from ballgown processing
 samples.list <- colnames(expressed.genes.GEN)
 filt.samples <- samples.list[which(!samples.list %in% remove)]
 filt.samples[29:32] <- paste("121317_", filt.samples[29:32], sep = "")
 
-bg = ballgown(samples = filt.samples, meas='all') # generation of a ballgown object 
+# generation of a ballgown object 
+bg = ballgown(samples = filt.samples, meas='all') 
 
 #filtering of data
 bg_filt <- exprfilter(gown = bg, cutoff= .75, meas = "FPKM") 
@@ -24,28 +28,23 @@ pData(bg_filt) = data.frame(id = sampleNames(bg_filt),
                             replicates = full.pheno.table$Replicates)
 pData(bg_filt)
 
-#diff expression
-gene.results = stattest(bg_filt, feature="transcript", covariate="pheno", meas="FPKM", getFC = TRUE)
 
-diff.results = data.frame(geneNames=ballgown::geneNames(bg_filt), geneIDs=ballgown::geneIDs(bg_filt), gene.results)
-
-# optional result filterings
+#optional result filterings
 gene.results.filt <- diff.genes.cleanup(gene.results, bg_filt, subset = TRUE)
 
 #manually subseting data 
 #gene names matching
-
 indices <- match(gene.results$id, texpr(bg_filt, 'all')$gene_id)
 gene_names_for_result <- texpr(bg_filt, 'all')$gene_name[indices]
 diff.results <- data.frame(geneNames = gene_names_for_result, gene.results)
-
-#signficance filtering 
 diff.results = arrange(diff.results, pval)
+
+#signficance filtering: Optional 
 filt.names <- subset(diff.results, diff.results$qval<0.07)
 filt.set <- filter.out.genes(filt.names, gene.list = c("\\."), by.rownames = FALSE, col = 1)
 diff.genes <- filter.genes(expressed.genes.GEN, filt.set$geneNames, lazy = FALSE)
 
-#ploting hist dist fc 
+#PLOT: hist dist fc 
 sig <- which(diff.results$pval<0.05)
 diff.results[,"de"] = log2(diff.results[,"fc"])
 hist(diff.results[sig,"de"], breaks=50, col="seagreen", 
@@ -57,7 +56,7 @@ abline(v=2, col="black", lwd=2, lty=2)
 #optionals
 legend("topleft", "Fold-change > 4", lwd=2, lty=2)
 
-#plot for mean wildtype vs carrier: data prep
+#PLOT: mean wildtype vs carrier: data prep
 carrier <- full.pheno.table$`colnames(expressed.genes)`[which(full.pheno.table$pheno == "C")]
 wildtype <- full.pheno.table$`colnames(expressed.genes)`[which(full.pheno.table$pheno == "W")]
 expressed.genes.GEN[,"wildtype"] <- apply(expressed.genes.GEN[,which(colnames(expressed.genes.GEN) %in% wildtype)], 1, mean)
@@ -73,7 +72,7 @@ ysig=y[sig]
 points(x=xsig, y=ysig, col="magenta", pch=16, cex=0.5)
 legend("topleft", "Significant", col="magenta", pch=16)
 
-#data prep for ggplots 
+#DATA PREP: for ggplots 
 sig <- diff.results[which(diff.results$pval < 0.05), c(1,2)]
 expressed.genes.GEN <- pretty.gene.name(expressed.genes.GEN)
 sig.data <-  expressed.genes.GEN[which(expressed.genes.GEN$pretty %in% sig$geneNames), ]
@@ -86,8 +85,7 @@ sigq.data <- filter.genes(expressed.genes.GEN, sigq$geneNames ,lazy = TRUE) #May
 expressed.genes.GEN[,"carrier"] <- log2(expressed.genes.GEN[,"carrier"]+.1)
 expressed.genes.GEN[,"wildtype"] <- log2(expressed.genes.GEN[,"wildtype"]+.1)
 
-
-library(ggplot2)
+#linear comp plot
 ggplot(expressed.genes.GEN, aes(x = wildtype, y = carrier))+ 
   ggtitle("Wildtype vs Carrier FPKMs")+
   xlab("Wildtype FPKM (log2)")+
@@ -157,12 +155,13 @@ ggplot(exp.filter, aes(x = exp.filter$means, y = diff.filter$fc))+
              aes(x = means, y = fc), 
              label = sigq.data$pretty, 
              colour = "navy", alpha =1,
-             size = 2)
+             size = 3)+
+  theme_minimal()
 
-#valcano plots
+#PLOT: valcano
 #data subsets 
-sigp <- diff.results[which(diff.results$pval < 0.05),]
-sigq <- diff.results[which(diff.results$qval < 0.07),]
+sigp <- diff.results[which(diff.results$pval < 0.001),]
+sigq <- diff.results[which(diff.results$qval < 0.065),]
 
 ggplot(data = diff.results, aes(x= log2(fc), y= -log2(pval)))+
   xlab("log2FC")+ 
@@ -172,7 +171,8 @@ ggplot(data = diff.results, aes(x= log2(fc), y= -log2(pval)))+
              color = "skyblue3")+
   geom_label(data = sigq, aes(x= log2(fc), y = -log2(pval)), 
              label = sigq$geneNames, 
-             color = "navy", size = 2.5, position= "jitter")
+             color = "navy", size = 2.5, position= "jitter")+
+  theme_minimal()
 
 library(Glimma)
 diff.results[grep("BAG1", diff.results$geneNames),]
@@ -194,3 +194,71 @@ ggplot(data = results_transcripts, aes(x= log2(fc), y= -log2(pval)))+
   geom_label(data = sigq, aes(x= log2(fc), y = -log2(pval)), 
              label = sigq$geneNames, 
              color = "navy", size = 2.5, position= "jitter")
+
+
+#diff expression
+gene.results = stattest(bg_filt, feature="transcript", covariate="pheno", meas="FPKM", getFC = TRUE)
+
+#ATTENTION: for feature = Transscript only 
+diff.results = data.frame(geneNames=ballgown::geneNames(bg_filt), geneIDs=ballgown::geneIDs(bg_filt), gene.results)
+diff.results = arrange(diff.results, pval)
+
+#mean expressions for all genes 
+expressed.trans.GEN <- expressed.trans.GEN[,-which(colnames(expressed.trans.GEN) %in% c("means", "pretty"))]
+expressed.trans.GEN[,"means"] <- apply(expressed.trans.GEN, 1, mean)
+
+# duplicate handling and matching 
+exp.filter <- pretty.gene.name(expressed.trans.GEN)
+exp.filter <- exp.filter[!duplicated(exp.filter$pretty),]
+diff.filter <- diff.results[!duplicated(diff.results$geneNames),]
+exp.filter <- exp.filter[which(exp.filter$pretty %in% diff.results$geneNames),]
+diff.filter <- diff.results[which(diff.results$geneNames %in% exp.filter$pretty),]
+
+
+#sig data prep
+sig <- diff.filter[which(diff.filter$pval < 0.001), c(1,2,4)]
+expressed.genes.GEN <- pretty.gene.name(expressed.trans.GEN)
+sig.data <-  exp.filter[which(exp.filter$pretty %in% sig$geneNames), ]
+sig.data <- sig.data[order(sig.data$pretty),]
+sig <- sig[order(sig$geneNames), ]
+sig.data$fc <- sig$fc
+
+#qsig 
+sigq <- diff.filter[which(diff.filter$qval < 0.07), c(1,2,4)]
+sigq.data <- filter.genes(exp.filter, sigq$geneNames ,lazy = TRUE) #Maybe use lazy = FALSE
+sigq.data <- sigq.data[order(sigq.data$pretty),]
+sigq <- sigq[order(sigq$geneNames), ]
+sigq.data$fc <- sigq$fc
+sigq.data <- sigq.data[-grep("RPL11P3", rownames(sigq.data)),]
+
+diff.filter <- diff.filter[!(duplicated(diff.filter$geneNames)),]
+
+ggplot(exp.filter, aes(x = log2(exp.filter$means), y = log2(diff.filter$fc)))+
+  xlab("Average log2FPKM")+
+  ylab("log2FC")+
+  geom_point()+ 
+  geom_point(data = sig.data, aes(x = log2(means), y = log2(fc)), 
+             colour = "orange", 
+             alpha = .8)+
+  geom_label(data = sigq.data, 
+             aes(x = log2(means), y = log2(fc)), 
+             label = sigq.data$pretty, 
+             colour = "deepskyblue4", alpha =1,
+             size = 2)
+
+# scale not log
+ggplot(exp.filter, aes(x = exp.filter$means, y = diff.filter$fc))+
+  xlab("Average FPKM")+
+  ylab("FC")+
+  scale_x_continuous(trans = 'log2') +
+  scale_y_continuous(trans = 'log2') +
+  geom_point()+ 
+  geom_point(data = sig.data, aes(x = means, y = fc), 
+             colour = "skyblue3", 
+             alpha = .8)+
+  geom_label(data = sigq.data, 
+             aes(x = means, y = fc), 
+             label = sigq.data$pretty, 
+             colour = "navy", alpha =1,
+             size = 3)+
+  theme_minimal()

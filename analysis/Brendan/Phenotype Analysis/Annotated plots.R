@@ -22,7 +22,7 @@ ann_colors = list(Pheno = Pheno, Replicates = Reps)
 
 #####heatmap corr between samples
 
-cor.plots(expressed.genes, 
+cor.plots(expressed.genes.GEN, 
           method = "spearman", 
           annotation = pheno.table, 
           colors = ann_colors)

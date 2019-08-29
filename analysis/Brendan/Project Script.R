@@ -11,13 +11,20 @@ main.table <- mergeTables(wd = "~/sravandevanathan/ballgown",
                           colsToMerge = c(2,5,6,8))
 
 data <- merge.cleanup(main.table,
-                      boxplot = TRUE,
+                      boxplot = F,
                       cor.table = TRUE,
                       tidy.colnames = TRUE,
                       remove.NA = FALSE)
 
 cor.table <- data[[1]]
-main.table <- data[[2]]
+main.table<- data[[2]]
+
+#removal of unmatched 
+main.table <- main.table[,-which(colnames(main.table) %in% 
+                                   c("L3_unmatched", "L6_unmatched"))]
+
+#correlation plots
+cor.plots(main.table, heatmap = TRUE, phylo = FALSE)
 
 #removal of L2_ACAGTG
 main.table <- main.table[,-which(colnames(main.table) %in% 
@@ -36,6 +43,13 @@ data <- merge.cleanup(main.table,
 
 cor.table <- data[[1]]
 main.table <- data[[2]]
+
+#removal of unmatched 
+main.table <- main.table[,-which(colnames(main.table) %in% 
+                                   c("L3_unmatched", "L6_unmatched"))]
+
+#correlation plots
+cor.plots(main.table, heatmap = TRUE, phylo = FALSE, method = "spearman")
 
 #removal of L2_ACAGTG
 main.table <- main.table[,-which(colnames(main.table) %in% 
@@ -60,8 +74,8 @@ write.table(expressed.trans, "expressed.trans.tab")
 clean.environment()
 
 # hierarchical clustering of samples and heatmap of sample similarities: zoom for heatmap
-cor.plots(expressed.genes, heatmap = TRUE, phylo = TRUE)
-cor.plots(expressed.trans, heatmap = TRUE, phylo = TRUE)
+cor.plots(expressed.genes, heatmap = TRUE, phylo = F)
+cor.plots(expressed.trans, heatmap = TRUE, phylo = F)
 
 #PCA and MDS
 PCA(expressed.genes, scaled = FALSE, PCA.Genes = FALSE)

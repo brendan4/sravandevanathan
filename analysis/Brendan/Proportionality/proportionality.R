@@ -32,7 +32,7 @@ phi99@matrix
 #ploting options 
 plot(phiHBB.HBG1)
 snapshot(phiHBB.HBG1, prompt = TRUE, plotly = TRUE)
-pca(phiHBB.HBG1, group = pheno$pheno , prompt = TRUE, plotly = TRUE) #group
+pca(phiHBB.HBG1, group = pheno.more.samples$pheno , prompt = TRUE, plotly = TRUE) #group
 dendrogram(phiHBB.HBG1, prompt = TRUE, plotly = TRUE)
 smear(phiHBB.HBG1, prompt = TRUE, plotly = TRUE)
 

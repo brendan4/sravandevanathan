@@ -27,7 +27,7 @@ removed[means.row, "status"] <- "kept"
 
 ggplot(data = removed, aes(x = sample, y = concordant, color = status)) + 
   geom_bar(stat = "identity", fill = "white")+ 
-  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+  theme_minimal()
 
 reads.prep <- reads 
 reads.prep[,"noncordant"] <- reads.prep[3] + reads.prep[4] + reads.prep[2]

@@ -43,9 +43,9 @@ look <- PCA(expressed.genes.GEN,
     pheno = pheno.more.samples[,1:2], 
     label.size = 4, 
     pca.dim = c(1,2), 
-    scaled = F, 
+    scaled = T, 
     color.option = 1,
-    PCA.Genes = TRUE)
+    PCA.Genes = TRUE, title = "Gene Level - log")
 
 PCA.look <- filter.genes(expressed.genes.GEN, gene.list = look)
 expressed.genes.GEN <- filter.out.genes(expressed.genes.GEN, gene.list = "^RN7")

@@ -4,7 +4,8 @@ PCA <- function(dataset, scaled = FALSE,
                 pheno = NULL, 
                 label.size = 2, 
                 pca.dim = c(1,2),
-                color.option = 1){
+                color.option = 1,
+                title = "Gene Level"){
   
   #generated PCA data
   if (scaled == TRUE){
@@ -33,7 +34,7 @@ PCA <- function(dataset, scaled = FALSE,
           geom_text(size = label.size)+
           xlab(paste("PC", pca.dim[1],"- ", genes.PCA.var.per[pca.dim[1]], "%", sep = ""))+
           ylab(paste("PC", pca.dim[2],"- ", genes.PCA.var.per[pca.dim[2]], "%", sep = ""))+
-          ggtitle("PCA: Transcripts"))
+          ggtitle(paste("PCA:", title)))
     
   }else {
     
@@ -44,7 +45,7 @@ PCA <- function(dataset, scaled = FALSE,
               labs(colour = "Phenotype") +
               xlab(paste("PC", pca.dim[1],"- ", genes.PCA.var.per[pca.dim[1]], "%", sep = ""))+
               ylab(paste("PC", pca.dim[2],"- ", genes.PCA.var.per[pca.dim[2]], "%", sep = ""))+
-              ggtitle("PCA: Transcripts"))
+              ggtitle(paste("PCA:", title)))
    
     } else {
       #ggplot of PCA data
@@ -56,7 +57,7 @@ PCA <- function(dataset, scaled = FALSE,
                                  values=colors) +
               xlab(paste("PC", pca.dim[1],"- ", genes.PCA.var.per[pca.dim[1]], "%", sep = ""))+
               ylab(paste("PC", pca.dim[2],"- ", genes.PCA.var.per[pca.dim[2]], "%", sep = ""))+
-              ggtitle("PCA: Transcripts"))
+              ggtitle(paste("PCA:", title)))
       
     }
   }
