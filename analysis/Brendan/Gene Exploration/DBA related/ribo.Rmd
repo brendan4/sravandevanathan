@@ -1,0 +1,59 @@
+---
+title: "DBA - related ribosomal genes"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+The following code shows data prep needed before the ploting is done:
+
+```{r, results='hide'}
+library(devtools)
+setwd("C:/Users/brendan/Documents/sravandevanathan/DBA/")
+document()
+#DBA releated ribo genes
+# https://www.ncbi.nlm.nih.gov/pmc/articles/PMC6416817/
+DBA.related.Ribo <- c("RPL5", "RPL11", "RPL35A", "RPS7", "RPS10", "RPS17", "RPS19", "RPS24", "RPS26",
+                      "RPL3", "RPL7", "RPL9", "RPL14", "RPL19", "RPL23A", "RPL26", "RPL35", "RPL36", "RPS8"
+                      ,"RPS15", "RPS27A", "RPL18")
+
+#filtering subset and preping data for plots 
+DBA <- filter.genes(expressed.genes.GEN, DBA.related.Ribo, lazy = F)
+rownames(DBA) <- DBA[,"pretty"]
+DBA <- DBA[,-which(colnames(DBA) %in% "pretty")]
+pheno.more.samples[which(pheno.more.samples$pheno == "SS"), "pheno"] <- "S"
+
+```
+
+Here, the preped data is handed to the ploting function, which plots the genes indivdually
+
+```{r, echo=FALSE}
+# indivduals and bar plot for a gene by groups 
+plot.FPKM <- function(data.set, pheno){
+  
+  for(i in 1:nrow(data.set)){
+    #adding gene data to phenotype data 
+    pheno.more.samples$gene <- t(data.set[i,])
+    
+    #group means
+    group.means <- data.frame()
+    group.means["C","mean"] <- mean(pheno.more.samples[which(pheno.more.samples$pheno == "C"), "gene"])
+    group.means["S","mean"] <- mean(pheno.more.samples[which(pheno.more.samples$pheno == "S"), "gene"])
+    group.means["W","mean"] <- mean(pheno.more.samples[which(pheno.more.samples$pheno == "W"), "gene"])
+    group.means["pheno"] <- rownames(group.means)
+    
+    print(ggplot(pheno.more.samples, aes(x = pheno, y = gene, color = pheno))+
+      geom_point()+
+      geom_bar(data = group.means, aes(x = pheno, y = mean), stat= "identity", alpha = .2)+
+      labs(title = paste(rownames(data.set)[i],"FPKM Expression"), x="Phenotype", y = paste(rownames(data.set)[i],"FPKM"))+
+      theme_classic())
+    pheno.more.samples <- pheno.more.samples[,-which(colnames(pheno.more.samples) %in% "gene")]
+  }
+}
+
+
+plot.FPKM(DBA, pheno.more.samples)
+```
+

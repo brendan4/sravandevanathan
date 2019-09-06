@@ -85,8 +85,9 @@ DBA <- DBA[,-which(colnames(DBA) %in% "pretty")]
 pheno.more.samples[which(pheno.more.samples$pheno == "SS"), "pheno"] <- "S"
 
 # indivduals and bar plot for a gene by groups 
-plot.FPKM <- function(data.set, pheno){
-  
+plot.FPKM <- function(data.set, pheno, wd){
+  setwd("C:/Users/brendan/Documents/sravandevanathan/analysis/Brendan/Gene Exploration/DBA related")
+  # cycle through each row aka each gene
   for(i in 1:nrow(data.set)){
     #adding gene data to phenotype data 
     pheno.more.samples$gene <- t(data.set[i,])
@@ -98,15 +99,18 @@ plot.FPKM <- function(data.set, pheno){
     group.means["W","mean"] <- mean(pheno.more.samples[which(pheno.more.samples$pheno == "W"), "gene"])
     group.means["pheno"] <- rownames(group.means)
     
+    file <- paste(rownames(data.set)[i],".png", sep ="") # plot names
+    png(filename = file, width=800, height=600) # saving type and size
     print(ggplot(pheno.more.samples, aes(x = pheno, y = gene, color = pheno))+
       geom_point()+
       geom_bar(data = group.means, aes(x = pheno, y = mean), stat= "identity", alpha = .2)+
-      labs(title = paste(rownames(data.set)[i],"FPKM Expression", x="Phenotype", y = "RPL11 FPKM"))+
+      labs(title = paste(rownames(data.set)[i],"FPKM Expression"), x="Phenotype", y = paste(rownames(data.set)[i],"FPKM"))+
       theme_classic())
     pheno.more.samples <- pheno.more.samples[,-which(colnames(pheno.more.samples) %in% "gene")]
+    dev.off()
   }
 }
 
 
 plot.FPKM(DBA, pheno.more.samples)
-
+graphics.off()

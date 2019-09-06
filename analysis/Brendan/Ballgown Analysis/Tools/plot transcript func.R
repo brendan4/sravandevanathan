@@ -20,7 +20,7 @@ all.plotTranscripts <- function(Gene, samples.list = NULL, gene.info, bg){
     plotTranscripts(gene= geneID, gown=bg, samples= Sample, 
                     meas='FPKM', colorby='transcript', 
                     main=  title)
-    graphics.off()
+    dev.off()
     
   }
 }
