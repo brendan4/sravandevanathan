@@ -161,7 +161,7 @@ ggplot(exp.filter, aes(x = exp.filter$means, y = diff.filter$fc))+
 #PLOT: valcano
 #data subsets 
 sigp <- diff.results[which(diff.results$pval < 0.001),]
-sigq <- diff.results[which(diff.results$qval < 0.065),]
+sigq <- diff.results[which(diff.results$qval < 0.07),]
 
 ggplot(data = diff.results, aes(x= log2(fc), y= -log2(pval)))+
   xlab("log2FC")+ 
@@ -170,8 +170,8 @@ ggplot(data = diff.results, aes(x= log2(fc), y= -log2(pval)))+
   geom_point(data = sigp, aes(x= log2(fc), y= -log2(pval)), 
              color = "skyblue3")+
   geom_label(data = sigq, aes(x= log2(fc), y = -log2(pval)), 
-             label = sigq$geneNames, 
-             color = "navy", size = 2.5, position= "jitter")+
+             label = sigq$combo, 
+             color = "navy", size = 3, position= "jitter")+
   theme_minimal()
 
 library(Glimma)
@@ -203,62 +203,4 @@ gene.results = stattest(bg_filt, feature="transcript", covariate="pheno", meas="
 diff.results = data.frame(geneNames=ballgown::geneNames(bg_filt), geneIDs=ballgown::geneIDs(bg_filt), gene.results)
 diff.results = arrange(diff.results, pval)
 
-#mean expressions for all genes 
-expressed.trans.GEN <- expressed.trans.GEN[,-which(colnames(expressed.trans.GEN) %in% c("means", "pretty"))]
-expressed.trans.GEN[,"means"] <- apply(expressed.trans.GEN, 1, mean)
-
-# duplicate handling and matching 
-exp.filter <- pretty.gene.name(expressed.trans.GEN)
-exp.filter <- exp.filter[!duplicated(exp.filter$pretty),]
-diff.filter <- diff.results[!duplicated(diff.results$geneNames),]
-exp.filter <- exp.filter[which(exp.filter$pretty %in% diff.results$geneNames),]
-diff.filter <- diff.results[which(diff.results$geneNames %in% exp.filter$pretty),]
-
-
-#sig data prep
-sig <- diff.filter[which(diff.filter$pval < 0.001), c(1,2,4)]
-expressed.genes.GEN <- pretty.gene.name(expressed.trans.GEN)
-sig.data <-  exp.filter[which(exp.filter$pretty %in% sig$geneNames), ]
-sig.data <- sig.data[order(sig.data$pretty),]
-sig <- sig[order(sig$geneNames), ]
-sig.data$fc <- sig$fc
-
-#qsig 
-sigq <- diff.filter[which(diff.filter$qval < 0.07), c(1,2,4)]
-sigq.data <- filter.genes(exp.filter, sigq$geneNames ,lazy = TRUE) #Maybe use lazy = FALSE
-sigq.data <- sigq.data[order(sigq.data$pretty),]
-sigq <- sigq[order(sigq$geneNames), ]
-sigq.data$fc <- sigq$fc
-sigq.data <- sigq.data[-grep("RPL11P3", rownames(sigq.data)),]
-
-diff.filter <- diff.filter[!(duplicated(diff.filter$geneNames)),]
-
-ggplot(exp.filter, aes(x = log2(exp.filter$means), y = log2(diff.filter$fc)))+
-  xlab("Average log2FPKM")+
-  ylab("log2FC")+
-  geom_point()+ 
-  geom_point(data = sig.data, aes(x = log2(means), y = log2(fc)), 
-             colour = "orange", 
-             alpha = .8)+
-  geom_label(data = sigq.data, 
-             aes(x = log2(means), y = log2(fc)), 
-             label = sigq.data$pretty, 
-             colour = "deepskyblue4", alpha =1,
-             size = 2)
-
-# scale not log
-ggplot(exp.filter, aes(x = exp.filter$means, y = diff.filter$fc))+
-  xlab("Average FPKM")+
-  ylab("FC")+
-  scale_x_continuous(trans = 'log2') +
-  scale_y_continuous(trans = 'log2') +
-  geom_point()+ 
-  geom_point(data = sig.data, aes(x = means, y = fc), 
-             colour = "skyblue3", 
-             alpha = .8)+
-  geom_label(data = sigq.data, 
-             aes(x = means, y = fc), 
-             label = sigq.data$pretty, 
-             colour = "navy", alpha =1,
-             size = 3)+
-  theme_minimal()
+diff.results$combo <- paste(diff.results$geneNames, ".", diff.results$id, sep = "")

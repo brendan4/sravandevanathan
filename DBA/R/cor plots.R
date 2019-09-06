@@ -15,9 +15,9 @@ cor.plots <- function(data.set,
   }
   if (heatmap == TRUE){
     if (is.null(annotation) == TRUE){
-      pheatmap(cor.data)
+      pheatmap(cor.data,fontsize_row = 7, fontsize_col = 7)
     } else {
-      print(pheatmap(cor.data, annotation = annotation, annotation_colors = colors))
+      print(pheatmap(cor.data, annotation = annotation, annotation_colors = colors, fontsize_row = 1, fontsize_col = 1))
     }
   }
   if (phylo == TRUE){
