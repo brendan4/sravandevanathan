@@ -1,4 +1,4 @@
-library(propr)
+
 
 #data and cleaning
 setwd("~/sravandevanathan/analysis/Brendan/reads")
@@ -6,7 +6,6 @@ reads <- read.delim2("concordant.txt", sep = ",", header = FALSE)
 reads <- reads[,c(1,2,3,4)]
 colnames(reads) <- c("sample", "concordant", "discordant", "leftovers")
 reads <- reads[-which(reads$sample %in% c("L3_unmatc", "L6_unmatc")),] # removal of unmatched
-
 reads <- reads[-which(!reads$sample %in% colnames(expressed.genes.GEN)), ]
 
 #unnormalizing the data
@@ -50,3 +49,13 @@ snapshot(phi.DBA, prompt = TRUE, plotly = TRUE)
 
 phi.DBA.sub <- subset(phi, select = rownames(DBA)[which(DBA$pretty %in% c("RPL11", "RPS7", "RPS10"))])
 smear(phi.DBA.sub, plotly = TRUE)
+
+library(ComplexHeatmap)
+
+# use t() for k means clustering of sample no genes 
+Heatmap(DBA.matrix,
+        column_names_side = "bottom",
+        row_names_side = "left",
+        row_hclust_side = "left",
+        row_hclust_width = unit(3, "cm"))
+graphics.off()

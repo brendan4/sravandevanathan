@@ -77,16 +77,29 @@ ggplot(pheno.more.samples, aes(x = pheno, y = gene, color = pheno))+
 DBA.related.Ribo <- c("RPL5", "RPL11", "RPL35A", "RPS7", "RPS10", "RPS17", "RPS19", "RPS24", "RPS26",
                       "RPL3", "RPL7", "RPL9", "RPL14", "RPL19", "RPL23A", "RPL26", "RPL35", "RPL36", "RPS8"
                       ,"RPS15", "RPS27A", "RPL18")
+DBA.wd <- "C:/Users/brendan/Documents/sravandevanathan/analysis/Brendan/Gene Exploration/DBA related" # DBA output dir
 
+#full ribosomal listing
+#https://www.genenames.org/data/genegroup/#!/group/728s
+s.ribo <- read.csv("C:/Users/brendan/Documents/sravandevanathan/analysis/Brendan/Gene Exploration/sribo.csv",
+                     header = T, stringsAsFactors = F, skip = 1)
+l.ribo <- read.csv("C:/Users/brendan/Documents/sravandevanathan/analysis/Brendan/Gene Exploration/lribo.csv",
+                   header = T, stringsAsFactors = F, skip = 1)
+all.ribo <- c(s.ribo$Approved.symbol, l.ribo$Approved.symbol)
+ribo.wd <-"C:/Users/brendan/Documents/sravandevanathan/analysis/Brendan/Gene Exploration/Ribo"
+
+
+DBA <- filter.genes(expressed.genes.GEN, DBA.related.Ribo, lazy = F) # option one 
+DBA <- filter.genes(expressed.genes.GEN, all.ribo, lazy = F) #option two
 #filtering subset and preping data for plots 
-DBA <- filter.genes(expressed.genes.GEN, DBA.related.Ribo, lazy = F)
+
 rownames(DBA) <- DBA[,"pretty"]
 DBA <- DBA[,-which(colnames(DBA) %in% "pretty")]
 pheno.more.samples[which(pheno.more.samples$pheno == "SS"), "pheno"] <- "S"
 
 # indivduals and bar plot for a gene by groups 
 plot.FPKM <- function(data.set, pheno, wd){
-  setwd("C:/Users/brendan/Documents/sravandevanathan/analysis/Brendan/Gene Exploration/DBA related")
+  setwd(wd)
   # cycle through each row aka each gene
   for(i in 1:nrow(data.set)){
     #adding gene data to phenotype data 
@@ -112,5 +125,6 @@ plot.FPKM <- function(data.set, pheno, wd){
 }
 
 
-plot.FPKM(DBA, pheno.more.samples)
+plot.FPKM(DBA, pheno.more.samples, wd = DBA.wd)
+plot.FPKM(DBA, pheno.more.samples, wd = ribo.wd)
 graphics.off()

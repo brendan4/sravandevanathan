@@ -1,0 +1,179 @@
+---
+title: "DBA Rerun"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r, echo=F,message=FALSE, warning=F}
+library(devtools)
+library(roxygen2)
+library(DESeq2)
+library(tidyverse)
+
+load("countdata.RData")
+
+setwd("C:/Users/brendan/Documents/sravandevanathan/DBA/")
+document()
+```
+## Data Processing
+
+```{r, echo=F}
+counts <- fc$counts
+counts <- counts[, -which(colnames(counts)%in% c("L6.unmatched.sorted.bam", "L3.unmatched.sorted.bam"))]
+# removes nonunique feature from early hiseq run
+colnames(counts)[1:8] <- substring(colnames(counts)[1:8], first = 8) 
+colnames(counts)[1:8] <- substring(colnames(counts)[1:8], first = 0, last = 13) 
+
+# removes nonunique feature from all other samples
+colnames(counts)[9:ncol(counts)] <- substring(colnames(counts)[9:ncol(counts)], first = 0, last = 9) 
+```
+
+## Spearman plots
+
+```{r}
+#corplot: samples below 0.85 marked for removal 
+cor.plots(counts, heatmap = TRUE, phylo = F)
+cor.samples <- cor(counts, method = "spearman")
+remove <- names(which(apply(cor.samples, 2, sum) < ncol(cor.samples)*.88))
+print(remove)
+```
+
+
+## Stat data processing
+```{r}
+stat <- fc$stat
+
+#stat data processing
+stat <- stat[, -which(colnames(stat)%in% c("L6.unmatched.sorted.bam", "L3.unmatched.sorted.bam"))]# remove unmatched
+# removes nonunique feature from early hiseq run
+colnames(stat)[2:9] <- substring(colnames(stat)[2:9], first = 8) 
+colnames(stat)[2:9] <- substring(colnames(stat)[2:9], first = 0, last = 13) 
+# removes nonunique feature from all other samples
+colnames(stat)[10:ncol(stat)] <- substring(colnames(stat)[10:ncol(stat)], first = 0, last = 9) 
+removal <- stat[which(colnames(stat) %in% c("Status", remove))]
+
+#all samples
+med <- stat %>% 
+  pivot_longer(col= 2:ncol(stat), 
+                                names_to = "sample" , 
+                                values_to = "count") %>% 
+  filter(count > 0)
+
+#med counts value
+med.value <- t %>% 
+  group_by(sample) %>% 
+  summarize(total = sum(count)) %>%
+  summarize(med = median(total))
+
+#removed samples
+t <- removal %>% 
+  pivot_longer(col= 2:ncol(removal), 
+                              names_to = "sample" , 
+                              values_to = "count") %>% 
+  filter(count > 0)
+
+```
+
+```{R}
+# ratio of mappings
+t %>%  ggplot(aes(sample, count, fill = Status)) + 
+  geom_bar(stat = "identity", position = "fill") 
+
+```
+
+```{r}
+t[nrow(t)+1,] <- med.value$med # addition of med data
+t[nrow(t),"sample"] <- "Median"
+t <- t %>% mutate(ismed = case_when(sample == "Median" ~ T, sample != "Median" ~ F))
+options(scipen=10000) # gets rid of scietific notations
+
+#plotting totals
+t %>% group_by(sample,ismed) %>% 
+  summarize(total = sum(count)) %>% 
+  ggplot(aes(sample, total)) + 
+  geom_bar(aes(fill = ismed),
+           stat = "identity", 
+           show.legend = FALSE) + 
+  scale_y_log10() + theme_grey()
+
+#not log scaled
+t %>% group_by(sample,ismed) %>% 
+  summarize(total = sum(count)) %>% 
+  ggplot(aes(sample, total)) + 
+  geom_bar(aes(fill = ismed),
+           stat = "identity", 
+           show.legend = FALSE) + theme_grey()
+
+options(scipen=1)
+
+```
+
+## Sample removal
+
+```{r}
+#sample removal
+counts <- counts[,-which(colnames(counts) %in% remove)] # poor cor
+pheno.dis <- c("L6.TTAGGC", "L3.TTAGGC")
+counts <- counts[,-which(colnames(counts) %in% pheno.dis)] # phenotype discrepancy 
+
+#corplot: samples below 0.85 marked for removal 
+cor.plots(counts, heatmap = TRUE, phylo = F)
+```
+
+
+## Phenotype data processing
+```{r}
+pheno <- pheno.more.samples
+pheno$sample <- gsub("_", ".", pheno$`colnames(expressed.genes)`)
+pheno$sample <- gsub("-", ".", pheno$sample)
+pheno<-pheno[,-which(colnames(pheno) %in% "colnames(expressed.genes)")]
+
+which(!(pheno$sample %in% colnames(counts))) 
+colnames(counts)[which(!(colnames(counts)%in% pheno$sample))]
+pheno[nrow(pheno)+1,] <- c("W","III.two","blue",colnames(counts)[which(!(colnames(counts)%in% pheno$sample))])
+
+pheno <- pheno %>% select(-pheno.colors)
+pheno$sample <- sort(pheno$sample)
+counts <- counts[,sort(colnames(counts))]
+condition <- factor(pheno$pheno)
+rownames(pheno) <- pheno$sample
+pheno <- pheno %>% select(-sample)
+
+```
+
+## Count data
+
+```{r}
+countTable <- counts
+
+dds <- DESeqDataSetFromMatrix(countData = countTable,
+                              colData = pheno,
+                              design= ~  sample)
+```
+
+## Filtering data
+
+```{r}
+
+#filtering
+keep <- rowSums(counts(dds)) >= 10
+dds <- dds[keep,]S
+```
+
+## PCA
+
+```{r}
+#rlog transfrom
+rld <- rlog(dds)
+
+#PCA plot 
+pcaData <- DESeq2::plotPCA(rld, intgroup = c("pheno"))
+ggplot(pcaData$data)+ 
+  geom_text(aes(PC1, PC2, color = pheno), label = pheno$Replicates)+
+  ylab(pcaData$labels$y)+
+  xlab(pcaData$labels$x)
+
+```
