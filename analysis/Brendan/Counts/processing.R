@@ -82,11 +82,11 @@ pheno<-pheno[,-which(colnames(pheno) %in% "colnames(expressed.genes)")]
 
 which(!(pheno$sample %in% colnames(counts))) 
 colnames(counts)[which(!(colnames(counts)%in% pheno$sample))]
-pheno[nrow(pheno)+1,] <- c("W","III.two","blue",colnames(counts)[which(!(colnames(counts)%in% pheno$sample))])
+pheno[nrow(pheno)+1,] <- c("W","III.one","blue",colnames(counts)[which(!(colnames(counts)%in% pheno$sample))])
 
 pheno <- pheno %>% dplyr::select(-pheno.colors)
-pheno$sample <- sort(pheno$sample)
-counts <- counts[,sort(colnames(counts))]
+
+pheno <- pheno %>% arrange(pheno)
 condition <- factor(pheno$pheno)
 rownames(pheno) <- pheno$sample
 pheno <- pheno %>% dplyr::select(-sample)
@@ -265,6 +265,15 @@ counts(dds, normalized=TRUE)[ idx, ]
 
 library(biomaRt)
 #gene name conversions
+genes <- rownames(fc$counts)
+genes <- gsub("\\.\\d*$", "", genes)
+ensembl <- useEnsembl(biomart="ensembl", 
+                      dataset="hsapiens_gene_ensembl")
+#G_list <- getBM(filters= "ensembl_gene_id", attributes= c("ensembl_gene_id","hgnc_symbol"),values=genes,mart= mart)
+results <- getBM(attributes = c("ensembl_gene_id", "hgnc_symbol"),
+                 filter = "ensembl_gene_id", 
+                 values = genes, mart = ensembl)
+
 #mart =  useDataset("hsapiens_gene_ensembl",mart=ensembl)
 ensembl <- useEnsembl(biomart="ensembl", 
                       dataset="hsapiens_gene_ensembl")
@@ -273,11 +282,21 @@ genes <- rownames(fc$counts)
 results <- getBM(attributes = c("ensembl_gene_id", "hgnc_symbol"),
                  filter = "ensembl_gene_id_version", 
                  values = genes, mart = ensembl)
+
 for(i in 1:nrow(results)){
-  idx <- grep(results$ensembl_gene_id[i], rownames(counts))
-  rownames(counts)[idx] <- results$hgnc_symbol[i]
-  
+  idx <- grep(paste(results$ensembl_gene_id[i], "\\.\\d*$", sep= ""), rownames(counts))
+  if (nchar(results$hgnc_symbol[i]) == 0){
+    rownames(counts)[idx] <- results$ensembl_gene_id[i]}
+  else if (results$hgnc_symbol[i] %in% rownames(counts)){
+      rownames(counts)[idx] <- results$ensembl_gene_id[i]
+  }else{
+    rownames(counts)[idx] <- results$hgnc_symbol[i]
+  }
 }
 
+df <- merge(x = symbol, 
+            y = df, 
+            by.x="ensembl_gene_id",
+            by.y="ensembl_gene_id")
 
 rownames(counts) 
