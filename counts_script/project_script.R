@@ -67,18 +67,18 @@ ggplot(pcaData$data)  +  # without replicate labels
 # differential expression 
 dds <- DESeq(dds)
 plotDispEsts(dds)
-res <- results(dds, contrast = c("pheno", "C", "W")) #can specify group comparisons
+res <- results(dds, contrast = c("pheno", "C", "W")) #can specify group comparisons here
 summary(res)
 
 # top results
 top <-rownames(res)[which(res$padj < 0.00005)]
-plotCounts(dds, "ENSG00000142676.14", "pheno") # plot normalized counts of specific genes by group
+plotCounts(dds, "RPL11", "pheno") # plot normalized counts of specific genes by group
 plotMA(res, ylim=c(-4,4))
 
 # skrinkage of effect size: mainly for plotting
 resultsNames(dds) # select coef for srinkage
-resLFC <- lfcShrink(dds, coef=4, type="apeglm")
-plotMA(resLFC, ylim=c(-2,2))
+resLFC <- lfcShrink(dds, coef = 4, type = "apeglm")
+plotMA(resLFC, ylim=c(-1,1))
 
 # saving names of the significant genes in MA plot
 idx <- identify(res$baseMean, res$log2FoldChange)
